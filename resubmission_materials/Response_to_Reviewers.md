@@ -92,35 +92,35 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 **Reviewer concern:** In Figure 2, the manuscript describes a "clear separation" between male and female samples along PCoA1; however, substantial overlap between groups appears to remain. Can authors elaborate this? Is this separation clearer compared to the results of traditional approaches?
 
 **Response:**
-[TBD - Clarify separation claims, compare to traditional methods]
+We have revised the language to be more precise. The text now states "modest but statistically significant separation" and explicitly compares to traditional methods: "This separation is comparable to that observed with traditional metrics (Euclidean: F=4.711, Bray-Curtis: F=4.442), demonstrating that MeLSI maintains visual separation while providing additional interpretability through learned feature weights." This clarifies that the separation is modest but statistically meaningful, and comparable to that achieved by traditional methods.
 
 **Reviewer concern:** Could authors explain the rationale for presenting 68% confidence ellipses, rather than more conventional choice of 95%?
 
 **Response:**
-[TBD - Explain rationale for 68% ellipses]
+We have updated Figure 2 to use the conventional 95% confidence ellipses. The manuscript text and figure caption now reflect this change, and the figure has been regenerated accordingly.
 
 **Reviewer concern:** The significant PERMANOVA result (F=5.141, p=0.005) may be influenced by the large sample size (N>1000). I was wondering if the seemingly subtle separation shown in the figure is considered biologically meaningful besides statistical significance.
 
 **Response:**
-[TBD - Discuss biological vs statistical significance]
+We have added explicit discussion addressing this concern: "While the large sample size (n=1,114) contributes to statistical significance, the sex-associated microbiome differences identified by MeLSI align with previously documented biological patterns (29, 30), and the learned feature weights provide actionable biological insight regardless of sample size." This acknowledges the role of sample size in statistical significance while emphasizing that the biological patterns identified are consistent with known sex-associated microbiome differences and provide interpretable biological insights.
 
 **Reviewer concern:** There is an inconsistency in Figure 2, where PCoA1 variance is listed as 18.4% in the legend but 21.5% on the x-axis.
 
 **Response:**
-[TBD - Fix Figure 2 inconsistency]
+We have fixed this inconsistency by updating the manuscript text to match the actual values shown on the figure. The text now correctly states that PCoA1 explains 21.5% of variance (matching the x-axis), and the figure caption has been updated accordingly. The x-axis label is dynamically generated from the PCoA calculation, and we have ensured the text matches these correct values.
 
 #### DietSwap Results
 **Reviewer concern:** Transition to the DietSwap data analysis is abrupt, and corresponding results including VIP feature and PCoA plots are not shown.
 
 **Response:**
-[TBD - Add DietSwap VIP and PCoA plots, improve transition]
+We have improved the transition to the DietSwap section by adding: "To further evaluate MeLSI's utility in real-world applications, we analyzed the DietSwap dietary intervention dataset." This provides better context and flow between the Atlas1006 and DietSwap analyses. Note: VIP and PCoA plots for DietSwap remain to be generated as part of additional figure work.
 
 ### Ensemble Size Analysis
 
 **Reviewer concern:** In the ensemble size analysis, the authors refer to "variance" in performance, but Table 4 does not report variance estimates. If results are based on a single synthetic dataset, clarification of what is meant by variance is needed.
 
 **Response:**
-[TBD - Clarify variance reporting in Table 4]
+We have clarified in the table footnote that "variance in performance" refers to variation in F-statistics across different parameter values tested on the same dataset. Specifically, Table 4 now includes: "Variance in performance refers to variation in F-statistics across different parameter values tested on the same dataset." This clarifies that we are referring to the range of F-statistic values observed when varying ensemble size (B) or feature fraction (m_frac) parameters, not a statistical variance estimate.
 
 ### Pre-filtering Analysis
 
@@ -144,7 +144,7 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 **Reviewer concern:** The manuscript states that MeLSI provides directionality and log2 fold-change information for each taxon. Additional details on how this information is derived would be helpful.
 
 **Response:**
-[TBD - Add detailed explanation of directionality/log2FC calculation]
+We have added explicit details in the Results section (Section 3.6) explaining how directionality and log2 fold-change are calculated: "Directionality is calculated by comparing mean abundances between groups: for each taxon, we identify which group (Group 1 or Group 2) has higher mean abundance on CLR-transformed data. Log2 fold-change is calculated as log2(mean_group1 / mean_group2), where small epsilon values are added to both means to avoid division by zero. These values are computed on the CLR-transformed data used for metric learning, ensuring consistency with the distance metric calculation."
 
 ### Computational Time Justification
 
@@ -158,14 +158,14 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 **Reviewer concern:** The mention of a 10% prevalence threshold appears only in the computational efficiency section. Clarification is needed on whether prevalence filtering is an expected preprocessing step and how it plays a role along with the pre-filtering process.
 
 **Response:**
-[TBD - Clarify prevalence filtering role and relationship to pre-filtering]
+We have added clarification in the pre-filtering analysis section (Section 3.5) explaining that "Prevalence filtering (retaining features present in ≥10% of samples) is an optional preprocessing step distinct from MeLSI's variance-based pre-filtering. When applied, prevalence filtering removes rare taxa before MeLSI analysis, while MeLSI's pre-filtering focuses on variance-based feature selection after preprocessing." This clarifies the distinction between the two filtering steps and their roles.
 
 ### Tables
 
 **Reviewer concern:** Tables would benefit from clearer annotations and definitions of abbreviations.
 
 **Response:**
-[TBD - Add clear annotations and abbreviation definitions to all tables]
+We have added clear annotations and abbreviation definitions to all tables (Tables 1-5). Each table now includes a footnote explaining abbreviations such as: n (sample size), p (number of taxa/features), F (PERMANOVA F-statistic), p (p-value), Time (computation time in seconds), Trad (traditional method), and other table-specific terms. Table 4 also includes clarification that "variance" refers to variation in F-statistics across different parameter values tested on the same dataset.
 
 ### Notation
 

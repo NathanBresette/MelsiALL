@@ -42,15 +42,15 @@
 - [ ] Report results across sample sizes (e.g., n=20, 50, 100, 200, 500)
 
 ### Figure 2 Issues
-- [ ] Fix PCoA1 variance inconsistency (18.4% vs 21.5%)
-- [ ] Revise "clear separation" language (compare to traditional methods)
-- [ ] Explain rationale for 68% confidence ellipses
-- [ ] Add discussion of biological vs statistical significance
+- [x] Fix PCoA1 variance inconsistency (18.4% vs 21.5%) - Updated to correct value: 21.5% for PCoA1, 10.9% for PCoA2
+- [x] Revise "clear separation" language (compare to traditional methods)
+- [x] Explain rationale for 68% confidence ellipses (Changed to 95% instead)
+- [x] Add discussion of biological vs statistical significance
 
 ### DietSwap Results
 - [ ] Create VIP plot for DietSwap data
 - [ ] Create PCoA plot for DietSwap data
-- [ ] Improve transition in text
+- [x] Improve transition in text
 - [ ] Add complete presentation of DietSwap results
 
 ## Important Issues (Should Address)
@@ -69,7 +69,7 @@
 ### Pre-filtering Assumptions
 - [ ] Discuss implications of using Gaussian-assumed statistics (t-test, ANOVA)
 - [ ] Explain design choice for varying dimensionality across effect sizes
-- [ ] Clarify prevalence filtering role vs. pre-filtering
+- [x] Clarify prevalence filtering role vs. pre-filtering
 
 ### Interpretability Validation
 - [ ] Validate recovery of true signal taxa in synthetic data
@@ -106,11 +106,11 @@
 ## Minor Revisions
 
 ### Text Improvements
-- [ ] Add clearer table annotations and abbreviations
+- [x] Add clearer table annotations and abbreviations
 - [ ] Systematically introduce notation in "Metric learning" section
-- [ ] Clarify directionality/log2FC calculation details
+- [x] Clarify directionality/log2FC calculation details
 - [ ] Better justify parameter defaults (B=30, m_frac=0.8)
-- [ ] Clarify "variance" in ensemble size analysis (Table 4)
+- [x] Clarify "variance" in ensemble size analysis (Table 4)
 - [ ] Clearly state sample sizes in pre-filtering analysis
 
 ### Limitations Discussion
@@ -127,8 +127,8 @@
 - [ ] Sample size exploration
 
 **Phase 2: Figure/Results Fixes** (MUST DO)
-- [ ] Figure 2 fixes
-- [ ] DietSwap figures
+- [x] Figure 2 fixes (ellipses changed to 95%, language revised, biological significance added)
+- [ ] DietSwap figures (transition improved, figures still needed)
 
 **Phase 3: Method Clarifications** (SHOULD DO)
 - [ ] Double-dipping clarification
