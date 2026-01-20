@@ -1,0 +1,2 @@
+"dataset","description","source","comparison","n_samples","n_taxa","sparsity","metric_learned","metric_time","metric_diff","bray_F","bray_p","bray_significant","bray_time"
+"Atlas1006","HITChip Atlas with 1006 Western Adults","microbiome package (real published data)","Female vs Male",1114,123,16.4,TRUE,17.5529360771179,2.91624326679616,4.44199954336043,0.001,TRUE,21.5520420074463
