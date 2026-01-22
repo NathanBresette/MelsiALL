@@ -1,0 +1,10 @@
+"Effect_Size","Sample_Size","n_simulations","MeLSI_Power","MeLSI_Mean_F","Best_Traditional_Power","Best_Traditional_Mean_F"
+"Small",50,30,10,1.225,13.3,1.084
+"Small",100,30,10,1.337,13.3,1.08
+"Small",200,30,20,1.431,20,1.191
+"Medium",50,30,13.3,1.303,36.7,1.322
+"Medium",100,30,43.3,1.475,80,1.711
+"Medium",200,30,96.7,1.748,100,2.272
+"Large",50,30,83.3,1.586,100,2.804
+"Large",100,30,100,2.165,100,4.956
+"Large",200,30,100,3.129,100,8.505

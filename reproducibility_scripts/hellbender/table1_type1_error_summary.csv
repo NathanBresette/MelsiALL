@@ -1,0 +1,7 @@
+"Dataset_Type","Sample_Size","n_simulations","MeLSI_TypeI_Rate","Euclidean_TypeI_Rate","BrayCurtis_TypeI_Rate"
+"Null Synthetic",50,50,4,6,6
+"Null Synthetic",100,50,6,6,2
+"Null Synthetic",200,50,2,0,2
+"Null Real Shuffled",50,50,4,4,6
+"Null Real Shuffled",100,50,6,6,6
+"Null Real Shuffled",200,50,8,8,6

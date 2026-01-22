@@ -50,7 +50,7 @@ cat("\n")
 cat("Part A: Testing Ensemble Size (B) Effects\n")
 cat("------------------------------------------------------------------------------\n")
 
-B_values <- c(10, 20, 30, 50, 100)
+B_values <- c(1, 10, 20, 30, 50, 100)
 results_B <- data.frame()
 
 for (B in B_values) {

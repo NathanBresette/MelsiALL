@@ -29,11 +29,9 @@ if (length(args) >= 2) {
   parallel_mode <- FALSE
 }
 
-set.seed(42)
-
 # Sample sizes to test
 sample_sizes <- c(50, 100, 200)
-n_simulations_per_condition <- 30  # Reduced from 50 for manageability
+n_simulations_per_condition <- 50  # Rigorous: 50 simulations for proper power estimation
 
 # ==============================================================================
 # Helper Function: Generate Data with Controlled Effect Size
@@ -111,6 +109,9 @@ if (parallel_mode) {
   cat(sprintf("Running simulation %d/%d: %s effect, n=%d\n", 
               sim_index, total_conditions, effect, n_samples))
   
+  # Set unique seed for this simulation to ensure different data
+  set.seed(42 + sim_index)
+  
   # Generate data
   power_data <- generate_power_dataset(n_samples = n_samples, n_taxa = 200, 
                                       effect_size = effect)
@@ -187,7 +188,7 @@ if (parallel_mode) {
   write.csv(result, output_file, row.names = FALSE)
   cat("Result saved to:", output_file, "\n")
   
-  # Exit early in parallel mode - summary will be computed by combine script
+  # Exit early in parallel mode - don't calculate summary statistics
   quit(status = 0)
   
 } else {
@@ -199,6 +200,10 @@ if (parallel_mode) {
       
       for (sim in 1:n_simulations_per_condition) {
         if (sim %% 10 == 0) cat("  Simulation", sim, "of", n_simulations_per_condition, "\n")
+        
+        # Set unique seed for each simulation
+        set.seed(42 + sim + (which(effect_sizes == effect) - 1) * 1000 + 
+                 (which(sample_sizes == n_samples) - 1) * 100)
         
         # Generate new dataset for each simulation
         power_data <- generate_power_dataset(n_samples = n_samples, n_taxa = 200, 
