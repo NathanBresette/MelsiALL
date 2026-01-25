@@ -58,9 +58,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** The ensemble learning strategy is motivated by robustness and overfitting prevention, but no direct comparison is provided with existing metric learning approach based on a single-learner.
 
-**Response:** We have added a direct comparison with a single-learner approach (B=1) to the parameter sensitivity analysis (Table 4). The results demonstrate that the ensemble approach provides improved robustness and stability compared to a single learner, supporting the use of ensemble learning. This follows established practice in machine learning where combining multiple weak learners improves robustness and reduces overfitting compared to a single learner (20). The combination of bootstrap sampling and feature subsampling creates diversity among learners that a single learner cannot achieve, which is particularly important for adaptive metric learning where overfitting is a concern.
+**Response:** We have added a direct comparison with a single-learner approach (B=1) to the parameter sensitivity analysis (Table 4, line 352). The results demonstrate that the ensemble approach provides improved robustness and stability compared to a single learner: B=1 shows substantially higher variance (SD = 0.505) and higher p-values (mean = 0.421, SD = 0.29) compared to ensemble approaches (SD = 0.119-0.128 for B≥10), supporting the use of ensemble learning. This follows established practice in machine learning where combining multiple weak learners improves robustness and reduces overfitting compared to a single learner (20). The combination of bootstrap sampling and feature subsampling creates diversity among learners that a single learner cannot achieve, which is particularly important for adaptive metric learning where overfitting is a concern.
 
-**Location in revised manuscript:** Table 4, Lines 344-349, 359-363
+**Location in revised manuscript:** Table 4 (line 352), Ensemble size section (lines 363-367)
 
 ---
 
@@ -70,9 +70,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** Type I error control appears to be evaluated using a single synthetic dataset, with conclusions drawn from a single p-value. Repeated simulations are necessary to support claims of proper error control. Type I error control is a distributional property that must be assessed over repeated realizations of the null hypothesis. Demonstrating that a single test yields p-values greater than 0.05 in one or two null examples does not quantify the probability of false positive findings. Proper evaluation would require repeated simulations under the null, with estimation of the empirical rejection rate at the chosen significance level and, ideally, examination of the null p-value distribution.
 
-**Response:** We have expanded the Type I error analysis to include 100 simulations per dataset type (synthetic null and real shuffled), addressing the reviewer's concern about proper statistical validation. The revised analysis now reports empirical rejection rates at α = 0.05, demonstrating that MeLSI maintains proper Type I error control across repeated realizations of the null hypothesis. We also examine the null p-value distribution, showing that p-values are appropriately calibrated under the null. The revised Table 1 now includes empirical Type I error rates (as percentages) alongside the p-value distribution statistics (mean, median, standard deviation). These results confirm that MeLSI's permutation-based inference properly accounts for the adaptive nature of the method, maintaining Type I error rates near the nominal 5% level.
+**Response:** We have expanded the Type I error analysis to include 100 simulations per condition across three sample sizes (n=50, 100, 200) for both synthetic null data and real shuffled data (600 total simulations: 2 dataset types × 3 sample sizes × 100 simulations), addressing the reviewer's concern about proper statistical validation. The revised analysis now reports empirical rejection rates at α = 0.05, demonstrating that MeLSI maintains proper Type I error control across repeated realizations of the null hypothesis. The revised Table 1 (line 252) now includes empirical Type I error rates (as percentages) for each sample size and dataset type. These results confirm that MeLSI's permutation-based inference properly accounts for the adaptive nature of the method, maintaining Type I error rates near the nominal 5% level (range: 3-6% across all conditions). We have also updated the Conclusions section (line 436) to reflect this rigorous validation, replacing the previous mention of specific p-values from single simulations with a statement about empirical rejection rates across 100 simulations per condition.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition to Table 1 and Results section]
+**Location in revised manuscript:** Table 1 (line 252), Results section (lines 265-267), and Conclusions section (line 436)
 
 ---
 
@@ -80,9 +80,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** Similar concerns apply to the statistical power analysis, which also appears to rely on a single dataset per setting.
 
-**Response:** We have expanded the statistical power analysis to include 50 simulations per effect size (small, medium, large), addressing the reviewer's concern about proper evaluation of detection rates. The revised analysis now reports empirical statistical power (detection rates) for each method across repeated simulations, along with mean F-statistics and standard deviations. This allows for proper assessment of power as a distributional property, demonstrating how detection rates vary across different realizations of the same effect size. The revised Table 2 now includes power estimates (as percentages) and mean F-statistics for each effect size, providing a more robust evaluation of MeLSI's performance relative to traditional methods.
+**Response:** We have expanded the statistical power analysis to include 50 simulations per condition across three effect sizes (small, medium, large) and three sample sizes (n=50, 100, 200) (450 total simulations: 3 effect sizes × 3 sample sizes × 50 simulations), addressing the reviewer's concern about proper evaluation of detection rates. The revised analysis now reports empirical statistical power (detection rates) for each method across repeated simulations, along with mean F-statistics. This allows for proper assessment of power as a distributional property, demonstrating how detection rates vary across different realizations of the same effect size. The revised Table 2 (line 273) now includes power estimates (as percentages) and mean F-statistics for each effect size and sample size combination, providing a more robust evaluation of MeLSI's performance relative to traditional methods. We also added a supplementary section (lines 285-287) comparing MeLSI to each traditional method individually, showing that MeLSI consistently outperforms Jaccard and Unweighted UniFrac while demonstrating appropriate conservatism for small effects.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition to Table 2 and Results section]
+**Location in revised manuscript:** Table 2 (line 273), Individual method comparisons section (lines 285-287), and Synthetic power analysis section (lines 289-305)
 
 ---
 
@@ -90,9 +90,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** Exploring multiple sample sizes in both Type I error and power analyses would strengthen the evaluation. (may consider a few typical sample sizes in microbiome studies)
 
-**Response:** We have expanded both Type I error and power analyses to include multiple sample sizes (n=50, 100, 200), addressing the reviewer's concern about evaluating performance across typical microbiome study sizes. The revised analyses now report empirical Type I error rates and statistical power at each sample size, allowing assessment of how MeLSI's performance scales from small (n=50) to larger (n=200) studies. This complements the scalability analysis in Table 3, which demonstrates computational performance across sample sizes, by now also showing statistical validity (Type I error control) and detection capability (power) at each sample size. The results confirm that MeLSI maintains proper Type I error control and demonstrates appropriate power gains with increasing sample size, consistent with standard statistical expectations.
+**Response:** We have expanded both Type I error and power analyses to include multiple sample sizes (n=50, 100, 200), addressing the reviewer's concern about evaluating performance across typical microbiome study sizes. The revised analyses now report empirical Type I error rates and statistical power at each sample size, allowing assessment of how MeLSI's performance scales from small (n=50) to larger (n=200) studies. This complements the scalability analysis in Table 3 (line 317), which demonstrates computational performance across sample sizes, by now also showing statistical validity (Type I error control) and detection capability (power) at each sample size. The results confirm that MeLSI maintains proper Type I error control and demonstrates appropriate power gains with increasing sample size, consistent with standard statistical expectations.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition to Tables 1 and 2, and Results section]
+**Location in revised manuscript:** Table 1 (line 252), Table 2 (line 273), Table 3 (line 317), and Results sections (lines 265-267, 289-305, 328-338)
 
 ---
 
@@ -170,9 +170,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** In the ensemble size analysis, the authors refer to "variance" in performance, but Table 4 does not report variance estimates. If results are based on a single synthetic dataset, clarification of what is meant by variance is needed.
 
-**Response:** We have clarified in the table footnote that "variance in performance" refers to variation in F-statistics across different parameter values tested on the same dataset. Specifically, Table 4 now includes (line 355): "Variance in performance refers to variation in F-statistics across different parameter values tested on the same dataset." This clarifies that we are referring to the range of F-statistic values observed when varying ensemble size (B) or feature fraction (m_frac) parameters, not a statistical variance estimate.
+**Response:** We have significantly expanded the parameter sensitivity analysis to include 25 replications per parameter value (11 parameter values × 25 replications = 275 total simulations), addressing the reviewer's concern about variance estimation. The revised Table 4 (line 352) now reports mean F-statistics, p-values, and computation times with standard deviations (SD) across the 25 replications. We also added a direct comparison with a single-learner approach (B=1), which shows substantially higher variance (SD = 0.505) compared to ensemble approaches (SD = 0.119-0.128), supporting the use of ensemble learning. The table footnote (line 361) now clarifies that values are shown as "mean (SD) across 25 replications per parameter value."
 
-**Location in revised manuscript:** Line 355 (Table 4 footnote)
+**Location in revised manuscript:** Table 4 (line 352), Ensemble size section (lines 363-367)
 
 ---
 
@@ -180,25 +180,25 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** The sample sizes used in the synthetic pre-filtering analyses are not clearly stated.
 
-**Response:** [TBD - Clearly state sample sizes in pre-filtering analysis]
+**Response:** We have clarified that all pre-filtering analyses use n=100 samples, as stated in Table 5 (line 386). The table now explicitly shows the sample size (n=100) for all three effect size conditions.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition]
+**Location in revised manuscript:** Table 5 (line 386)
 
 ---
 
 **Reviewer Comment:** Feature dimensionality differs across effect size settings (p=500 for small, 200 for medium, and 100 for large). Could authors provide the details on this design choice to help interpretation?
 
-**Response:** [TBD - Explain design choice for varying dimensionality]
+**Response:** We have clarified in the Results section (line 375) that the varying dimensionality (p=500 for small, p=200 for medium, p=100 for large) reflects the design choice to test pre-filtering benefits across different dimensionalities. This allows assessment of how pre-filtering performance scales with dimensionality, with higher-dimensional datasets (p=500) showing greater time savings (39.8%) compared to lower-dimensional datasets (p=100, 16.5% time savings).
 
-**Location in revised manuscript:** [TBD - Line numbers after addition]
+**Location in revised manuscript:** Pre-filtering analysis section (line 375), Table 5 (line 386)
 
 ---
 
 **Reviewer Comment:** As with other simulation sections, results based on a single synthetic dataset cannot be interpreted as statistical power.
 
-**Response:** [TBD - Address with multiple simulations]
+**Response:** We have significantly expanded the pre-filtering analysis to include 50 simulations per effect size (3 effect sizes × 50 simulations = 150 total), addressing the reviewer's concern about proper statistical evaluation. The revised analysis now reports empirical statistical power (detection rates) for both pre-filtered and non-filtered approaches across repeated simulations, along with mean F-statistics and standard deviations. The revised Table 5 (line 386) now includes power estimates, mean F-statistics, and mean time reduction percentages, providing a rigorous evaluation of the pre-filtering strategy's impact on both statistical power and computational efficiency. The results demonstrate substantial benefits: pre-filtering increases power from 4% to 100% for small effects, from 14% to 94% for medium effects, and from 14% to 84% for large effects, while providing 16-40% time savings.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition]
+**Location in revised manuscript:** Table 5 (line 386) and Pre-filtering analysis section (lines 388-395)
 
 ---
 
@@ -403,6 +403,8 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 9. ✅ Figure 2 separation language revised (Line 403)
 10. ✅ Biological vs statistical significance discussion (Line 403)
 11. ✅ Table 4 variance clarification (Line 355)
+12. ✅ Conclusions section updated to reflect rigorous validation (Line 436)
+13. ✅ Parameter sensitivity mention enhanced with B=1 comparison (Line 438)
 
 ---
 

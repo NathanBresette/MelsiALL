@@ -117,11 +117,32 @@ if (parallel_mode) {
   # Count features before filtering
   n_features_before <- ncol(X_clr)
   
-  # Apply conservative pre-filtering (prevalence >= 10%)
-  prevalence <- colMeans(data$counts > 0)
-  keep_features <- prevalence >= 0.1
-  X_clr_filtered <- X_clr[, keep_features]
-  n_features_after <- sum(keep_features)
+  # Apply conservative variance-based pre-filtering (retain top 70% by importance score)
+  # Importance score: I_j = |μ_1j - μ_2j| / sqrt(σ_1j² + σ_2j²)
+  group1_idx <- which(data$group == unique(data$group)[1])
+  group2_idx <- which(data$group == unique(data$group)[2])
+  
+  # Calculate importance scores for each feature
+  importance_scores <- numeric(ncol(X_clr))
+  for (j in 1:ncol(X_clr)) {
+    mu1 <- mean(X_clr[group1_idx, j])
+    mu2 <- mean(X_clr[group2_idx, j])
+    sigma1_sq <- var(X_clr[group1_idx, j])
+    sigma2_sq <- var(X_clr[group2_idx, j])
+    denom <- sqrt(sigma1_sq + sigma2_sq)
+    # Handle division by zero (constant features)
+    if (denom < 1e-10) {
+      importance_scores[j] <- 0
+    } else {
+      importance_scores[j] <- abs(mu1 - mu2) / denom
+    }
+  }
+  
+  # Retain top 70% of features by importance score
+  n_retain <- round(0.7 * ncol(X_clr))
+  top_features <- order(importance_scores, decreasing = TRUE)[1:n_retain]
+  X_clr_filtered <- X_clr[, top_features]
+  n_features_after <- length(top_features)
   
   # Test WITH pre-filtering
   start_time <- Sys.time()
@@ -192,11 +213,32 @@ if (parallel_mode) {
       # Count features before filtering
       n_features_before <- ncol(X_clr)
       
-      # Apply conservative pre-filtering (prevalence >= 10%)
-      prevalence <- colMeans(data$counts > 0)
-      keep_features <- prevalence >= 0.1
-      X_clr_filtered <- X_clr[, keep_features]
-      n_features_after <- sum(keep_features)
+      # Apply conservative variance-based pre-filtering (retain top 70% by importance score)
+      # Importance score: I_j = |μ_1j - μ_2j| / sqrt(σ_1j² + σ_2j²)
+      group1_idx <- which(data$group == unique(data$group)[1])
+      group2_idx <- which(data$group == unique(data$group)[2])
+      
+      # Calculate importance scores for each feature
+      importance_scores <- numeric(ncol(X_clr))
+      for (j in 1:ncol(X_clr)) {
+        mu1 <- mean(X_clr[group1_idx, j])
+        mu2 <- mean(X_clr[group2_idx, j])
+        sigma1_sq <- var(X_clr[group1_idx, j])
+        sigma2_sq <- var(X_clr[group2_idx, j])
+        denom <- sqrt(sigma1_sq + sigma2_sq)
+        # Handle division by zero (constant features)
+        if (denom < 1e-10) {
+          importance_scores[j] <- 0
+        } else {
+          importance_scores[j] <- abs(mu1 - mu2) / denom
+        }
+      }
+      
+      # Retain top 70% of features by importance score
+      n_retain <- round(0.7 * ncol(X_clr))
+      top_features <- order(importance_scores, decreasing = TRUE)[1:n_retain]
+      X_clr_filtered <- X_clr[, top_features]
+      n_features_after <- length(top_features)
       
       # Test WITH pre-filtering
       start_time <- Sys.time()

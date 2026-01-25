@@ -1,0 +1,4 @@
+"Effect_Size","n_samples","n_taxa","n_simulations","With_Prefilter_Mean_F","With_Prefilter_SD_F","With_Prefilter_Power","Without_Prefilter_Mean_F","Without_Prefilter_SD_F","Without_Prefilter_Power","Mean_F_Improvement","Mean_F_Improvement_Pct","Mean_Time_Reduction_Pct"
+"small",100,500,50,1.756,0.115,100,1.281,0.082,4,0.475,37.1,39.8
+"medium",100,200,50,1.831,0.187,94,1.337,0.128,14,0.494,36.9,18
+"large",100,100,50,1.928,0.257,84,1.416,0.175,14,0.512,36.1,16.5

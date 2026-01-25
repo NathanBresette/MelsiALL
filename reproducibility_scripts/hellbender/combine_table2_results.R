@@ -42,7 +42,7 @@ cat("Combined results saved to: table2_power_analysis_results.csv\n")
 # Generate summary statistics
 cat("\nGenerating summary statistics...\n")
 
-# Summary by effect size and sample size
+# Summary by effect size and sample size - Compare to each traditional method individually
 summary_table <- data.frame()
 for (effect in unique(all_results$Effect_Size)) {
   for (n_size in unique(all_results$Sample_Size)) {
@@ -51,42 +51,50 @@ for (effect in unique(all_results$Effect_Size)) {
     
     if (nrow(subset_results) == 0) next
     
-    # Find best traditional method by mean F-statistic
-    trad_means <- c(
-      Euclidean = mean(subset_results$Euclidean_F),
-      BrayCurtis = mean(subset_results$BrayCurtis_F),
-      Jaccard = mean(subset_results$Jaccard_F),
-      WeightedUniFrac = mean(subset_results$WeightedUniFrac_F, na.rm = TRUE),
-      UnweightedUniFrac = mean(subset_results$UnweightedUniFrac_F, na.rm = TRUE)
-    )
-    best_trad_method <- names(which.max(trad_means))
+    # Calculate MeLSI statistics
+    melsi_power <- mean(subset_results$MeLSI_significant)
+    melsi_mean_F <- mean(subset_results$MeLSI_F)
+    melsi_sd_F <- sd(subset_results$MeLSI_F)
     
-    if (best_trad_method == "Euclidean") {
-      best_trad_power <- mean(subset_results$Euclidean_significant)
-      best_trad_mean_F <- mean(subset_results$Euclidean_F)
-    } else if (best_trad_method == "BrayCurtis") {
-      best_trad_power <- mean(subset_results$BrayCurtis_significant)
-      best_trad_mean_F <- mean(subset_results$BrayCurtis_F)
-    } else if (best_trad_method == "Jaccard") {
-      best_trad_power <- mean(subset_results$Jaccard_significant)
-      best_trad_mean_F <- mean(subset_results$Jaccard_F)
-    } else if (best_trad_method == "WeightedUniFrac") {
-      best_trad_power <- mean(subset_results$WeightedUniFrac_significant)
-      best_trad_mean_F <- mean(subset_results$WeightedUniFrac_F)
-    } else {
-      best_trad_power <- mean(subset_results$UnweightedUniFrac_significant)
-      best_trad_mean_F <- mean(subset_results$UnweightedUniFrac_F)
+    # Compare to each traditional method individually
+    traditional_methods <- c("Euclidean", "BrayCurtis", "Jaccard", "WeightedUniFrac", "UnweightedUniFrac")
+    
+    for (method in traditional_methods) {
+      # Check if this method has results (some may be NA for real datasets)
+      method_F_col <- paste0(method, "_F")
+      method_power_col <- paste0(method, "_significant")
+      
+      if (!method_F_col %in% colnames(subset_results)) next
+      
+      # Calculate statistics for this traditional method
+      method_F_values <- subset_results[[method_F_col]]
+      method_power_values <- subset_results[[method_power_col]]
+      
+      # Skip if all NA
+      if (all(is.na(method_F_values))) next
+      
+      method_power <- mean(method_power_values, na.rm = TRUE)
+      method_mean_F <- mean(method_F_values, na.rm = TRUE)
+      method_sd_F <- sd(method_F_values, na.rm = TRUE)
+      
+      # Calculate power difference (MeLSI - Traditional)
+      power_diff <- melsi_power - method_power
+      
+      summary_table <- rbind(summary_table, data.frame(
+        Effect_Size = effect,
+        Sample_Size = n_size,
+        n_simulations = nrow(subset_results),
+        Traditional_Method = method,
+        MeLSI_Power = round(melsi_power * 100, 1),
+        MeLSI_Mean_F = round(melsi_mean_F, 3),
+        MeLSI_SD_F = round(melsi_sd_F, 3),
+        Traditional_Power = round(method_power * 100, 1),
+        Traditional_Mean_F = round(method_mean_F, 3),
+        Traditional_SD_F = round(method_sd_F, 3),
+        Power_Difference = round(power_diff * 100, 1),
+        F_Difference = round(melsi_mean_F - method_mean_F, 3)
+      ))
     }
-    
-    summary_table <- rbind(summary_table, data.frame(
-      Effect_Size = effect,
-      Sample_Size = n_size,
-      n_simulations = nrow(subset_results),
-      MeLSI_Power = round(mean(subset_results$MeLSI_significant) * 100, 1),
-      MeLSI_Mean_F = round(mean(subset_results$MeLSI_F), 3),
-      Best_Traditional_Power = round(best_trad_power * 100, 1),
-      Best_Traditional_Mean_F = round(best_trad_mean_F, 3)
-    ))
   }
 }
 
