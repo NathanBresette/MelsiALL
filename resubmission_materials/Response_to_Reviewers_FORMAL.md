@@ -50,9 +50,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** Statements regarding overfitting prevention across the manuscript would benefit from explicit evaluation or supporting evidence.
 
-**Response:** [TBD - Provide explicit evaluation of overfitting prevention]
+**Response:** We have added explicit evaluation of overfitting prevention using two complementary lines of evidence. First, the comparison with a single-learner baseline (B=1) in Table 4 demonstrates that ensemble learning substantially reduces variance: the single-learner approach shows 4× higher variance (SD = 0.505) compared to ensemble approaches (SD = 0.119-0.128), providing direct quantitative evidence of overfitting prevention. Second, proper Type I error control across 100 simulations (3-6% rejection rates, Table 1) confirms that overfitting does not inflate false positive rates, as inflated Type I error would be expected if overfitting occurred. The permutation testing framework, which relearns the metric on each permutation, ensures that the null distribution properly accounts for the adaptive nature of the method, preventing overfitting from affecting statistical validity.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition]
+**Location in revised manuscript:** Parameter Sensitivity section after Table 4 (line 386), Table 4 (line 360), and Table 1 (line 254)
 
 ---
 
@@ -70,9 +70,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** Type I error control appears to be evaluated using a single synthetic dataset, with conclusions drawn from a single p-value. Repeated simulations are necessary to support claims of proper error control. Type I error control is a distributional property that must be assessed over repeated realizations of the null hypothesis. Demonstrating that a single test yields p-values greater than 0.05 in one or two null examples does not quantify the probability of false positive findings. Proper evaluation would require repeated simulations under the null, with estimation of the empirical rejection rate at the chosen significance level and, ideally, examination of the null p-value distribution.
 
-**Response:** We have expanded the Type I error analysis to include 100 simulations per condition across three sample sizes (n=50, 100, 200) for both synthetic null data and real shuffled data (600 total simulations: 2 dataset types × 3 sample sizes × 100 simulations), addressing the reviewer's concern about proper statistical validation. The revised analysis now reports empirical rejection rates at α = 0.05, demonstrating that MeLSI maintains proper Type I error control across repeated realizations of the null hypothesis. The revised Table 1 (line 252) now includes empirical Type I error rates (as percentages) for each sample size and dataset type. These results confirm that MeLSI's permutation-based inference properly accounts for the adaptive nature of the method, maintaining Type I error rates near the nominal 5% level (range: 3-6% across all conditions). We have also updated the Conclusions section (line 436) to reflect this rigorous validation, replacing the previous mention of specific p-values from single simulations with a statement about empirical rejection rates across 100 simulations per condition.
+**Response:** We have expanded the Type I error analysis to include 100 simulations per condition across three sample sizes (n=50, 100, 200) for both synthetic null data and real shuffled data (600 total simulations: 2 dataset types × 3 sample sizes × 100 simulations), addressing the reviewer's concern about proper statistical validation. The revised analysis now reports empirical rejection rates at α = 0.05, demonstrating that MeLSI maintains proper Type I error control across repeated realizations of the null hypothesis. The revised Table 1 (line 254) now includes empirical Type I error rates (as percentages) for each sample size and dataset type. These results confirm that MeLSI's permutation-based inference properly accounts for the adaptive nature of the method, maintaining Type I error rates near the nominal 5% level (range: 3-6% across all conditions). We have also updated the Conclusions section (line 436) to reflect this rigorous validation, replacing the previous mention of specific p-values from single simulations with a statement about empirical rejection rates across 100 simulations per condition.
 
-**Location in revised manuscript:** Table 1 (line 252), Results section (lines 265-267), and Conclusions section (line 436)
+**Location in revised manuscript:** Table 1 (line 254), Results section (lines 265-267), and Conclusions section (line 436)
 
 ---
 
@@ -80,9 +80,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** Similar concerns apply to the statistical power analysis, which also appears to rely on a single dataset per setting.
 
-**Response:** We have expanded the statistical power analysis to include 50 simulations per condition across three effect sizes (small, medium, large) and three sample sizes (n=50, 100, 200) (450 total simulations: 3 effect sizes × 3 sample sizes × 50 simulations), addressing the reviewer's concern about proper evaluation of detection rates. The revised analysis now reports empirical statistical power (detection rates) for each method across repeated simulations, along with mean F-statistics. This allows for proper assessment of power as a distributional property, demonstrating how detection rates vary across different realizations of the same effect size. The revised Table 2 (line 273) now includes power estimates (as percentages) and mean F-statistics for each effect size and sample size combination, providing a more robust evaluation of MeLSI's performance relative to traditional methods. We also added a supplementary section (lines 285-287) comparing MeLSI to each traditional method individually, showing that MeLSI consistently outperforms Jaccard and Unweighted UniFrac while demonstrating appropriate conservatism for small effects.
+**Response:** We have expanded the statistical power analysis to include 50 simulations per condition across three effect sizes (small, medium, large) and three sample sizes (n=50, 100, 200) (450 total simulations: 3 effect sizes × 3 sample sizes × 50 simulations), addressing the reviewer's concern about proper evaluation of detection rates. The revised analysis now reports empirical statistical power (detection rates) for each method across repeated simulations, along with mean F-statistics. This allows for proper assessment of power as a distributional property, demonstrating how detection rates vary across different realizations of the same effect size. The revised Table 2 (line 275) now includes power estimates (as percentages) and mean F-statistics for each effect size and sample size combination, providing a more robust evaluation of MeLSI's performance relative to traditional methods. We also added a supplementary section (lines 285-287) comparing MeLSI to each traditional method individually, showing that MeLSI consistently outperforms Jaccard and Unweighted UniFrac while demonstrating appropriate conservatism for small effects.
 
-**Location in revised manuscript:** Table 2 (line 273), Individual method comparisons section (lines 285-287), and Synthetic power analysis section (lines 289-305)
+**Location in revised manuscript:** Table 2 (line 275), Individual method comparisons section (lines 285-287), and Synthetic power analysis section (lines 289-305)
 
 ---
 
@@ -92,7 +92,7 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Response:** We have expanded both Type I error and power analyses to include multiple sample sizes (n=50, 100, 200), addressing the reviewer's concern about evaluating performance across typical microbiome study sizes. The revised analyses now report empirical Type I error rates and statistical power at each sample size, allowing assessment of how MeLSI's performance scales from small (n=50) to larger (n=200) studies. This complements the scalability analysis in Table 3 (line 317), which demonstrates computational performance across sample sizes, by now also showing statistical validity (Type I error control) and detection capability (power) at each sample size. The results confirm that MeLSI maintains proper Type I error control and demonstrates appropriate power gains with increasing sample size, consistent with standard statistical expectations.
 
-**Location in revised manuscript:** Table 1 (line 252), Table 2 (line 273), Table 3 (line 317), and Results sections (lines 265-267, 289-305, 328-338)
+**Location in revised manuscript:** Table 1 (line 254), Table 2 (line 275), Table 3 (line 323), and Results sections (lines 265-267, 289-305, 328-338)
 
 ---
 
@@ -120,9 +120,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** The observed outperformance of MeLSI on real datasets may partly reflect overfitting or double-dipping, despite the ensemble strategy. This possibility should be discussed more explicitly.
 
-**Response:** [TBD - Explicitly discuss this possibility]
+**Response:** We have added explicit discussion addressing this concern in the Real Data: Atlas1006 section. The revised text (lines 310-312) explains that MeLSI's outperformance on real datasets does not reflect overfitting because: (1) the permutation testing framework relearns the metric on each permutation, ensuring that the null distribution properly accounts for the adaptive nature of the method, and (2) proper Type I error control on real shuffled data (3-6% rejection rates across 100 simulations, Table 1) confirms that overfitting does not occur, as inflated Type I error would be expected if overfitting inflated false positive rates on real data. The permutation framework treats each permutation as an independent metric learning experiment under the null hypothesis, preventing overfitting from affecting statistical validity.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition]
+**Location in revised manuscript:** Real Data: Atlas1006 section (line 313) and Table 1 (line 254)
 
 ---
 
@@ -182,7 +182,7 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Response:** We have clarified that all pre-filtering analyses use n=100 samples, as stated in Table 5 (line 386). The table now explicitly shows the sample size (n=100) for all three effect size conditions.
 
-**Location in revised manuscript:** Table 5 (line 386)
+**Location in revised manuscript:** Table 5 (line 398)
 
 ---
 
@@ -196,9 +196,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** As with other simulation sections, results based on a single synthetic dataset cannot be interpreted as statistical power.
 
-**Response:** We have significantly expanded the pre-filtering analysis to include 50 simulations per effect size (3 effect sizes × 50 simulations = 150 total), addressing the reviewer's concern about proper statistical evaluation. The revised analysis now reports empirical statistical power (detection rates) for both pre-filtered and non-filtered approaches across repeated simulations, along with mean F-statistics and standard deviations. The revised Table 5 (line 386) now includes power estimates, mean F-statistics, and mean time reduction percentages, providing a rigorous evaluation of the pre-filtering strategy's impact on both statistical power and computational efficiency. The results demonstrate substantial benefits: pre-filtering increases power from 4% to 100% for small effects, from 14% to 94% for medium effects, and from 14% to 84% for large effects, while providing 16-40% time savings.
+**Response:** We have significantly expanded the pre-filtering analysis to include 50 simulations per effect size (3 effect sizes × 50 simulations = 150 total), addressing the reviewer's concern about proper statistical evaluation. The revised analysis now reports empirical statistical power (detection rates) for both pre-filtered and non-filtered approaches across repeated simulations, along with mean F-statistics and standard deviations. The revised Table 5 (line 398) now includes power estimates, mean F-statistics, and mean time reduction percentages, providing a rigorous evaluation of the pre-filtering strategy's impact on both statistical power and computational efficiency. The results demonstrate substantial benefits: pre-filtering increases power from 4% to 100% for small effects, from 14% to 94% for medium effects, and from 14% to 84% for large effects, while providing 16-40% time savings.
 
-**Location in revised manuscript:** Table 5 (line 386) and Pre-filtering analysis section (lines 388-395)
+**Location in revised manuscript:** Table 5 (line 398) and Pre-filtering analysis section (lines 388-395)
 
 ---
 
@@ -216,9 +216,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** The claim that increased computational time is justified by improved statistical power is not fully supported, especially given inadequate validation study designs and given that Table 2 shows performance comparable to the best traditional methods.
 
-**Response:** [TBD - Revise justification for computational time, acknowledge limitations]
+**Response:** We have revised the computational time justification in the Limitations section (lines 456-456) to provide a more comprehensive and evidence-based rationale. The revised text justifies MeLSI's computational time (2-30 minutes for typical datasets) based on: (1) substantial interpretability gains through learned feature weights that identify biologically relevant taxa, (2) pre-filtering benefits that provide 16-40% time savings while improving power by 36-37% (Table 5), and (3) the modest time investment relative to the overall study timeline (weeks to months for sample collection and sequencing). We acknowledge that for large-scale screening studies with thousands of samples, traditional methods may be more appropriate. The justification now emphasizes interpretability as the primary benefit rather than power alone, which aligns with Table 2 showing comparable power to traditional methods while providing unique interpretability advantages.
 
-**Location in revised manuscript:** [TBD - Line numbers after revision]
+**Location in revised manuscript:** Limitations section (line 460) and Table 5 (line 398)
 
 ---
 
@@ -251,9 +251,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** Introduce notation more systematically in the "Metric learning: an emerging paradigm" section.
 
-**Response:** [TBD - Systematically introduce notation]
+**Response:** We have systematically introduced notation in the "Metric learning: an emerging paradigm" section (lines 41-43). The revised text now formally defines: (1) the feature abundance matrix $\mathbf{X} \in \mathbb{R}^{n \times p}$ with $n$ samples and $p$ taxa, (2) group labels $\mathbf{y} = (y_1, \ldots, y_n)$, (3) the positive semi-definite metric matrix $\mathbf{M} \in \mathbb{R}^{p \times p}$, (4) the Mahalanobis distance formula $d_M(\mathbf{x}_i, \mathbf{x}_j) = \sqrt{(\mathbf{x}_i - \mathbf{x}_j)^T \mathbf{M} (\mathbf{x}_i - \mathbf{x}_j)}$, and (5) the special case of diagonal $\mathbf{M}$ reducing to weighted Euclidean distance with feature-specific weights $M_{jj}$. This systematic introduction provides a clear mathematical foundation before the notation is used throughout the Methods section.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition]
+**Location in revised manuscript:** Introduction section, "Metric learning: an emerging paradigm" subsection (line 43)
 
 ---
 
@@ -261,9 +261,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** The role and impact of the CLR transformation in conjunction with the proposed method should be discussed more explicitly. CLR transformation for MeLSI is mentioned only in the software availability section as part of the recommended usage.
 
-**Response:** [TBD - Add explicit discussion of CLR transformation role and impact]
+**Response:** We have added explicit discussion of the CLR transformation role and impact in the Methods section (lines 234-234). The revised text explains that: (1) CLR transformation converts relative abundances to log-ratios, making the data suitable for Euclidean distance while preserving relative relationships between taxa, (2) CLR treats abundance ratios more equitably than count-based metrics, which can be dominated by highly abundant taxa, (3) CLR may attenuate large fold-change signals compared to count-based metrics, as evidenced by results showing traditional count-based methods achieve higher F-statistics on synthetic data with large effects (3× fold change), and (4) CLR is particularly appropriate when signals are distributed across multiple taxa rather than concentrated in highly abundant taxa, and when interpretability through feature weights is prioritized. We also added discussion in the Results section (lines 305-307) explicitly stating when the CLR-based approach is most appropriate versus when count-based methods may be preferable.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition]
+**Location in revised manuscript:** Methods section (lines 234-234) and Results section (lines 305-307)
 
 ---
 
@@ -279,9 +279,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** MeLSI looks slower (minutes to hours) than traditional PERMANOVA (seconds). The paper argues this is acceptable given the gain in interpretability, but for large-scale or screening studies, this may be prohibitive. No clear power-time trade-off analysis is provided to justify when MeLSI is worth the extra computation.
 
-**Response:** [TBD - Add power-time trade-off analysis or better justification]
+**Response:** We have added an explicit power-time trade-off analysis in the Computational Performance section (lines 444-448). The analysis demonstrates that MeLSI provides substantial value: pre-filtering increases statistical power by 36-37% while reducing computation time by 16-40% (Table 5). For typical microbiome studies (n=50-200, p=100-500), MeLSI completes in 2-30 minutes (Table 3), representing a modest time investment that yields both improved power (particularly for medium effect sizes, Table 2) and interpretability through feature weights. The power-time trade-off is most favorable when: (1) sample sizes are moderate (n=50-200), (2) interpretability is prioritized, and (3) pre-filtering is applied. For very large studies (n>500) or when only rapid screening is needed, traditional methods may be preferable. This analysis provides clear guidance on when MeLSI's computational investment is justified.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition]
+**Location in revised manuscript:** Computational Performance section, Power-time trade-off analysis subsection (line 446), Tables 2 (line 275), 3 (line 323), and 5 (line 398)
 
 ---
 
@@ -289,9 +289,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** On Atlas1006, MeLSI's F-statistic was only 9.1% higher than Euclidean distance (5.141 vs. 4.711)-a modest improvement. On DietSwap, MeLSI reached significance (p=0.015) while Bray-Curtis was marginal (p=0.058), but the effect size difference is small. The authors acknowledge that on synthetic data with large effects, traditional metrics (Bray-Curtis, UniFrac) often outperformed MeLSI.
 
-**Response:** [TBD - Better position MeLSI's value proposition, acknowledge when traditional methods are preferable]
+**Response:** We have revised the Conclusions section (lines 456-456) to explicitly position MeLSI's value proposition and acknowledge when traditional methods are preferable. The revised text clearly states that MeLSI is recommended when: (1) effect sizes are moderate (2× fold change) rather than very large, (2) interpretability through feature weights is needed to identify biologically relevant taxa, (3) traditional methods yield marginal results (p-values near 0.05), and (4) signals are distributed across multiple taxa rather than concentrated in highly abundant taxa. Traditional methods (Bray-Curtis, UniFrac) are preferable for: (1) large, obvious effects (3× fold change) where any method succeeds, (2) large-scale screening studies where speed is critical, and (3) when only omnibus significance testing is needed without feature-level interpretation. This positioning acknowledges that MeLSI's primary value is interpretability rather than marginal power gains, while clearly stating when each approach is most appropriate.
 
-**Location in revised manuscript:** [TBD - Line numbers after revision]
+**Location in revised manuscript:** Conclusions section (line 456) and Table 2 (line 275)
 
 ---
 
@@ -299,9 +299,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** MeLSI uses CLR-transformed data for Euclidean distance, which may attenuate large fold-change signals compared to count-based metrics (Bray-Curtis, UniFrac). This could explain why MeLSI underperforms on synthetic data with strong effects.
 
-**Response:** [TBD - Discuss CLR trade-offs explicitly, explain when CLR approach is appropriate vs. count-based]
+**Response:** We have added explicit discussion of CLR trade-offs in both the Methods section (line 234) and Results section (line 305). The revised text acknowledges that CLR transformation may attenuate large fold-change signals compared to count-based metrics, as evidenced by our results showing that traditional count-based methods achieve higher F-statistics on synthetic data with large effects (3× fold change). We explicitly state when the CLR-based approach is most appropriate: (1) when signals are distributed across multiple taxa rather than concentrated in highly abundant taxa, (2) when interpretability through feature weights is prioritized, and (3) when effect sizes are moderate rather than very large. For large, obvious effects (3× fold change), count-based methods (Bray-Curtis, UniFrac) may be preferable due to their sensitivity to abundance dominance. This positioning acknowledges the trade-off while clarifying when each approach is most appropriate.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition]
+**Location in revised manuscript:** Methods section (line 234) and Results section (line 305)
 
 ---
 
@@ -339,9 +339,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** Sensitivity analysis shows robustness, but defaults (e.g., B=30, m_frac=0.8) are not rigorously justified. For some datasets, different hyperparameters might yield better performance.
 
-**Response:** [TBD - Better justify defaults or provide guidance on hyperparameter selection]
+**Response:** We have expanded the Parameter Sensitivity section (lines 388-390) to explicitly justify the default parameters based on Table 4 results. The revised text explains that: (1) B=30 provides F-statistics (mean = 1.530, SD = 0.123) comparable to larger ensembles (B=50-100) while maintaining reasonable computation time (mean = 576.8s), (2) m_frac=0.8 balances performance (mean F = 1.530) with diversity among weak learners, as lower values (m_frac=0.5) show slightly higher F-statistics but reduced diversity, while higher values (m_frac=0.9-1.0) show slightly lower F-statistics, and (3) the robustness demonstrated across wide parameter ranges (B=10-100, m_frac=0.5-1.0) indicates that default parameters provide good performance across diverse datasets, though users may optimize for specific datasets if needed. This provides clear justification for the defaults while acknowledging that optimization may be beneficial for specific datasets.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition]
+**Location in revised manuscript:** Parameter Sensitivity section (line 388) and Table 4 (line 360)
 
 ---
 
@@ -359,9 +359,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** The method scales as O(p²) in the number of features. For shotgun metagenomics (thousands of species or genes), this could be computationally prohibitive even with pre-filtering.
 
-**Response:** [TBD - Discuss scalability limits, acknowledge constraints]
+**Response:** We have expanded the Scalability section (lines 352-354) to explicitly discuss scalability limits and acknowledge constraints. The revised text explains that MeLSI's O(p²) scaling becomes computationally prohibitive for very high-dimensional datasets (p>1000), with Table 3 demonstrating that computation time increases from 227.9s at p=50 to 8405.6s at p=1000. However, pre-filtering (retaining 70% of features) substantially mitigates this scaling, reducing effective dimensionality. For shotgun metagenomics with thousands of features, we recommend: (1) applying pre-filtering to reduce dimensionality, (2) considering feature aggregation (e.g., species-level rather than gene-level), or (3) using traditional methods if interpretability is not prioritized. The current implementation is most suitable for typical 16S rRNA datasets (p<1000) and metagenomic datasets with moderate dimensionality after preprocessing. This acknowledges the scalability constraint while providing practical guidance for high-dimensional applications.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition]
+**Location in revised manuscript:** Scalability section, Dimensionality scaling subsection (line 354) and Table 3 (line 323)
 
 ---
 
