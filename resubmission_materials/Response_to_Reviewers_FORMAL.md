@@ -309,9 +309,13 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** MeLSI currently only supports simple group comparisons. No ability to adjust for confounders (age, BMI, antibiotics) or model continuous outcomes. This limits its utility in observational studies where confounding is common.
 
-**Response:** [TBD - Acknowledge limitation, discuss as future work]
+**Response:** We acknowledge this limitation and have added explicit discussion in the Limitations section (line 460). The current implementation focuses on simple group comparisons, which represent the primary use case for microbiome beta diversity analysis. However, we recognize that observational studies often require adjustment for confounders (age, BMI, medication use, etc.) or modeling of continuous outcomes.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition]
+Covariate adjustment is a high-priority future extension. The underlying PERMANOVA framework (via vegan's `adonis2`) already supports covariates through formula syntax (e.g., `adonis2(dist ~ group + age + BMI)`), which provides a natural pathway for MeLSI extension. The technical approach would involve: (1) learning the metric on residuals after regressing out covariates, or (2) incorporating covariates directly into the metric learning objective function to learn distances that maximize group separation while accounting for covariate effects. This extension would enable MeLSI to integrate with epidemiological frameworks where confounding is common.
+
+For the current resubmission, we focus on independent group comparisons, which represent the majority of microbiome studies and allow for rigorous validation of the core method. The validation datasets (Atlas1006, DietSwap, SKIOME) demonstrate MeLSI's utility for this primary use case. Covariate adjustment support would require separate validation specific to that design type (e.g., Type I error control with confounders, power analysis with adjusted models), which represents important follow-up work.
+
+**Location in revised manuscript:** Limitations section (line 460)
 
 ---
 

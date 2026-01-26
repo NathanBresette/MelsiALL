@@ -1,0 +1,18 @@
+#!/usr/bin/expect
+set timeout 60
+set password [lindex $argv 0]
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+
+# SSH into Hellbender and submit job
+spawn ssh "$user@$host" "cd $remote_dir && echo 'Submitting Table 6 correlation analysis job...' && sbatch table6_feature_correlation_job.sh && echo '' && echo 'Job submitted! Checking status...' && sleep 2 && squeue -u $user | grep melsi_corr | head -5"
+
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof
