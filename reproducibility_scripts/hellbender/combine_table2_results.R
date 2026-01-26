@@ -103,3 +103,38 @@ cat("Summary statistics saved to: table2_power_analysis_summary.csv\n")
 
 cat("\nSummary Table:\n")
 print(summary_table)
+
+# Generate recovery metrics summary (interpretability validation)
+if (any(c("Precision_5", "Precision_10", "Recall_10", "AUC_ROC") %in% colnames(all_results))) {
+  cat("\n==============================================================================\n")
+  cat("RECOVERY METRICS SUMMARY (Interpretability Validation)\n")
+  cat("==============================================================================\n\n")
+  
+  recovery_summary <- data.frame()
+  for (effect in unique(all_results$Effect_Size)) {
+    for (n_size in unique(all_results$Sample_Size)) {
+      subset_results <- all_results[all_results$Effect_Size == effect & 
+                                    all_results$Sample_Size == n_size, ]
+      
+      if (nrow(subset_results) == 0) next
+      
+      recovery_summary <- rbind(recovery_summary, data.frame(
+        Effect_Size = effect,
+        Sample_Size = n_size,
+        n_simulations = nrow(subset_results),
+        Precision_5 = round(mean(subset_results$Precision_5, na.rm = TRUE), 3),
+        Precision_10 = round(mean(subset_results$Precision_10, na.rm = TRUE), 3),
+        Precision_20 = round(mean(subset_results$Precision_20, na.rm = TRUE), 3),
+        Recall_5 = round(mean(subset_results$Recall_5, na.rm = TRUE), 3),
+        Recall_10 = round(mean(subset_results$Recall_10, na.rm = TRUE), 3),
+        Recall_20 = round(mean(subset_results$Recall_20, na.rm = TRUE), 3),
+        Mean_Rank = round(mean(subset_results$Mean_Rank, na.rm = TRUE), 1),
+        AUC_ROC = round(mean(subset_results$AUC_ROC, na.rm = TRUE), 3)
+      ))
+    }
+  }
+  
+  write.csv(recovery_summary, "table2_recovery_metrics_summary.csv", row.names = FALSE)
+  cat("Recovery metrics summary saved to: table2_recovery_metrics_summary.csv\n\n")
+  print(recovery_summary)
+}

@@ -1,0 +1,18 @@
+#!/usr/bin/expect
+set timeout 60
+set password [lindex $argv 0]
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+
+# SSH into Hellbender and submit job
+spawn ssh "$user@$host" "cd $remote_dir && echo 'Checking for existing jobs...' && squeue -u $user | grep melsi_power && echo 'Cancelling old jobs...' && scancel -u $user -n melsi_power 2>/dev/null || echo 'No old jobs to cancel' && echo '' && echo 'Submitting new table2 job...' && sbatch table2_power_analysis_job.sh && echo '' && echo 'Job submitted! Checking status...' && sleep 2 && squeue -u $user | head -5"
+
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof

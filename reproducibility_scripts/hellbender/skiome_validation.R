@@ -18,6 +18,7 @@ suppressPackageStartupMessages({
   library(MeLSI)
   library(GUniFrac)
   library(ape)
+  library(ggplot2)
 })
 
 # Load data
@@ -193,6 +194,50 @@ if (!is.null(melsi_result$feature_weights) && length(melsi_result$feature_weight
   print(top_features)
   cat("\n")
 }
+
+# Generate and save plots
+cat("==============================================================================\n")
+cat("Generating Plots\n")
+cat("==============================================================================\n\n")
+
+# Extract omnibus results for plotting (multi-group analysis)
+if ("omnibus" %in% names(melsi_result)) {
+  melsi_omnibus <- melsi_result$omnibus
+} else {
+  melsi_omnibus <- melsi_result
+}
+
+# Generate VIP plot
+cat("Generating VIP plot...\n")
+tryCatch({
+  if (!is.null(melsi_omnibus$feature_weights) && length(melsi_omnibus$feature_weights) > 0) {
+    vip_plot <- plot_vip(melsi_omnibus, top_n = 15, 
+                         title = "SKIOME: Variable Importance (MeLSI)")
+    ggsave("skiome_vip_plot.png", vip_plot, width = 10, height = 8, dpi = 300)
+    cat("  ✓ VIP plot saved to: skiome_vip_plot.png\n")
+  } else {
+    cat("  ⚠️  No feature weights available for VIP plot\n")
+  }
+}, error = function(e) {
+  cat("  ✗ Error generating VIP plot:", e$message, "\n")
+})
+
+# Generate PCoA plot
+cat("Generating PCoA plot...\n")
+tryCatch({
+  if (!is.null(melsi_omnibus$distance_matrix)) {
+    pcoa_plot <- plot_pcoa(melsi_omnibus, X_clr, groups, 
+                           title = "SKIOME: PCoA using MeLSI Distance")
+    ggsave("skiome_pcoa_plot.png", pcoa_plot, width = 10, height = 8, dpi = 300)
+    cat("  ✓ PCoA plot saved to: skiome_pcoa_plot.png\n")
+  } else {
+    cat("  ⚠️  No distance matrix available for PCoA plot\n")
+  }
+}, error = function(e) {
+  cat("  ✗ Error generating PCoA plot:", e$message, "\n")
+})
+
+cat("\n")
 
 cat("==============================================================================\n")
 cat("Validation Complete!\n")

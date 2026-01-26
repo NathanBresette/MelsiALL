@@ -1,0 +1,13 @@
+#!/usr/bin/expect
+set timeout 30
+set password [lindex $argv 0]
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "$user@$host" "cd $remote_dir && echo 'Checking if results have recovery metrics...' && head -1 table2_sim_1.csv 2>/dev/null | grep -o 'Precision_5\\|Recovery' && echo 'Found recovery metrics!' || echo 'No recovery metrics found - these are old results' && echo '' && echo 'Sample of first result file:' && head -2 table2_sim_1.csv 2>/dev/null | tail -1"
+
+expect {
+    "password:" { send "$password\r" }
+}
+expect eof

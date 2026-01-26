@@ -1,0 +1,25 @@
+#!/usr/bin/expect
+set timeout 30
+set password "Grad123!\$"
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "${user}@${host}"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+
+expect "$ "
+send "cd ${remote_dir}\r"
+expect "$ "
+
+send "tail -30 skiome_validation_12346088.err\r"
+expect "$ "
+
+send "exit\r"
+expect eof

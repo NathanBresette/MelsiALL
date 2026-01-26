@@ -1,0 +1,51 @@
+#!/usr/bin/expect
+set timeout 60
+set password "Grad123!\$"
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+
+# Transfer updated script
+spawn scp skiome_validation.R ${user}@${host}:${remote_dir}/
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof
+
+# SSH in and submit job
+spawn ssh "${user}@${host}"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+
+expect "$ "
+send "cd ${remote_dir}\r"
+expect "$ "
+
+send "echo 'Submitting updated SKIOME job with plots...'\r"
+expect "$ "
+
+send "sbatch skiome_validation_job.sh\r"
+expect {
+    "Submitted batch job" {
+        expect "$ "
+        send "sleep 2\r"
+        expect "$ "
+        send "squeue -u \$USER | grep skiome\r"
+        expect "$ "
+    }
+    "$ " {
+        send_user "Job submission completed\n"
+    }
+}
+
+send "exit\r"
+expect eof

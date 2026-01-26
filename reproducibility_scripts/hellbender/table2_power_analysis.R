@@ -72,7 +72,117 @@ generate_power_dataset <- function(n_samples = 100, n_taxa = 200, effect_size = 
     Group = c(rep("Group1", group1_samples), rep("Group2", group2_samples))
   )
   
-  return(list(counts = counts, metadata = metadata))
+  # Return true signal taxa for recovery validation
+  return(list(counts = counts, metadata = metadata, true_signal_taxa = signal_indices))
+}
+
+# ==============================================================================
+# Helper Function: Calculate Recovery Metrics
+# ==============================================================================
+calculate_recovery_metrics <- function(melsi_result, true_signal_taxa, X_clr, groups) {
+  # Extract feature weights from learned metric matrix
+  feature_weights <- diag(melsi_result$metric_matrix)
+  n_filtered <- length(feature_weights)
+  n_total <- ncol(X_clr)
+  
+  # Re-apply pre-filtering to determine which features were kept
+  # This matches MeLSI's internal pre-filtering logic
+  group1_idx <- which(groups == unique(groups)[1])
+  group2_idx <- which(groups == unique(groups)[2])
+  
+  # Calculate importance scores (same as MeLSI's pre-filtering)
+  importance_scores <- numeric(n_total)
+  for (j in 1:n_total) {
+    mu1 <- mean(X_clr[group1_idx, j])
+    mu2 <- mean(X_clr[group2_idx, j])
+    sigma1_sq <- var(X_clr[group1_idx, j])
+    sigma2_sq <- var(X_clr[group2_idx, j])
+    denominator <- sqrt(sigma1_sq + sigma2_sq + 1e-6)
+    importance_scores[j] <- abs(mu1 - mu2) / denominator
+  }
+  
+  # Determine which features were kept (top 70%)
+  n_keep <- max(10, floor(n_total * 0.7))
+  kept_features <- order(importance_scores, decreasing = TRUE)[1:n_keep]
+  
+  # Map true signal taxa to filtered feature indices
+  # true_signal_taxa are in original space (1 to n_total)
+  # We need to find their positions in the kept_features array
+  signal_in_filtered <- match(true_signal_taxa, kept_features)
+  signal_in_filtered <- signal_in_filtered[!is.na(signal_in_filtered)]  # Only signals that survived filtering
+  
+  # Rank filtered features by learned weight (highest to lowest)
+  ranked_filtered <- order(feature_weights, decreasing = TRUE)
+  
+  # Calculate metrics at different k values
+  k_values <- c(5, 10, 20)
+  metrics <- list()
+  
+  for (k in k_values) {
+    if (k > n_filtered) k <- n_filtered
+    
+    # Find ranks of signal taxa in filtered space
+    signal_ranks <- match(signal_in_filtered, ranked_filtered)
+    signal_ranks <- signal_ranks[!is.na(signal_ranks)]
+    
+    if (length(signal_ranks) > 0) {
+      # Precision@k: How many of top k are true signals?
+      precision_k <- sum(signal_ranks <= k) / k
+      # Recall@k: How many true signals (that survived filtering) are in top k?
+      recall_k <- sum(signal_ranks <= k) / length(true_signal_taxa)
+    } else {
+      precision_k <- 0
+      recall_k <- 0
+    }
+    
+    metrics[[paste0("precision_", k)]] <- precision_k
+    metrics[[paste0("recall_", k)]] <- recall_k
+  }
+  
+  # Mean rank of true signals in filtered space (lower is better)
+  signal_ranks <- match(signal_in_filtered, ranked_filtered)
+  signal_ranks <- signal_ranks[!is.na(signal_ranks)]
+  mean_rank <- if (length(signal_ranks) > 0) mean(signal_ranks) else NA
+  
+  # AUC-ROC: Use weights to classify signal vs non-signal in filtered space
+  is_signal <- rep(0, n_filtered)
+  if (length(signal_in_filtered) > 0) {
+    is_signal[signal_in_filtered] <- 1
+  }
+  
+  # Calculate AUC-ROC if we have both signal and non-signal
+  if (sum(is_signal) > 0 && sum(is_signal) < length(is_signal)) {
+    # Simple AUC calculation using trapezoidal rule
+    sorted_idx <- order(feature_weights, decreasing = TRUE)
+    sorted_labels <- is_signal[sorted_idx]
+    
+    n_pos <- sum(sorted_labels)
+    n_neg <- length(sorted_labels) - n_pos
+    if (n_pos > 0 && n_neg > 0) {
+      # Calculate AUC: sum of (TP rate * change in FP rate)
+      tp <- cumsum(sorted_labels)
+      fp <- cumsum(1 - sorted_labels)
+      tpr <- tp / n_pos
+      fpr <- fp / n_neg
+      # AUC = integral of TPR dFPR
+      auc_roc <- sum(diff(c(0, fpr)) * tpr[-length(tpr)])
+    } else {
+      auc_roc <- NA
+    }
+  } else {
+    auc_roc <- NA
+  }
+  
+  return(list(
+    precision_5 = metrics$precision_5,
+    precision_10 = metrics$precision_10,
+    precision_20 = metrics$precision_20,
+    recall_5 = metrics$recall_5,
+    recall_10 = metrics$recall_10,
+    recall_20 = metrics$recall_20,
+    mean_rank = mean_rank,
+    auc_roc = auc_roc
+  ))
 }
 
 # ==============================================================================
@@ -125,6 +235,14 @@ if (parallel_mode) {
   melsi_result <- melsi(X_clr, power_data$metadata$Group,
                        n_perms = 200, B = 30, show_progress = FALSE, plot_vip = FALSE)
   
+  # Calculate recovery metrics (interpretability validation)
+  recovery_metrics <- calculate_recovery_metrics(
+    melsi_result, 
+    power_data$true_signal_taxa,
+    X_clr,
+    power_data$metadata$Group
+  )
+  
   # Run Euclidean PERMANOVA
   dist_euc <- dist(X_clr)
   perm_euc <- adonis2(dist_euc ~ power_data$metadata$Group, permutations = 999)
@@ -164,6 +282,15 @@ if (parallel_mode) {
     MeLSI_F = melsi_result$F_observed,
     MeLSI_p = melsi_result$p_value,
     MeLSI_significant = melsi_result$p_value < 0.05,
+    # Recovery metrics
+    Precision_5 = recovery_metrics$precision_5,
+    Precision_10 = recovery_metrics$precision_10,
+    Precision_20 = recovery_metrics$precision_20,
+    Recall_5 = recovery_metrics$recall_5,
+    Recall_10 = recovery_metrics$recall_10,
+    Recall_20 = recovery_metrics$recall_20,
+    Mean_Rank = recovery_metrics$mean_rank,
+    AUC_ROC = recovery_metrics$auc_roc,
     Euclidean_F = perm_euc$F[1],
     Euclidean_p = perm_euc$`Pr(>F)`[1],
     Euclidean_significant = perm_euc$`Pr(>F)`[1] < 0.05,
@@ -218,6 +345,14 @@ if (parallel_mode) {
     melsi_result <- melsi(X_clr, power_data$metadata$Group,
                          n_perms = 200, B = 30, show_progress = FALSE, plot_vip = FALSE)
     
+    # Calculate recovery metrics (interpretability validation)
+    recovery_metrics <- calculate_recovery_metrics(
+      melsi_result, 
+      power_data$true_signal_taxa,
+      X_clr,
+      power_data$metadata$Group
+    )
+    
     # Run Euclidean PERMANOVA
     dist_euc <- dist(X_clr)
     perm_euc <- adonis2(dist_euc ~ power_data$metadata$Group, permutations = 999)
@@ -257,6 +392,15 @@ if (parallel_mode) {
       MeLSI_F = melsi_result$F_observed,
       MeLSI_p = melsi_result$p_value,
       MeLSI_significant = melsi_result$p_value < 0.05,
+      # Recovery metrics
+      Precision_5 = recovery_metrics$precision_5,
+      Precision_10 = recovery_metrics$precision_10,
+      Precision_20 = recovery_metrics$precision_20,
+      Recall_5 = recovery_metrics$recall_5,
+      Recall_10 = recovery_metrics$recall_10,
+      Recall_20 = recovery_metrics$recall_20,
+      Mean_Rank = recovery_metrics$mean_rank,
+      AUC_ROC = recovery_metrics$auc_roc,
       Euclidean_F = perm_euc$F[1],
       Euclidean_p = perm_euc$`Pr(>F)`[1],
       Euclidean_significant = perm_euc$`Pr(>F)`[1] < 0.05,

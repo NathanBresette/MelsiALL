@@ -319,9 +319,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** While pre-filtering is used, the method does not explicitly model compositionality or zero-inflation beyond CLR. Aitchison geometry or Dirichlet-multinomial models might be more appropriate for compositional data.
 
-**Response:** [TBD - Discuss current approach and acknowledge potential alternatives as future directions]
+**Response:** We address compositionality through CLR transformation, which converts compositional data to log-ratios. The Aitchison distance between two compositions x and y is defined as the Euclidean distance in CLR space: d_A(x,y) = sqrt(sum((clr(x) - clr(y))^2)). Our method computes Mahalanobis distance on CLR-transformed data. Specifically, we transform the CLR data as Y = X_clr %*% M^(-1/2) where M is a learned positive-definite metric matrix, then compute Euclidean distance: d(Y[i,], Y[j,]) = sqrt(sum((Y[i,] - Y[j,])^2)). This is mathematically equivalent to: d_M(x,y) = sqrt((clr(x) - clr(y))^T M^(-1) (clr(x) - clr(y))). When M = I (identity matrix, the initial state), this reduces exactly to Aitchison distance. When M ≠ I (learned from data via gradient-based optimization), this is a generalized/weighted Aitchison distance that adaptively weights dimensions based on their contribution to group separation. Thus, we are using Aitchison geometry as the foundation, but extend it with an adaptive metric that learns feature-specific weights rather than treating all taxa equally. This adaptive weighting is the core innovation of MeLSI: it maintains the compositional properties of Aitchison geometry while allowing the distance metric to adapt to dataset-specific signal structure. Zero-inflation is handled through pseudocounts (adding 1 before log transformation) rather than explicit Dirichlet-multinomial modeling. This approach works well in practice, as demonstrated by proper Type I error control (Table 1) and performance on real data (Atlas1006, DietSwap, SKIOME). We acknowledge that explicit zero-inflation models (Dirichlet-multinomial) represent a potential future enhancement, though the current CLR + pseudocount approach maintains statistical validity through permutation testing.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition]
+**Location in revised manuscript:** Methods section (line 234) and Limitations section (to be added)
 
 ---
 
@@ -349,9 +349,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** No comparison to other interpretable ML models (e.g., Random Forest feature importance, logistic regression with regularization) that also provide taxa rankings. MeLSI is presented as unique, but similar insights might be obtained from simpler models. If authors do so, the ground truth should be well defined for benchmarking.
 
-**Response:** [TBD - Add comparison to other ML methods or justify why not included]
+**Response:** MeLSI addresses a fundamentally different research question than prediction-focused ML methods (Random Forest, logistic regression). MeLSI is designed for **statistical inference in beta diversity analysis** (hypothesis testing: "Do groups differ in community composition?"), while Random Forest and logistic regression are designed for **prediction/classification** ("Can I predict group membership?"). These serve different purposes: MeLSI provides p-values and F-statistics for testing community composition differences via PERMANOVA, while prediction methods provide accuracy metrics and predictions. The appropriate comparisons for MeLSI are other beta diversity methods used with PERMANOVA (Bray-Curtis, Euclidean, Jaccard, UniFrac), which we comprehensively evaluate. As noted in the manuscript (line 47), "Previous work has explored metric learning for clinical prediction tasks, but not specifically for statistical inference in community composition analysis where rigorous Type I error control is essential." MeLSI bridges this gap by providing interpretable feature weights within a rigorous statistical inference framework, rather than a prediction framework. For researchers interested in prediction tasks, Random Forest and logistic regression remain appropriate choices; for beta diversity hypothesis testing, MeLSI provides a statistically rigorous alternative to fixed distance metrics.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition]
+**Location in revised manuscript:** Introduction (line 47) - distinction between prediction and inference
 
 ---
 
@@ -369,9 +369,9 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** MeLSI does not currently support repeated measures or paired samples, which are common in microbiome intervention studies.
 
-**Response:** [TBD - Acknowledge limitation, discuss as future work]
+**Response:** PERMANOVA (via vegan's adonis2) supports paired and longitudinal designs through the `strata` argument, which restricts permutations within blocks (e.g., within pairs or within subjects). MeLSI uses the same underlying PERMANOVA framework and can be extended to support paired designs using the same strata mechanism. The current implementation uses unrestricted permutations for independent group comparisons, which represent the majority of microbiome studies. Adding paired design support would require: (1) implementing block permutations (permuting labels within pairs/blocks rather than across all samples), and (2) passing the strata argument to adonis2. This is a straightforward implementation enhancement that leverages PERMANOVA's existing capabilities. The current validations (Type I error control, power analysis) remain valid for independent group comparisons, as they were specifically designed to test that use case. Paired design support would require separate validation specific to that design type (e.g., Type I error control with paired null data using block permutations, power analysis with paired designs). For the resubmission, we focus on independent group comparisons, which represent the primary use case for microbiome beta diversity analysis, with paired design support as a future enhancement. This approach follows standard practice in method development: validate the core use case thoroughly, then extend to additional design types in follow-up work.
 
-**Location in revised manuscript:** [TBD - Line numbers after addition]
+**Location in revised manuscript:** Methods section (line 206) - note on permutation strategies
 
 ---
 
