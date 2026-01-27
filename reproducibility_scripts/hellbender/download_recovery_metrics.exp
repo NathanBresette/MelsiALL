@@ -1,0 +1,17 @@
+#!/usr/bin/expect
+set timeout 60
+set password [lindex $argv 0]
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+set local_dir "/Users/nathanbresette/Desktop/MeLSI/reproducibility_scripts/hellbender"
+
+spawn scp "$user@$host:$remote_dir/table2_recovery_metrics_summary.csv" "$local_dir/"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof

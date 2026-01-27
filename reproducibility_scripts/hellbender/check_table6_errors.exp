@@ -1,0 +1,16 @@
+#!/usr/bin/expect
+set timeout 60
+set password [lindex $argv 0]
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "$user@$host" "cd $remote_dir && echo '=== TABLE 6 ERROR ANALYSIS ===' && echo '' && echo 'Checking first few error files:' && ls -1 table6_correlation_12347438_*.err 2>/dev/null | head -5 | while read f; do echo \"\n=== \$f ===\"; head -20 \"\$f\"; done && echo '' && echo 'Checking if script exists:' && ls -lh table6_feature_correlation.R 2>/dev/null || echo 'Script not found' && echo '' && echo 'Checking job script:' && head -20 table6_feature_correlation_job.sh 2>/dev/null || echo 'Job script not found'"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof

@@ -94,8 +94,9 @@ generate_correlated_dataset <- function(n_samples = 100, n_taxa = 200,
       }
     }
     
-    # Convert back to counts (ensure non-negative)
-    base_counts <- pmax(0, round(exp(log_base) - 1))
+    # Convert back to counts (ensure non-negative and preserve matrix structure)
+    base_counts <- matrix(pmax(0, round(exp(log_base) - 1)), 
+                         nrow = n_samples, ncol = n_taxa)
   }
   
   # Add signal based on effect size

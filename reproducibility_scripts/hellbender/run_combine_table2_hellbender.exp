@@ -1,0 +1,16 @@
+#!/usr/bin/expect
+set timeout 120
+set password [lindex $argv 0]
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "$user@$host" "cd $remote_dir && module load r/4.4.0 && export R_LIBS_USER=~/R && echo 'Running combine_table2_results.R with R loaded...' && Rscript combine_table2_results.R 2>&1"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof

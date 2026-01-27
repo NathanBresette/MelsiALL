@@ -1,0 +1,16 @@
+#!/usr/bin/expect
+set timeout 60
+set password [lindex $argv 0]
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "$user@$host" "cd $remote_dir && echo '=== JOB STATUS ===' && squeue -u $user | grep -E 'melsi_|skiome' | head -30 && echo '' && echo '=== COMPLETED JOBS COUNT ===' && echo 'Table 2 results:' && ls -1 table2_sim_*.csv 2>/dev/null | wc -l && echo 'Table 6 results:' && ls -1 table6_sim_*.csv 2>/dev/null | wc -l && echo '' && echo '=== RECENT OUTPUT (last 3 lines) ===' && echo 'Table 2 (Power) - Job 12346978:' && tail -3 table2_power_12346978_1.err 2>/dev/null || echo 'No output yet' && echo '' && echo 'Table 6 (Correlation) - Job 12347438:' && tail -3 table6_correlation_12347438_1.err 2>/dev/null || echo 'No output yet' && echo '' && echo 'SKIOME - Job 12346108:' && tail -3 skiome_validation_12346108.err 2>/dev/null || echo 'No output yet'"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof

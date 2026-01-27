@@ -1,0 +1,16 @@
+#!/usr/bin/expect
+set timeout 60
+set password [lindex $argv 0]
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "$user@$host" "cd $remote_dir && echo '=== TABLE 6 JOB STATUS ===' && squeue -u $user -j 12347438 2>/dev/null || echo 'Job 12347438 not in queue' && echo '' && echo '=== TABLE 6 RESULT FILES ===' && ls -1 table6_sim_*.csv 2>/dev/null | wc -l && echo 'files found' && echo '' && echo '=== CHECKING FOR ERRORS ===' && ls -1 table6_correlation_12347438_*.err 2>/dev/null | head -5 | xargs -I {} sh -c 'echo \"File: {}\" && tail -5 {}' || echo 'No error files found' && echo '' && echo '=== CHECKING FOR OUTPUT ===' && ls -1 table6_correlation_12347438_*.out 2>/dev/null | head -5 | xargs -I {} sh -c 'echo \"File: {}\" && tail -3 {}' || echo 'No output files found'"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof

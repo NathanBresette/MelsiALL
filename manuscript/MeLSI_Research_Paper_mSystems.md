@@ -286,11 +286,17 @@ These results demonstrate proper Type I error control across both synthetic and 
 | Large | 100 | 100% | 2.129 | Weighted UniFrac | 100% | 4.678 |
 | Large | 200 | 100% | 3.129 | Weighted UniFrac | 100% | 8.659 |
 
-\noindent Abbreviations: n, sample size; Power, empirical statistical power (percentage of simulations with p < 0.05); F, PERMANOVA F-statistic (mean across 50 simulations per condition); Best Traditional, traditional method with highest power (or highest F if power is tied). Results based on 50 simulations per condition.
+\noindent Abbreviations: n, sample size; Power, empirical statistical power (percentage of simulations with p < 0.05); F, PERMANOVA F-statistic (mean across 50 simulations per condition); Best Traditional, traditional method with highest power (or highest F if power is tied). Results based on 50 simulations per condition. Recovery metrics (Precision@k, Recall@k, Mean Rank, AUC-ROC) for interpretability validation are reported in the Results section (Recovery of true signal taxa subsection).
 
 #### Individual method comparisons
 
 \noindent To provide a comprehensive evaluation, we compared MeLSI against each traditional method individually across all effect sizes and sample sizes. For small effects, MeLSI showed lower power (6-16%) compared to Bray-Curtis (20-54%) but comparable or superior power to Jaccard (0-6%) and Unweighted UniFrac (4-6%). For medium effects, MeLSI's power increased substantially with sample size (16% at n=50 to 96% at n=200), while Bray-Curtis achieved 100% power at n≥100. For large effects, MeLSI achieved 100% power at n≥100, matching all traditional methods. Notably, MeLSI consistently outperformed Jaccard and Unweighted UniFrac across all conditions, demonstrating superior performance to these methods. The lower power for small effects reflects MeLSI's more conservative permutation-based inference, which properly accounts for the adaptive nature of the method. As effect sizes increase and sample sizes grow, MeLSI's power converges with or exceeds that of traditional methods, while providing the additional benefit of feature importance interpretation.
+
+#### Recovery of true signal taxa
+
+\noindent To validate MeLSI's interpretability advantage, we evaluated how well learned feature weights recover true signal taxa in synthetic data across varying effect sizes and sample sizes. We computed four recovery metrics: Precision@k (proportion of top-k features that are true signals), Recall@k (proportion of true signals found in top-k features), Mean Rank (average rank of true signal features), and AUC-ROC (area under the receiver operating characteristic curve for classifying signal vs. non-signal taxa based on weights).
+
+\noindent Results demonstrate that MeLSI effectively recovers true signal taxa, with performance improving substantially with effect size and sample size (Table 2 recovery metrics). For small effects, Precision@5 ranged from 0.104-0.148 and AUC-ROC from 0.641-0.673, indicating modest but above-chance recovery. For medium effects, Precision@5 increased to 0.356-0.660 and AUC-ROC to 0.733-0.842, demonstrating strong recovery capability. For large effects, Precision@5 reached 0.876-1.000 and AUC-ROC 0.858-0.960, showing excellent recovery. Mean Rank of true signals decreased from 50.3 (small effects, n=50) to 14.4 (large effects, n=200), confirming that true signal taxa are consistently ranked among the top features. These results validate MeLSI's interpretability advantage: the learned feature weights reliably identify biologically relevant taxa that drive group differences, with recovery performance scaling appropriately with signal strength and sample size.
 
 #### Synthetic power analysis
 

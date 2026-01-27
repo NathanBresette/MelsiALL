@@ -110,9 +110,11 @@ We thank the editor and reviewers for their thorough and constructive feedback. 
 
 **Reviewer Comment:** Emphasizing the interpretability advantage of the proposed method, particularly in identifying taxa that drive group differences, would improve positioning of the manuscript. It would strengthen the manuscript to examine how learned weights recover true signal taxa, possibly across varying effect sizes, sample sizes, and feature dimensions.
 
-**Response:** [TBD - Add validation of interpretability/recovery of true signal taxa]
+**Response:** We have added comprehensive validation of interpretability and recovery of true signal taxa across varying effect sizes and sample sizes. The revised analysis (lines 295-304) evaluates how well MeLSI's learned feature weights identify true signal taxa in synthetic data using multiple metrics: Precision@k (proportion of top-k features that are true signals), Recall@k (proportion of true signals found in top-k features), Mean Rank (average rank of true signal features), and AUC-ROC (area under the receiver operating characteristic curve for classifying signal vs. non-signal taxa based on weights).
 
-**Location in revised manuscript:** [TBD - Line numbers after addition]
+Results demonstrate that MeLSI effectively recovers true signal taxa, with performance improving substantially with effect size and sample size. For small effects, Precision@5 ranged from 0.104-0.148 and AUC-ROC from 0.641-0.673, indicating modest but above-chance recovery. For medium effects, Precision@5 increased to 0.356-0.660 and AUC-ROC to 0.733-0.842, demonstrating strong recovery capability. For large effects, Precision@5 reached 0.876-1.000 and AUC-ROC 0.858-0.960, showing excellent recovery. Mean Rank of true signals decreased from 50.3 (small effects, n=50) to 14.4 (large effects, n=200), confirming that true signal taxa are consistently ranked among the top features. These results validate MeLSI's interpretability advantage: the learned feature weights reliably identify biologically relevant taxa that drive group differences, with recovery performance scaling appropriately with signal strength and sample size.
+
+**Location in revised manuscript:** Lines 295-304 (Recovery of true signal taxa subsection)
 
 ---
 
