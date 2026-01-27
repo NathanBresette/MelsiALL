@@ -5,7 +5,7 @@ set user "nbhtd"
 set host "hellbender.rnet.missouri.edu"
 set remote_dir "~/melsi_simulations/hellbender"
 
-spawn ssh "$user@$host" "cd $remote_dir && echo '=== TABLE 6 DETAILED STATUS ===' && echo '' && echo 'Result files:' && ls -1 table6_sim_*.csv 2>/dev/null | wc -l && echo 'files found (need 150 total)' && echo '' && echo 'Checking job history:' && sacct -j 12347438 --format=JobID,JobName,State,ExitCode,Elapsed,MaxRSS 2>/dev/null | head -10 || echo 'Job not found in sacct' && echo '' && echo 'Checking for any running table6 jobs:' && squeue -u $user | grep -i table6 || echo 'No table6 jobs in queue' && echo '' && echo 'Checking error files for clues:' && ls -lt table6_correlation_*.err 2>/dev/null | head -3 | awk '{print \$9}' | xargs -I {} sh -c 'echo \"File: {}\" && tail -10 {}' || echo 'No error files found'"
+spawn ssh "$user@$host" "cd $remote_dir && echo '=== TABLE 6 JOB STATUS ===' && squeue -u $user | grep -E 'table6|correlation' || echo 'No table6 jobs currently running' && echo '' && echo '=== ERROR FILE CONTENT (sample) ===' && head -20 table6_corr_12347438_1.err 2>/dev/null || echo 'No error file' && echo '' && echo '=== CHECKING FOR ARRAY JOB ===' && sacct -j 12347438 --format=JobID,JobName,State,ExitCode 2>/dev/null | head -10 || echo 'Could not check job history'"
 expect {
     "password:" { send "$password\r" }
     "Are you sure you want to continue connecting (yes/no)?" {

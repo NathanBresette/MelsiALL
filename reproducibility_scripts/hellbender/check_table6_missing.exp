@@ -1,0 +1,16 @@
+#!/usr/bin/expect
+set timeout 60
+set password [lindex $argv 0]
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "$user@$host" "cd $remote_dir && echo '=== TABLE 6 STATUS ===' && echo 'Total result files:' && ls table6_sim_*.csv 2>/dev/null | wc -l && echo 'Expected: 150' && echo '' && echo 'Sample of existing files:' && ls table6_sim_*.csv 2>/dev/null | head -5 && echo '...' && ls table6_sim_*.csv 2>/dev/null | tail -5 && echo '' && echo 'Checking for failed/error jobs:' && ls -lh table6_corr_*.err 2>/dev/null | head -3 || echo 'No error files'"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof

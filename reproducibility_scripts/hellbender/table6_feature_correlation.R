@@ -203,7 +203,21 @@ calculate_recovery_metrics <- function(melsi_result, true_signal_taxa, X_clr, gr
       fp <- cumsum(1 - sorted_labels)
       tpr <- tp / n_pos
       fpr <- fp / n_neg
-      auc_roc <- sum(diff(c(0, fpr)) * tpr[-length(tpr)])
+      # Fix AUC calculation: use trapezoidal rule correctly
+      # AUC = sum(diff(fpr) * tpr[-1]) 
+      # Ensure vectors have same length and are properly sorted
+      if (length(fpr) > 1 && length(tpr) > 1 && length(fpr) == length(tpr)) {
+        # Sort by FPR to ensure proper ROC curve ordering
+        sort_idx <- order(fpr)
+        fpr_sorted <- fpr[sort_idx]
+        tpr_sorted <- tpr[sort_idx]
+        # Trapezoidal rule: AUC = sum(diff(fpr) * tpr[-1])
+        auc_roc <- sum(diff(fpr_sorted) * tpr_sorted[-1])
+        # Ensure AUC is between 0 and 1
+        auc_roc <- max(0, min(1, auc_roc))
+      } else {
+        auc_roc <- NA
+      }
     } else {
       auc_roc <- NA
     }

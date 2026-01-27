@@ -1,0 +1,16 @@
+#!/usr/bin/expect
+set timeout 60
+set password [lindex $argv 0]
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "$user@$host" "cd $remote_dir && echo '=== TABLE 6 (FEATURE CORRELATION) STATUS ===' && echo '' && squeue -u $user | grep -E 'table6|correlation' || echo 'No table6 jobs in queue' && echo '' && echo 'Checking completed jobs:' && ls -lth table6*.out 2>/dev/null | head -3 || echo 'No table6 output files' && echo '' && echo 'Checking for result files:' && ls -lh table6*.csv 2>/dev/null | head -3 || echo 'No table6 result files yet' && echo '' && echo '=== DIETSWAP FIGURE JOB STATUS ===' && echo '' && squeue -u $user | grep dietswap || echo 'No dietswap jobs in queue' && echo '' && echo 'Checking output files:' && ls -lth dietswap_fig_*.out dietswap_fig_*.err 2>/dev/null | head -2 || echo 'No dietswap output files' && echo '' && echo 'Last 20 lines of dietswap output:' && tail -20 dietswap_fig_12350570.out 2>/dev/null || echo 'No output yet' && echo '' && echo 'Checking for figure files:' && ls -lh figures/dietswap*.png 2>/dev/null || echo 'No figure files yet'"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof

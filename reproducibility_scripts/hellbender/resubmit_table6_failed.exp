@@ -1,0 +1,28 @@
+#!/usr/bin/expect
+set timeout 120
+set password [lindex $argv 0]
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+
+# Transfer the fixed script
+spawn scp "/Users/nathanbresette/Desktop/MeLSI/reproducibility_scripts/hellbender/table6_feature_correlation.R" "$user@$host:$remote_dir/"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof
+
+# Find failed tasks and resubmit
+spawn ssh "$user@$host" "cd $remote_dir && echo 'Finding failed tasks...' && for i in {1..150}; do if [ ! -f table6_sim_\$i.csv ]; then echo -n \"\$i,\"; fi; done | sed 's/,\$//' > failed_tasks.txt && echo '' && echo 'Failed task IDs:' && cat failed_tasks.txt && echo '' && echo 'Count:' && wc -l < failed_tasks.txt | tr -d ' ' && FAILED=\$(cat failed_tasks.txt | tr ',' ' ') && if [ -n \"\$FAILED\" ]; then echo 'Resubmitting failed tasks...' && sbatch --array=\$(cat failed_tasks.txt | tr ',' ' ') table6_feature_correlation_job.sh; else echo 'All tasks completed!'; fi"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof

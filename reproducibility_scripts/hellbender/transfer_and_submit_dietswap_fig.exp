@@ -1,0 +1,37 @@
+#!/usr/bin/expect
+set timeout 120
+set password [lindex $argv 0]
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+set local_script "/Users/nathanbresette/Desktop/MeLSI/reproducibility_scripts/hellbender/figure_dietswap_vip_pcoa.R"
+set job_script "figure_dietswap_vip_pcoa_job.sh"
+
+# Transfer the figure generation script
+spawn scp "$local_script" "$user@$host:$remote_dir/"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof
+
+# Transfer the job script
+spawn scp "/Users/nathanbresette/Desktop/MeLSI/reproducibility_scripts/hellbender/$job_script" "$user@$host:$remote_dir/"
+expect {
+    "password:" { send "$password\r" }
+}
+expect eof
+
+# Submit the job
+spawn ssh "$user@$host" "cd $remote_dir && sbatch $job_script && echo '' && echo 'Job submitted. Checking status:' && sleep 2 && squeue -u $user | grep dietswap_fig"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof

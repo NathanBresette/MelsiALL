@@ -21,6 +21,17 @@ suppressPackageStartupMessages({
   library(ggplot2)
 })
 
+# Disable X11 for headless operation (required on HPC)
+options(bitmapType = "cairo")
+if (capabilities("cairo")) {
+  options(bitmapType = "cairo")
+} else {
+  # Fallback: try to use png device directly
+  if (!capabilities("png")) {
+    stop("PNG device not available. Cannot generate figures.")
+  }
+}
+
 # Load data
 cat("Loading SKIOME data...\n")
 load("skiome_data_loaded.RData")
@@ -213,7 +224,7 @@ tryCatch({
   if (!is.null(melsi_omnibus$feature_weights) && length(melsi_omnibus$feature_weights) > 0) {
     vip_plot <- plot_vip(melsi_omnibus, top_n = 15, 
                          title = "SKIOME: Variable Importance (MeLSI)")
-    ggsave("skiome_vip_plot.png", vip_plot, width = 10, height = 8, dpi = 300)
+    ggsave("skiome_vip_plot.png", vip_plot, width = 10, height = 8, dpi = 300, device = "png")
     cat("  ✓ VIP plot saved to: skiome_vip_plot.png\n")
   } else {
     cat("  ⚠️  No feature weights available for VIP plot\n")
@@ -228,7 +239,7 @@ tryCatch({
   if (!is.null(melsi_omnibus$distance_matrix)) {
     pcoa_plot <- plot_pcoa(melsi_omnibus, X_clr, groups, 
                            title = "SKIOME: PCoA using MeLSI Distance")
-    ggsave("skiome_pcoa_plot.png", pcoa_plot, width = 10, height = 8, dpi = 300)
+    ggsave("skiome_pcoa_plot.png", pcoa_plot, width = 10, height = 8, dpi = 300, device = "png")
     cat("  ✓ PCoA plot saved to: skiome_pcoa_plot.png\n")
   } else {
     cat("  ⚠️  No distance matrix available for PCoA plot\n")

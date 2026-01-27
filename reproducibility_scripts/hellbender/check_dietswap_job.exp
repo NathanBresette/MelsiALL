@@ -1,0 +1,16 @@
+#!/usr/bin/expect
+set timeout 30
+set password [lindex $argv 0]
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "$user@$host" "cd $remote_dir && echo '=== DIETSWAP FIGURE JOB STATUS ===' && echo '' && squeue -u $user -j 12350570 2>/dev/null || echo 'Job 12350570 not in queue' && echo '' && echo 'All dietswap_fig jobs:' && squeue -u $user | grep dietswap_fig || echo 'No dietswap_fig jobs in queue' && echo '' && echo 'Recent output files:' && ls -lth dietswap_fig_*.out dietswap_fig_*.err 2>/dev/null | head -2 && echo '' && echo 'Last 15 lines of output:' && tail -15 dietswap_fig_12350570.out 2>/dev/null || echo 'No output file yet' && echo '' && echo 'Last 15 lines of error:' && tail -15 dietswap_fig_12350570.err 2>/dev/null || echo 'No error file yet'"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof

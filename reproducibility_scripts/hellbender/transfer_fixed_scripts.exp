@@ -1,0 +1,20 @@
+#!/usr/bin/expect
+set timeout 120
+set password [lindex $argv 0]
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+
+# Transfer fixed SKIOME script
+spawn scp "/Users/nathanbresette/Desktop/MeLSI/reproducibility_scripts/hellbender/skiome_validation.R" "$user@$host:$remote_dir/"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof
+
+send_user "SKIOME script transferred. If the job is still running, it will use the old version.\n"
+send_user "If needed, cancel and resubmit the SKIOME job to use the fixed script.\n"

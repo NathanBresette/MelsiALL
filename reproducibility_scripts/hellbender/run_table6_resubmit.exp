@@ -1,0 +1,35 @@
+#!/usr/bin/expect
+set timeout 120
+set password [lindex $argv 0]
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set remote_dir "~/melsi_simulations/hellbender"
+
+# Transfer the fixed Table 6 script
+spawn scp "/Users/nathanbresette/Desktop/MeLSI/reproducibility_scripts/hellbender/table6_feature_correlation.R" "$user@$host:$remote_dir/"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof
+
+# Transfer the resubmit script
+spawn scp "/Users/nathanbresette/Desktop/MeLSI/reproducibility_scripts/hellbender/resubmit_table6.sh" "$user@$host:$remote_dir/"
+expect {
+    "password:" { send "$password\r" }
+}
+expect eof
+
+# Run the resubmit script
+spawn ssh "$user@$host" "cd $remote_dir && chmod +x resubmit_table6.sh && bash resubmit_table6.sh"
+expect {
+    "password:" { send "$password\r" }
+    "Are you sure you want to continue connecting (yes/no)?" {
+        send "yes\r"
+        expect "password:" { send "$password\r" }
+    }
+}
+expect eof
