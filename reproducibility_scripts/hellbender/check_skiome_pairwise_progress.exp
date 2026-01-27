@@ -23,19 +23,28 @@ expect {
 send "cd ${remote_dir}\r"
 expect -re "\\\$ |# "
 
-send "echo '=== Checking for correlation results files ==='\r"
+send "echo '=== SKIOME Errors (last 50 lines - checking for permutation progress) ==='\r"
 expect -re "\\\$ |# "
 
-send "ls -lh table6_*correlation* 2>/dev/null || echo 'No correlation files found'\r"
+send "tail -50 skiome_validation_12350945.err 2>&1\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== Checking correlation summary if it exists ==='\r"
+send "echo '=== Counting permutation lines in error file ==='\r"
 expect -re "\\\$ |# "
 
-send "test -f table6_feature_correlation_summary.csv && head -20 table6_feature_correlation_summary.csv || echo 'Summary file not found'\r"
+send "grep -c 'Permutation' skiome_validation_12350945.err 2>/dev/null || echo '0'\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== Last few permutation lines ==='\r"
+expect -re "\\\$ |# "
+
+send "grep 'Permutation' skiome_validation_12350945.err | tail -5\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

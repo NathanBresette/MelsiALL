@@ -1,0 +1,4 @@
+"Correlation_Level","Correlation_Value","n_simulations","MeLSI_Power","MeLSI_Mean_F","MeLSI_SD_F","Precision_10","Recall_10","AUC_ROC","Best_Traditional","Best_Trad_Power","Best_Trad_Mean_F"
+"None",0,50,48,1.506,0.118,0.386,0.386,0.78,"WeightedUniFrac",70,1.65
+"Low",0.3,50,48,1.509,0.137,0.366,0.366,0.782,"BrayCurtis",98,1.54
+"Moderate",0.6,50,44,1.47,0.138,0.372,0.372,0.784,"BrayCurtis",96,1.484

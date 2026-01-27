@@ -1,0 +1,96 @@
+#!/usr/bin/expect -f
+set timeout 30
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set password "Grad123!\$"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "${user}@${host}"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "Permission denied" {
+        puts "Authentication failed"
+        exit 1
+    }
+    -re "\\\$ |# " {
+    }
+}
+
+send "cd ${remote_dir}\r"
+expect -re "\\\$ |# "
+
+send "echo '=== All Running Jobs ==='\r"
+expect -re "\\\$ |# "
+
+send "squeue -u nbhtd\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== DietSwap Job 12350920 Status ==='\r"
+expect -re "\\\$ |# "
+
+send "squeue -j 12350920\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== DietSwap Output (last 30 lines) ==='\r"
+expect -re "\\\$ |# "
+
+send "tail -30 dietswap_fig_12350920.out 2>&1\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== DietSwap Errors (last 10 lines) ==='\r"
+expect -re "\\\$ |# "
+
+send "tail -10 dietswap_fig_12350920.err 2>&1\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== SKIOME Job 12350945 Status ==='\r"
+expect -re "\\\$ |# "
+
+send "squeue -j 12350945\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== SKIOME Output (last 40 lines) ==='\r"
+expect -re "\\\$ |# "
+
+send "tail -40 skiome_validation_12350945.out 2>&1\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== SKIOME Errors (last 15 lines) ==='\r"
+expect -re "\\\$ |# "
+
+send "tail -15 skiome_validation_12350945.err 2>&1\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== Checking for figure files ==='\r"
+expect -re "\\\$ |# "
+
+send "ls -lh figures/dietswap_*.ps skiome_*.ps 2>/dev/null\r"
+expect -re "\\\$ |# "
+
+send "exit\r"
+expect eof

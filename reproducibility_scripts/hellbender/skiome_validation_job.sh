@@ -2,7 +2,7 @@
 #SBATCH --job-name=skiome_melsi
 #SBATCH --output=skiome_validation_%j.out
 #SBATCH --error=skiome_validation_%j.err
-#SBATCH --time=15:00:00
+#SBATCH --time=28:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=6

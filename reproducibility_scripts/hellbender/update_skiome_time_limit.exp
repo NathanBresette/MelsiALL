@@ -1,0 +1,69 @@
+#!/usr/bin/expect -f
+set timeout 60
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set password "Grad123!\$"
+set remote_dir "~/melsi_simulations/hellbender"
+
+# Transfer updated job script
+spawn scp reproducibility_scripts/hellbender/skiome_validation_job.sh "${user}@${host}:${remote_dir}/"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "yes/no" {
+        send "yes\r"
+        exp_continue
+    }
+    eof
+}
+
+wait
+
+# SSH and update running job
+spawn ssh "${user}@${host}"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "Permission denied" {
+        puts "Authentication failed"
+        exit 1
+    }
+    -re "\\\$ |# " {
+    }
+}
+
+send "cd ${remote_dir}\r"
+expect -re "\\\$ |# "
+
+send "echo '=== Current SKIOME job status ==='\r"
+expect -re "\\\$ |# "
+
+send "squeue -j 12350945 -o '%.18i %.9P %.20j %.8u %.2t %.10M %.6D %R'\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== Updating time limit for job 12350945 ==='\r"
+expect -re "\\\$ |# "
+
+send "scontrol update jobid=12350945 TimeLimit=24:00:00\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== Verifying time limit update ==='\r"
+expect -re "\\\$ |# "
+
+send "squeue -j 12350945 -o '%.18i %.9P %.20j %.8u %.2t %.10M %.6D %R'\r"
+expect -re "\\\$ |# "
+
+send "exit\r"
+expect eof

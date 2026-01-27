@@ -326,6 +326,8 @@ tryCatch({
 })
 
 # Create combined side-by-side plot using arrangeGrob (works better with PostScript)
+# Load grid package for grid.draw()
+library(grid)
 tryCatch({
   combined_vip <- arrangeGrob(
     vip_plot_no_dir,

@@ -1,5 +1,5 @@
 #!/usr/bin/expect -f
-set timeout 30
+set timeout 60
 set user "nbhtd"
 set host "hellbender.rnet.missouri.edu"
 set password "Grad123!\$"
@@ -23,19 +23,31 @@ expect {
 send "cd ${remote_dir}\r"
 expect -re "\\\$ |# "
 
-send "echo '=== Checking for correlation results files ==='\r"
+send "echo '=== Cancelling SKIOME job 12356602 ==='\r"
 expect -re "\\\$ |# "
 
-send "ls -lh table6_*correlation* 2>/dev/null || echo 'No correlation files found'\r"
+send "scancel 12356602\r"
+expect -re "\\\$ |# "
+
+send "sleep 2\r"
+expect -re "\\\$ |# "
+
+send "echo '=== Resubmitting SKIOME job with updated MeLSI (shows pairwise progress) ==='\r"
+expect -re "\\\$ |# "
+
+send "sbatch skiome_validation_job.sh\r"
+expect -re "\\\$ |# "
+
+send "sleep 2\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== Checking correlation summary if it exists ==='\r"
+send "echo '=== New job status ==='\r"
 expect -re "\\\$ |# "
 
-send "test -f table6_feature_correlation_summary.csv && head -20 table6_feature_correlation_summary.csv || echo 'Summary file not found'\r"
+send "squeue -u nbhtd | grep skiome\r"
 expect -re "\\\$ |# "
 
 send "exit\r"
