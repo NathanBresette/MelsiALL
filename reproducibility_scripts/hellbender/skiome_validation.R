@@ -21,16 +21,9 @@ suppressPackageStartupMessages({
   library(ggplot2)
 })
 
-# Disable X11 for headless operation (required on HPC)
-options(bitmapType = "cairo")
-if (capabilities("cairo")) {
-  options(bitmapType = "cairo")
-} else {
-  # Fallback: try to use png device directly
-  if (!capabilities("png")) {
-    stop("PNG device not available. Cannot generate figures.")
-  }
-}
+# Use PostScript device for headless operation (required on HPC)
+# PostScript works without Cairo/X11 dependencies
+cat("Using PostScript device for figure generation (headless-compatible)\n")
 
 # Load data
 cat("Loading SKIOME data...\n")
@@ -218,14 +211,20 @@ if ("omnibus" %in% names(melsi_result)) {
   melsi_omnibus <- melsi_result
 }
 
-# Generate VIP plot
+# Generate VIP plot using PostScript (works on headless systems)
 cat("Generating VIP plot...\n")
 tryCatch({
   if (!is.null(melsi_omnibus$feature_weights) && length(melsi_omnibus$feature_weights) > 0) {
     vip_plot <- plot_vip(melsi_omnibus, top_n = 15, 
                          title = "SKIOME: Variable Importance (MeLSI)")
-    ggsave("skiome_vip_plot.png", vip_plot, width = 10, height = 8, dpi = 300, device = "png")
-    cat("  ✓ VIP plot saved to: skiome_vip_plot.png\n")
+    postscript("skiome_vip_plot.ps", width = 10, height = 8, horizontal = FALSE, onefile = FALSE, paper = "special")
+    print(vip_plot)
+    dev.off()
+    if (file.exists("skiome_vip_plot.ps")) {
+      cat("  ✓ VIP plot saved to: skiome_vip_plot.ps\n")
+    } else {
+      cat("  ✗ VIP plot file was not created\n")
+    }
   } else {
     cat("  ⚠️  No feature weights available for VIP plot\n")
   }
@@ -233,14 +232,49 @@ tryCatch({
   cat("  ✗ Error generating VIP plot:", e$message, "\n")
 })
 
-# Generate PCoA plot
+# Generate PCoA plot using PostScript (works on headless systems)
+# Create plot with solid points for PostScript compatibility
 cat("Generating PCoA plot...\n")
 tryCatch({
   if (!is.null(melsi_omnibus$distance_matrix)) {
-    pcoa_plot <- plot_pcoa(melsi_omnibus, X_clr, groups, 
-                           title = "SKIOME: PCoA using MeLSI Distance")
-    ggsave("skiome_pcoa_plot.png", pcoa_plot, width = 10, height = 8, dpi = 300, device = "png")
-    cat("  ✓ PCoA plot saved to: skiome_pcoa_plot.png\n")
+    # Get distance matrix and compute PCoA
+    dist_matrix <- melsi_omnibus$distance_matrix
+    pcoa_result <- stats::cmdscale(dist_matrix, k = 2, eig = TRUE)
+    
+    # Calculate variance explained
+    var_explained <- pcoa_result$eig / sum(abs(pcoa_result$eig)) * 100
+    
+    # Create plot data
+    plot_data <- data.frame(
+      PC1 = pcoa_result$points[, 1],
+      PC2 = pcoa_result$points[, 2],
+      Group = as.factor(groups)
+    )
+    
+    # Create ggplot with solid points (PostScript doesn't support transparency well)
+    pcoa_plot <- ggplot(plot_data, aes(x = PC1, y = PC2, color = Group)) +
+      geom_point(size = 3.5) +  # Solid points, no alpha for PostScript
+      stat_ellipse(level = 0.95, linetype = 2, linewidth = 1.2) +
+      labs(
+        title = "SKIOME: PCoA using MeLSI Distance",
+        x = sprintf("PCoA1 (%.1f%%)", var_explained[1]),
+        y = sprintf("PCoA2 (%.1f%%)", var_explained[2]),
+        color = "Group"
+      ) +
+      theme_minimal() +
+      theme(
+        plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+        legend.position = "right"
+      )
+    
+    postscript("skiome_pcoa_plot.ps", width = 10, height = 8, horizontal = FALSE, onefile = FALSE, paper = "special")
+    print(pcoa_plot)
+    dev.off()
+    if (file.exists("skiome_pcoa_plot.ps")) {
+      cat("  ✓ PCoA plot saved to: skiome_pcoa_plot.ps\n")
+    } else {
+      cat("  ✗ PCoA plot file was not created\n")
+    }
   } else {
     cat("  ⚠️  No distance matrix available for PCoA plot\n")
   }

@@ -3,7 +3,6 @@ set timeout 30
 set user "nbhtd"
 set host "hellbender.rnet.missouri.edu"
 set password "Grad123!\$"
-set remote_dir "~/melsi_simulations/hellbender"
 
 spawn ssh "${user}@${host}"
 
@@ -20,31 +19,28 @@ expect {
     }
 }
 
-send "cd ${remote_dir}\r"
+send "echo '=== Job Summary by Name ==='\r"
 expect -re "\\\$ |# "
 
-send "echo '=== All Running Jobs ==='\r"
-expect -re "\\\$ |# "
-
-send "squeue -u nbhtd\r"
+send "squeue -u nbhtd --format='%.20j' --noheader | sort | uniq -c | sort -rn\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== Recent Completed Jobs (last 10) ==='\r"
+send "echo '=== SKIOME Job Status ==='\r"
 expect -re "\\\$ |# "
 
-send "sacct -u nbhtd --format=JobID,JobName,State,ExitCode,Elapsed,Start,End --starttime=7days-ago | head -15\r"
+send "squeue -u nbhtd -n skiome_melsi\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== Checking for correlation job files ==='\r"
+send "echo '=== All Jobs (Full List) ==='\r"
 expect -re "\\\$ |# "
 
-send "ls -lht *.out *.err 2>/dev/null | grep -i correlation | head -5\r"
+send "squeue -u nbhtd --format='%.10i %.20j %.8T %.10M %.6D %N'\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

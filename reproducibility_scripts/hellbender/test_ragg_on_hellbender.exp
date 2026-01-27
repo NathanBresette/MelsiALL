@@ -1,9 +1,25 @@
 #!/usr/bin/expect -f
-set timeout 30
+set timeout 120
 set user "nbhtd"
 set host "hellbender.rnet.missouri.edu"
 set password "Grad123!\$"
 set remote_dir "~/melsi_simulations/hellbender"
+
+spawn scp reproducibility_scripts/hellbender/test_ragg.R "${user}@${host}:${remote_dir}/"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "yes/no" {
+        send "yes\r"
+        exp_continue
+    }
+    eof
+}
+
+wait
 
 spawn ssh "${user}@${host}"
 
@@ -23,28 +39,22 @@ expect {
 send "cd ${remote_dir}\r"
 expect -re "\\\$ |# "
 
-send "echo '=== All Running Jobs ==='\r"
+send "module load r/4.4.0 2>/dev/null || module load r/4.3.0 2>/dev/null || module load r 2>/dev/null\r"
 expect -re "\\\$ |# "
 
-send "squeue -u nbhtd\r"
+send "echo '=== Running ragg test ==='\r"
 expect -re "\\\$ |# "
 
-send "echo ''\r"
-expect -re "\\\$ |# "
-
-send "echo '=== Recent Completed Jobs (last 10) ==='\r"
-expect -re "\\\$ |# "
-
-send "sacct -u nbhtd --format=JobID,JobName,State,ExitCode,Elapsed,Start,End --starttime=7days-ago | head -15\r"
+send "Rscript test_ragg.R\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== Checking for correlation job files ==='\r"
+send "echo '=== Checking for any error files ==='\r"
 expect -re "\\\$ |# "
 
-send "ls -lht *.out *.err 2>/dev/null | grep -i correlation | head -5\r"
+send "ls -lh test_ragg* 2>&1\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

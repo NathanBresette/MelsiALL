@@ -1,0 +1,63 @@
+#!/usr/bin/expect -f
+set timeout 30
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set password "Grad123!\$"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "${user}@${host}"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "Permission denied" {
+        puts "Authentication failed"
+        exit 1
+    }
+    -re "\\\$ |# " {
+    }
+}
+
+send "cd ${remote_dir}\r"
+expect -re "\\\$ |# "
+
+send "module load r/4.4.0 2>/dev/null || module load r/4.3.0 2>/dev/null || module load r 2>/dev/null\r"
+expect -re "\\\$ |# "
+
+send "echo '=== R Graphics Capabilities ==='\r"
+expect -re "\\\$ |# "
+
+send "Rscript -e \"cat('Cairo:', capabilities('cairo'), '\\n'); cat('PNG:', capabilities('png'), '\\n'); cat('X11:', capabilities('X11'), '\\n')\"\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== Testing PNG with Cairo type ==='\r"
+expect -re "\\\$ |# "
+
+send "Rscript -e \"tryCatch({ png('test_cairo.png', width=100, height=100, type='cairo'); plot(1:10); dev.off(); if(file.exists('test_cairo.png')) { cat('SUCCESS: Cairo PNG works! File created.\\n'); file.remove('test_cairo.png') } else { cat('FAILED: No file created\\n') } }, error=function(e) { cat('Error:', e\\\$message, '\\n') })\"\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== Testing PNG without type (default) ==='\r"
+expect -re "\\\$ |# "
+
+send "Rscript -e \"tryCatch({ png('test_default.png', width=100, height=100); plot(1:10); dev.off(); if(file.exists('test_default.png')) { cat('SUCCESS: Default PNG works! File created.\\n'); file.remove('test_default.png') } else { cat('FAILED: No file created\\n') } }, error=function(e) { cat('Error:', e\\\$message, '\\n') })\"\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== Checking Cairo R package ==='\r"
+expect -re "\\\$ |# "
+
+send "Rscript -e \"if (requireNamespace('Cairo', quietly=TRUE)) { cat('Cairo package is installed\\n'); library(Cairo); cat('Cairo version:', as.character(packageVersion('Cairo')), '\\n') } else { cat('Cairo package is NOT installed - attempting to install...\\n'); install.packages('Cairo', repos='https://cloud.r-project.org', quiet=TRUE); if (requireNamespace('Cairo', quietly=TRUE)) { cat('Cairo package installed successfully!\\n') } else { cat('Failed to install Cairo package\\n') } }\"\r"
+expect -re "\\\$ |# "
+
+send "exit\r"
+expect eof

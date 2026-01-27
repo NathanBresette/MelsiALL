@@ -1,10 +1,28 @@
 #!/usr/bin/expect -f
-set timeout 30
+set timeout 60
 set user "nbhtd"
 set host "hellbender.rnet.missouri.edu"
 set password "Grad123!\$"
 set remote_dir "~/melsi_simulations/hellbender"
 
+# Transfer updated script
+spawn scp reproducibility_scripts/hellbender/skiome_validation.R "${user}@${host}:${remote_dir}/"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "yes/no" {
+        send "yes\r"
+        exp_continue
+    }
+    eof
+}
+
+wait
+
+# SSH and resubmit
 spawn ssh "${user}@${host}"
 
 expect {
@@ -23,28 +41,25 @@ expect {
 send "cd ${remote_dir}\r"
 expect -re "\\\$ |# "
 
-send "echo '=== All Running Jobs ==='\r"
+send "echo '=== Cancelling old SKIOME job ==='\r"
+expect -re "\\\$ |# "
+
+send "scancel -n skiome_melsi 2>/dev/null\r"
+expect -re "\\\$ |# "
+
+send "sleep 2\r"
+expect -re "\\\$ |# "
+
+send "echo '=== Resubmitting SKIOME job ==='\r"
+expect -re "\\\$ |# "
+
+send "sbatch skiome_validation_job.sh\r"
+expect -re "\\\$ |# "
+
+send "sleep 2\r"
 expect -re "\\\$ |# "
 
 send "squeue -u nbhtd\r"
-expect -re "\\\$ |# "
-
-send "echo ''\r"
-expect -re "\\\$ |# "
-
-send "echo '=== Recent Completed Jobs (last 10) ==='\r"
-expect -re "\\\$ |# "
-
-send "sacct -u nbhtd --format=JobID,JobName,State,ExitCode,Elapsed,Start,End --starttime=7days-ago | head -15\r"
-expect -re "\\\$ |# "
-
-send "echo ''\r"
-expect -re "\\\$ |# "
-
-send "echo '=== Checking for correlation job files ==='\r"
-expect -re "\\\$ |# "
-
-send "ls -lht *.out *.err 2>/dev/null | grep -i correlation | head -5\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

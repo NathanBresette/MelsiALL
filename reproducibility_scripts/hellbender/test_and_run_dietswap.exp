@@ -1,0 +1,75 @@
+#!/usr/bin/expect -f
+set timeout 120
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set password "Grad123!\$"
+set remote_dir "~/melsi_simulations/hellbender"
+
+# Transfer files
+spawn scp reproducibility_scripts/hellbender/test_ggsave_simple.R reproducibility_scripts/hellbender/figure_dietswap_vip_pcoa.R "${user}@${host}:${remote_dir}/"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "yes/no" {
+        send "yes\r"
+        exp_continue
+    }
+    eof
+}
+
+wait
+
+# Test ggsave first
+spawn ssh "${user}@${host}"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "Permission denied" {
+        puts "Authentication failed"
+        exit 1
+    }
+    -re "\\\$ |# " {
+    }
+}
+
+send "cd ${remote_dir}\r"
+expect -re "\\\$ |# "
+
+send "module load r/4.4.0 2>/dev/null || module load r/4.3.0 2>/dev/null || module load r 2>/dev/null\r"
+expect -re "\\\$ |# "
+
+send "echo '=== Testing ggsave ==='\r"
+expect -re "\\\$ |# "
+
+send "Rscript test_ggsave_simple.R 2>&1\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== If test passed, submitting DietSwap job ==='\r"
+expect -re "\\\$ |# "
+
+send "scancel -n dietswap_fig 2>/dev/null\r"
+expect -re "\\\$ |# "
+
+send "sleep 2\r"
+expect -re "\\\$ |# "
+
+send "sbatch figure_dietswap_vip_pcoa_job.sh\r"
+expect -re "\\\$ |# "
+
+send "sleep 2\r"
+expect -re "\\\$ |# "
+
+send "squeue -u nbhtd -n dietswap_fig\r"
+expect -re "\\\$ |# "
+
+send "exit\r"
+expect eof

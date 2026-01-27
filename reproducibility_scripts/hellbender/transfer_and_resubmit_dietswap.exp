@@ -1,0 +1,67 @@
+#!/usr/bin/expect -f
+set timeout 60
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set password "Grad123!\$"
+set remote_dir "~/melsi_simulations/hellbender"
+set local_script "reproducibility_scripts/hellbender/figure_dietswap_vip_pcoa.R"
+
+# First, transfer the fixed script
+spawn scp "${local_script}" "${user}@${host}:${remote_dir}/"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "yes/no" {
+        send "yes\r"
+        exp_continue
+    }
+    eof
+}
+
+wait
+
+# Now SSH in and resubmit
+spawn ssh "${user}@${host}"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "Permission denied" {
+        puts "Authentication failed"
+        exit 1
+    }
+    -re "\\\$ |# " {
+    }
+}
+
+send "cd ${remote_dir}\r"
+expect -re "\\\$ |# "
+
+send "echo 'Cancelling existing DietSwap jobs...'\r"
+expect -re "\\\$ |# "
+
+send "scancel -n dietswap_fig\r"
+expect -re "\\\$ |# "
+
+send "sleep 2\r"
+expect -re "\\\$ |# "
+
+send "echo 'Submitting DietSwap job with fixed PNG handling...'\r"
+expect -re "\\\$ |# "
+
+send "sbatch figure_dietswap_vip_pcoa_job.sh\r"
+expect -re "\\\$ |# "
+
+send "sleep 2\r"
+expect -re "\\\$ |# "
+
+send "squeue -u nbhtd -n dietswap_fig\r"
+expect -re "\\\$ |# "
+
+send "exit\r"
+expect eof

@@ -1,0 +1,29 @@
+#!/usr/bin/expect -f
+set timeout 60
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set password "Grad123!\$"
+set remote_path "~/melsi_simulations/hellbender/figures"
+set local_path "reproducibility_scripts/hellbender/figures"
+
+# Create local directory if it doesn't exist
+exec mkdir -p $local_path
+
+# Transfer all PostScript files
+spawn scp "${user}@${host}:${remote_path}/dietswap_*.ps" $local_path/
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "yes/no" {
+        send "yes\r"
+        exp_continue
+    }
+    eof
+}
+
+wait
+
+puts "\nFiles transferred successfully!"

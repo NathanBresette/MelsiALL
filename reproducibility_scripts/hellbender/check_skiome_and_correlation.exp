@@ -32,19 +32,31 @@ expect -re "\\\$ |# "
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== Recent Completed Jobs (last 10) ==='\r"
+send "echo '=== Checking SKIOME job 12350922 ==='\r"
 expect -re "\\\$ |# "
 
-send "sacct -u nbhtd --format=JobID,JobName,State,ExitCode,Elapsed,Start,End --starttime=7days-ago | head -15\r"
+send "squeue -j 12350922 2>&1\r"
+expect -re "\\\$ |# "
+
+send "ls -lht skiome_validation_*.out skiome_validation_*.err 2>/dev/null | head -3\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== Checking for correlation job files ==='\r"
+send "echo '=== Searching for correlation job files ==='\r"
 expect -re "\\\$ |# "
 
-send "ls -lht *.out *.err 2>/dev/null | grep -i correlation | head -5\r"
+send "ls -lht *.out *.err 2>/dev/null | grep -E 'table6|correlation' | head -5\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== All job output files (sorted by time) ==='\r"
+expect -re "\\\$ |# "
+
+send "ls -lht *.out 2>/dev/null | head -10\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

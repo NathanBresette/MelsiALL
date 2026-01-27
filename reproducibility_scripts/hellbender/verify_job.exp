@@ -23,28 +23,19 @@ expect {
 send "cd ${remote_dir}\r"
 expect -re "\\\$ |# "
 
-send "echo '=== All Running Jobs ==='\r"
+send "echo 'Checking SKIOME job status...'\r"
 expect -re "\\\$ |# "
 
-send "squeue -u nbhtd\r"
-expect -re "\\\$ |# "
-
-send "echo ''\r"
-expect -re "\\\$ |# "
-
-send "echo '=== Recent Completed Jobs (last 10) ==='\r"
-expect -re "\\\$ |# "
-
-send "sacct -u nbhtd --format=JobID,JobName,State,ExitCode,Elapsed,Start,End --starttime=7days-ago | head -15\r"
+send "squeue -j 12350769\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== Checking for correlation job files ==='\r"
+send "echo 'Job details:'\r"
 expect -re "\\\$ |# "
 
-send "ls -lht *.out *.err 2>/dev/null | grep -i correlation | head -5\r"
+send "scontrol show job 12350769 | grep -E 'TimeLimit|CPUs|JobName'\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

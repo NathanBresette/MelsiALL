@@ -23,28 +23,28 @@ expect {
 send "cd ${remote_dir}\r"
 expect -re "\\\$ |# "
 
-send "echo '=== All Running Jobs ==='\r"
+send "echo '=== DietSwap Job 12350799 Status ==='\r"
 expect -re "\\\$ |# "
 
-send "squeue -u nbhtd\r"
-expect -re "\\\$ |# "
-
-send "echo ''\r"
-expect -re "\\\$ |# "
-
-send "echo '=== Recent Completed Jobs (last 10) ==='\r"
-expect -re "\\\$ |# "
-
-send "sacct -u nbhtd --format=JobID,JobName,State,ExitCode,Elapsed,Start,End --starttime=7days-ago | head -15\r"
+send "squeue -j 12350799\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== Checking for correlation job files ==='\r"
+send "echo '=== Latest Output (last 20 lines) ==='\r"
 expect -re "\\\$ |# "
 
-send "ls -lht *.out *.err 2>/dev/null | grep -i correlation | head -5\r"
+send "tail -20 dietswap_fig_12350799.out 2>&1\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== Latest Error (last 10 lines) ==='\r"
+expect -re "\\\$ |# "
+
+send "tail -10 dietswap_fig_12350799.err 2>&1\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

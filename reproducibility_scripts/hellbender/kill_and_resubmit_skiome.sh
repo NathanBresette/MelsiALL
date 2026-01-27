@@ -16,12 +16,25 @@ echo ""
 
 # Commands to run on Hellbender
 COMMANDS="cd ${REMOTE_DIR} && \
-echo 'Step 1: Finding and killing running SKIOME processes...' && \
-pkill -f 'Rscript.*skiome' && sleep 2 && \
+echo 'Step 1: Finding and killing running SKIOME SLURM jobs...' && \
+JOB_IDS=\$(squeue -u \$USER -n skiome_melsi --format='%i' --noheader) && \
+if [ -n \"\$JOB_IDS\" ]; then \
+  echo \"Found job IDs: \$JOB_IDS\" && \
+  for JOB_ID in \$JOB_IDS; do \
+    echo \"Cancelling job \$JOB_ID...\" && \
+    scancel \$JOB_ID && \
+    sleep 1; \
+  done && \
+  echo 'Jobs cancelled. Waiting for cleanup...' && \
+  sleep 3; \
+else \
+  echo 'No running SKIOME jobs found.'; \
+fi && \
+echo '' && \
 echo 'Step 2: Checking for any remaining processes...' && \
 ps aux | grep 'Rscript.*skiome' | grep -v grep || echo 'No processes found' && \
 echo '' && \
-echo 'Step 3: Submitting SKIOME job via SLURM...' && \
+echo 'Step 3: Submitting SKIOME job via SLURM with updated settings (15h, 6 CPUs)...' && \
 JOB_ID=\$(sbatch skiome_validation_job.sh | awk '{print \$4}') && \
 echo 'Job submitted with ID:' \$JOB_ID && \
 echo '' && \

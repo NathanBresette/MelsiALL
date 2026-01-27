@@ -1,9 +1,25 @@
 #!/usr/bin/expect -f
-set timeout 30
+set timeout 120
 set user "nbhtd"
 set host "hellbender.rnet.missouri.edu"
 set password "Grad123!\$"
 set remote_dir "~/melsi_simulations/hellbender"
+
+spawn scp reproducibility_scripts/hellbender/install_cairo.R "${user}@${host}:${remote_dir}/"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "yes/no" {
+        send "yes\r"
+        exp_continue
+    }
+    eof
+}
+
+wait
 
 spawn ssh "${user}@${host}"
 
@@ -23,19 +39,10 @@ expect {
 send "cd ${remote_dir}\r"
 expect -re "\\\$ |# "
 
-send "echo '=== SKIOME Job 12350774 Output ==='\r"
+send "module load r/4.4.0 2>/dev/null || module load r/4.3.0 2>/dev/null || module load r 2>/dev/null\r"
 expect -re "\\\$ |# "
 
-send "cat skiome_validation_12350774.out\r"
-expect -re "\\\$ |# "
-
-send "echo ''\r"
-expect -re "\\\$ |# "
-
-send "echo '=== SKIOME Job 12350774 Error ==='\r"
-expect -re "\\\$ |# "
-
-send "cat skiome_validation_12350774.err\r"
+send "Rscript install_cairo.R\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

@@ -1,37 +1,51 @@
-#!/usr/bin/expect
+#!/usr/bin/expect -f
 set timeout 30
-set password "Grad123!\$"
 set user "nbhtd"
 set host "hellbender.rnet.missouri.edu"
+set password "Grad123!\$"
 set remote_dir "~/melsi_simulations/hellbender"
 
 spawn ssh "${user}@${host}"
+
 expect {
-    "password:" { send "$password\r" }
-    "Are you sure you want to continue connecting (yes/no)?" {
-        send "yes\r"
-        expect "password:" { send "$password\r" }
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "Permission denied" {
+        puts "Authentication failed"
+        exit 1
+    }
+    -re "\\\$ |# " {
     }
 }
 
-expect "$ "
 send "cd ${remote_dir}\r"
-expect "$ "
+expect -re "\\\$ |# "
 
-send "echo 'Checking job status...'\r"
-expect "$ "
+send "echo '=== SKIOME Job 12350945 Status ==='\r"
+expect -re "\\\$ |# "
 
-send "squeue -u \$USER\r"
-expect "$ "
+send "squeue -j 12350945\r"
+expect -re "\\\$ |# "
 
 send "echo ''\r"
-expect "$ "
+expect -re "\\\$ |# "
 
-send "echo 'Recent job output (last 20 lines of error log):'\r"
-expect "$ "
+send "echo '=== Latest Output (last 30 lines) ==='\r"
+expect -re "\\\$ |# "
 
-send "tail -20 skiome_validation_*.err 2>/dev/null || echo 'No error log yet'\r"
-expect "$ "
+send "tail -30 skiome_validation_12350945.out 2>&1\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== Latest Errors (last 15 lines) ==='\r"
+expect -re "\\\$ |# "
+
+send "tail -15 skiome_validation_12350945.err 2>&1\r"
+expect -re "\\\$ |# "
 
 send "exit\r"
 expect eof

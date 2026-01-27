@@ -26,18 +26,13 @@ if (!requireNamespace("gridExtra", quietly = TRUE)) {
 library(gridExtra)
 cat("gridExtra package loaded\n")
 
+# Use R's built-in PostScript device (no packages needed, works on headless systems without Cairo)
+cat("Using R's built-in PostScript device for output\n")
+
 set.seed(42)
 
-# Disable X11 for headless operation (required on HPC)
-options(bitmapType = "cairo")
-if (capabilities("cairo")) {
-  options(bitmapType = "cairo")
-} else {
-  # Fallback: try to use png device directly
-  if (!capabilities("png")) {
-    stop("PNG device not available. Cannot generate figures.")
-  }
-}
+# Use PostScript output (works on headless systems without Cairo/X11)
+cat("Using PostScript output format (headless-compatible)\n")
 
 # Determine output directory - save to current directory or figures/ if it exists
 output_dir <- "figures"
@@ -296,27 +291,61 @@ if (has_directionality) {
   vip_plot_with_dir <- vip_plot_no_dir
 }
 
-# Save individual plots
-vip_path_no_dir <- file.path(output_dir, "dietswap_vip_no_directionality.png")
-vip_path_with_dir <- file.path(output_dir, "dietswap_vip.png")
-vip_path_combined <- file.path(output_dir, "dietswap_vip_combined.png")
+# Save individual plots as PostScript (works on headless systems without Cairo/X11)
+vip_path_no_dir <- file.path(output_dir, "dietswap_vip_no_directionality.ps")
+vip_path_with_dir <- file.path(output_dir, "dietswap_vip.ps")
+vip_path_combined <- file.path(output_dir, "dietswap_vip_combined.ps")
 
-ggsave(vip_path_no_dir, vip_plot_no_dir, width = 6, height = 4, dpi = 300, device = "png")
-cat("VIP plot (no directionality) saved to:", vip_path_no_dir, "\n")
+# Save plots using R's built-in PostScript device (works on headless systems)
+tryCatch({
+  postscript(vip_path_no_dir, width = 6, height = 4, horizontal = FALSE, onefile = FALSE, paper = "special")
+  print(vip_plot_no_dir)
+  dev.off()
+  if (file.exists(vip_path_no_dir)) {
+    cat("VIP plot (no directionality) saved to:", vip_path_no_dir, "\n")
+  } else {
+    stop("File was not created")
+  }
+}, error = function(e) {
+  cat("Error saving VIP plot (no directionality):", e$message, "\n")
+  stop("Failed to save VIP plot: ", e$message)
+})
 
-ggsave(vip_path_with_dir, vip_plot_with_dir, width = 6, height = 4, dpi = 300, device = "png")
-cat("VIP plot (with directionality) saved to:", vip_path_with_dir, "\n")
+tryCatch({
+  postscript(vip_path_with_dir, width = 6, height = 4, horizontal = FALSE, onefile = FALSE, paper = "special")
+  print(vip_plot_with_dir)
+  dev.off()
+  if (file.exists(vip_path_with_dir)) {
+    cat("VIP plot (with directionality) saved to:", vip_path_with_dir, "\n")
+  } else {
+    stop("File was not created")
+  }
+}, error = function(e) {
+  cat("Error saving VIP plot (with directionality):", e$message, "\n")
+  stop("Failed to save VIP plot: ", e$message)
+})
 
-# Create combined side-by-side plot
-combined_vip <- grid.arrange(
-  vip_plot_no_dir,
-  vip_plot_with_dir,
-  ncol = 2,
-  widths = c(1, 1.15)  # Slightly wider right panel to accommodate legend
-)
-
-ggsave(vip_path_combined, combined_vip, width = 12, height = 4, dpi = 300, device = "png")
-cat("Combined VIP plot (side-by-side) saved to:", vip_path_combined, "\n")
+# Create combined side-by-side plot using arrangeGrob (works better with PostScript)
+tryCatch({
+  combined_vip <- arrangeGrob(
+    vip_plot_no_dir,
+    vip_plot_with_dir,
+    ncol = 2,
+    widths = c(1, 1.15)  # Slightly wider right panel to accommodate legend
+  )
+  
+  postscript(vip_path_combined, width = 12, height = 4, horizontal = FALSE, onefile = FALSE, paper = "special")
+  grid.draw(combined_vip)
+  dev.off()
+  if (file.exists(vip_path_combined)) {
+    cat("Combined VIP plot (side-by-side) saved to:", vip_path_combined, "\n")
+  } else {
+    stop("File was not created")
+  }
+}, error = function(e) {
+  cat("Error saving combined VIP plot:", e$message, "\n")
+  stop("Failed to save combined VIP plot: ", e$message)
+})
 
 # PCoA Plot using MeLSI learned metric -----------------------------------------
 cat("\nComputing PCoA using MeLSI learned distance...\n")
@@ -334,8 +363,9 @@ colnames(pcoa_df) <- c("PCoA1", "PCoA2")
 pcoa_df$Group <- groups
 
 # Use same color scheme as VIP plot for consistency
+# Note: PostScript doesn't support transparency well, so use solid points
 pcoa_plot <- ggplot(pcoa_df, aes(x = PCoA1, y = PCoA2, color = Group)) +
-  geom_point(size = 2.5, alpha = 0.4) +
+  geom_point(size = 3.5) +  # Larger, solid points for PostScript
   stat_ellipse(aes(group = Group), level = 0.95, linetype = "dashed", linewidth = 1.2) +
   scale_color_manual(values = group_colors, name = "Group") +
   labs(
@@ -352,9 +382,20 @@ pcoa_plot <- ggplot(pcoa_df, aes(x = PCoA1, y = PCoA2, color = Group)) +
     legend.text = element_text(size = 9)
   )
 
-pcoa_path <- file.path(output_dir, "dietswap_pcoa.png")
-ggsave(pcoa_path, pcoa_plot, width = 6, height = 4, dpi = 300, device = "png")
-cat("PCoA plot saved to:", pcoa_path, "\n")
+pcoa_path <- file.path(output_dir, "dietswap_pcoa.ps")
+tryCatch({
+  postscript(pcoa_path, width = 6, height = 4, horizontal = FALSE, onefile = FALSE, paper = "special")
+  print(pcoa_plot)
+  dev.off()
+  if (file.exists(pcoa_path)) {
+    cat("PCoA plot saved to:", pcoa_path, "\n")
+  } else {
+    stop("File was not created")
+  }
+}, error = function(e) {
+  cat("Error saving PCoA plot:", e$message, "\n")
+  stop("Failed to save PCoA plot: ", e$message)
+})
 
 cat("\nFigure generation complete.\n")
 cat("==============================================================================\n\n")

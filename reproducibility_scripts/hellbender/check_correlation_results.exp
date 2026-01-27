@@ -23,52 +23,49 @@ expect {
 send "cd ${remote_dir}\r"
 expect -re "\\\$ |# "
 
-send "echo '=== Checking for DietSwap jobs ==='\r"
+send "echo '=== Correlation Result Files Summary ==='\r"
 expect -re "\\\$ |# "
 
-send "squeue -u nbhtd -n dietswap_fig\r"
+send "ls -lh table6_sim_*.csv 2>/dev/null | wc -l\r"
 expect -re "\\\$ |# "
 
-send "echo ''\r"
-expect -re "\\\$ |# "
-
-send "echo '=== Recent DietSwap output files ==='\r"
-expect -re "\\\$ |# "
-
-send "ls -lht dietswap_fig_*.out 2>&1 | head -3\r"
+send "echo 'Total result files'\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== Recent DietSwap error files ==='\r"
+send "echo '=== Sample Result File (first 5) ==='\r"
 expect -re "\\\$ |# "
 
-send "ls -lht dietswap_fig_*.err 2>&1 | head -3\r"
-expect -re "\\\$ |# "
-
-send "echo ''\r"
-expect -re "\\\$ |# "
-
-send "echo '=== Latest DietSwap Job Output ==='\r"
-expect -re "\\\$ |# "
-
-send "LATEST_OUT=\$(ls -t dietswap_fig_*.out 2>/dev/null | head -1)\r"
-expect -re "\\\$ |# "
-
-send "test -f \"\\\$LATEST_OUT\" && (echo \"File: \\\$LATEST_OUT\"; cat \"\\\$LATEST_OUT\") || echo 'No output files found'\r"
+send "head -5 table6_sim_1.csv 2>/dev/null\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== Latest DietSwap Job Error ==='\r"
+send "echo '=== Checking for combined results ==='\r"
 expect -re "\\\$ |# "
 
-send "LATEST_ERR=\$(ls -t dietswap_fig_*.err 2>/dev/null | head -1)\r"
+send "ls -lh table6_*combined*.csv table6_*results*.csv 2>/dev/null\r"
 expect -re "\\\$ |# "
 
-send "test -f \"\\\$LATEST_ERR\" && (echo \"File: \\\$LATEST_ERR\"; cat \"\\\$LATEST_ERR\") || echo 'No error files found'\r"
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== Sample of multiple files to see structure ==='\r"
+expect -re "\\\$ |# "
+
+send "head -1 table6_sim_1.csv table6_sim_50.csv table6_sim_100.csv 2>/dev/null\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== File sizes (to check if all completed) ==='\r"
+expect -re "\\\$ |# "
+
+send "ls -lh table6_sim_*.csv 2>/dev/null | awk '{print \$5}' | sort | uniq -c\r"
 expect -re "\\\$ |# "
 
 send "exit\r"
