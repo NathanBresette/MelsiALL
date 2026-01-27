@@ -322,6 +322,22 @@ A potential concern is that MeLSI's outperformance on real datasets might reflec
 
 \noindent To further evaluate MeLSI's utility in real-world applications, we analyzed the DietSwap dietary intervention dataset. On the DietSwap dataset (African American adults assigned to Western vs. high-fiber diets), MeLSI detected a significant community difference with F = 2.856 (p = 0.015), outperforming all traditional metrics. The strongest fixed metric was Bray-Curtis (F = 2.153, p = 0.058), followed by Jaccard (F = 1.921, p = 0.100) and Euclidean (F = 1.645, p = 0.090). Phylogenetic methods (Weighted/Unweighted UniFrac) were not evaluated because the publicly available phyloseq object lacks a phylogenetic tree; we prioritized reproducibility using standard dataset objects rather than reconstructing trees. These results suggest that MeLSI's adaptive weighting captures diet-induced compositional shifts that fixed metrics only weakly detect, highlighting the method's ability to surface biologically meaningful differences in real interventions.
 
+For the DietSwap dataset, MeLSI's learned feature weights identified taxa including Akkermansia and Oxalobacter as key drivers of diet-induced community differences. Figure 3 displays the top 15 taxa by learned feature weight, showing both feature importance and directionality (which diet group has higher abundance).
+
+![](figures/dietswap_vip_combined.png)
+
+\noindent \footnotesize
+**Figure 3.** Feature Importance Weights for DietSwap Dataset. Side-by-side comparison of top 15 microbial taxa ranked by MeLSI feature weights. Left panel shows feature weights without directionality information. Right panel shows the same features colored by directionality, indicating which group (Western diet or high-fiber diet) has higher mean abundance for each taxon. Higher weights indicate taxa that contribute more to distinguishing dietary intervention groups. Taxa including Akkermansia and Oxalobacter show strong contributions, consistent with their documented roles in diet-induced mucin degradation and bile acid metabolism.
+\normalsize
+
+To visualize group separation, we applied Principal Coordinates Analysis using the MeLSI-learned distance matrix on DietSwap. Figure 4 shows separation between Western diet and high-fiber diet groups along the principal coordinates, consistent with MeLSI's significant F-statistic (F = 2.856, p = 0.015).
+
+![](figures/dietswap_pcoa.png)
+
+\noindent \footnotesize
+**Figure 4.** PCoA Ordination Using MeLSI Distance for DietSwap Dataset. Principal Coordinates Analysis using the MeLSI-learned distance metric on DietSwap data. Points represent individual samples colored by diet group (Western diet or high-fiber diet). Dashed ellipses show 95% confidence intervals. The learned metric achieves visible separation between dietary intervention groups, consistent with the significant PERMANOVA result (F=2.856, p=0.015).
+\normalsize
+
 ### Scalability analysis
 
 \noindent We assessed MeLSI's performance across varying sample sizes (n) and dimensionalities (p) using synthetic datasets with medium effect sizes (Table 3). For sample size scaling, we fixed p=200 taxa and varied n from 20 to 500. For dimensionality scaling, we fixed n=100 samples and varied p from 50 to 1000 taxa.
@@ -439,7 +455,7 @@ To visualize how the learned metric separates groups, we applied Principal Coord
 **Figure 2.** PCoA Ordination Using MeLSI Distance for Atlas1006 Dataset. Principal Coordinates Analysis using the MeLSI-learned distance metric on Atlas1006 data. Points represent individual samples colored by sex (male/female). Dashed ellipses show 95% confidence intervals. The learned metric achieves visible separation along PCoA1 (21.5% of variance), consistent with the significant PERMANOVA result (F=5.141, p=0.005).
 \normalsize
 
-Akkermansia and Oxalobacter (among the highest-weighted taxa on DietSwap) have documented roles in diet-induced mucin degradation and bile acid metabolism, reinforcing that MeLSI pinpoints biologically plausible drivers of community shifts. Together, the VIP and PCoA visualizations demonstrate MeLSI's dual utility: statistically rigorous hypothesis testing combined with interpretable feature weighting and ordination for biological insight.
+Together, the VIP and PCoA visualizations for both Atlas1006 and DietSwap demonstrate MeLSI's dual utility: statistically rigorous hypothesis testing combined with interpretable feature weighting and ordination for biological insight. The learned feature weights consistently identify biologically relevant taxa (e.g., Bacteroidaceae, Lachnospiraceae, Ruminococcaceae in sex-associated differences; Akkermansia and Oxalobacter in diet-induced shifts), reinforcing that MeLSI pinpoints biologically plausible drivers of community differences.
 
 ### Computational performance
 
