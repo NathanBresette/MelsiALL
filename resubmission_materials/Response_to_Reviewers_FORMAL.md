@@ -132,9 +132,9 @@ Results demonstrate that MeLSI effectively recovers true signal taxa, with perfo
 
 **Reviewer Comment:** The observed outperformance of MeLSI on real datasets may partly reflect overfitting or double-dipping, despite the ensemble strategy. This possibility should be discussed more explicitly.
 
-**Response:** We have added explicit discussion addressing this concern in the Real Data: Atlas1006 section. The revised text (lines 310-312) explains that MeLSI's outperformance on real datasets does not reflect overfitting because: (1) the permutation testing framework relearns the metric on each permutation, ensuring the null distribution properly accounts for the adaptive nature of the method, and (2) proper Type I error control on real shuffled data (3-6% rejection rates across 100 simulations, Table 1) confirms that overfitting does not occur, as inflated Type I error would be expected if overfitting inflated false positive rates. The permutation framework treats each permutation as an independent metric learning experiment under the null hypothesis, preventing overfitting from affecting statistical validity.
+**Response:** We have added explicit discussion addressing this concern in the Real Data: Atlas1006 section. The revised text explains that MeLSI's outperformance on real datasets does not reflect overfitting because the permutation testing framework relearns the metric on each permutation, ensuring the null distribution properly accounts for the adaptive nature of the method. This is confirmed by proper Type I error control on real shuffled data (3-6% rejection rates across 100 simulations, Table 1), demonstrating that MeLSI's outperformance reflects genuine signal detection rather than overfitting. The permutation framework treats each permutation as an independent metric learning experiment under the null hypothesis, which serves as the inherent guardrail against overfitting.
 
-**Location in revised manuscript:** Real Data: Atlas1006 section (line 313) and Table 1 (line 254)
+**Location in revised manuscript:** Real Data: Atlas1006 section and Table 1 (line 254)
 
 ---
 
