@@ -1,0 +1,37 @@
+#!/usr/bin/expect -f
+set timeout 60
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set password "Grad123!\$"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "${user}@${host}"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    -re "\\\$ |# "
+}
+
+send "cd ${remote_dir}\r"
+expect -re "\\\$ |# "
+
+send "echo '=== TABLE 3 SUMMARY ==='\r"
+expect -re "\\\$ |# "
+
+send "sacct -j 12383275 --format=JobID,State,ExitCode | tail -30\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== TABLE 3 FILE COUNT ==='\r"
+expect -re "\\\$ |# "
+
+send "ls table3_sim_*.csv 2>/dev/null | wc -l\r"
+expect -re "\\\$ |# "
+
+send "exit\r"
+expect eof

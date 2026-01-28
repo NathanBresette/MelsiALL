@@ -9,8 +9,17 @@
 #SBATCH --mem=4G
 #SBATCH --array=1-100
 
-# Load R module (Hellbender uses lowercase 'r')
-module load r/4.4.0 2>/dev/null || module load r/4.3.0 2>/dev/null || module load r 2>/dev/null || echo "Warning: Could not load R module"
+# Load R module (Hellbender uses lowercase 'r') - exit if it fails
+module load r/4.4.0 2>/dev/null || module load r 2>/dev/null || {
+    echo "ERROR: Failed to load R module"
+    exit 1
+}
+
+# Verify Rscript is available
+if ! command -v Rscript &> /dev/null; then
+    echo "ERROR: Rscript not found after module load"
+    exit 1
+fi
 
 # Set R library path to include user-installed packages
 export R_LIBS_USER=~/R:${R_LIBS_USER:-}

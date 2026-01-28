@@ -2,14 +2,23 @@
 #SBATCH --job-name=skiome_melsi
 #SBATCH --output=skiome_validation_%j.out
 #SBATCH --error=skiome_validation_%j.err
-#SBATCH --time=28:00:00
+#SBATCH --time=48:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=6
 #SBATCH --mem=32G
 
-# Load R module
-module load r/4.4.0 2>/dev/null || module load r/4.3.0 2>/dev/null || module load r 2>/dev/null || echo "Warning: Could not load R module"
+# Load R module (Hellbender uses lowercase 'r')
+module load r/4.4.0 2>/dev/null || module load r 2>/dev/null || {
+    echo "ERROR: Failed to load R module"
+    exit 1
+}
+
+# Verify Rscript is available
+if ! command -v Rscript &> /dev/null; then
+    echo "ERROR: Rscript not found after module load"
+    exit 1
+fi
 
 # Set R library path to include user-installed packages
 export R_LIBS_USER=~/R:${R_LIBS_USER:-}

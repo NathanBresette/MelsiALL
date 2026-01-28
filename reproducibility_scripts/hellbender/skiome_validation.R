@@ -232,44 +232,19 @@ tryCatch({
   cat("  ✗ Error generating VIP plot:", e$message, "\n")
 })
 
-# Generate PCoA plot using PostScript (works on headless systems)
-# Create plot with solid points for PostScript compatibility
+# Generate PCoA plot using MeLSI's plot_pcoa function (like DietSwap)
 cat("Generating PCoA plot...\n")
 tryCatch({
   if (!is.null(melsi_omnibus$distance_matrix)) {
-    # Get distance matrix and compute PCoA
-    dist_matrix <- melsi_omnibus$distance_matrix
-    pcoa_result <- stats::cmdscale(dist_matrix, k = 2, eig = TRUE)
+    # Use MeLSI's plot_pcoa function (consistent with DietSwap)
+    pcoa_plot <- plot_pcoa(melsi_omnibus, X_clr, groups, 
+                           title = "SKIOME: PCoA using MeLSI Distance")
     
-    # Calculate variance explained
-    var_explained <- pcoa_result$eig / sum(abs(pcoa_result$eig)) * 100
-    
-    # Create plot data
-    plot_data <- data.frame(
-      PC1 = pcoa_result$points[, 1],
-      PC2 = pcoa_result$points[, 2],
-      Group = as.factor(groups)
-    )
-    
-    # Create ggplot with solid points (PostScript doesn't support transparency well)
-    pcoa_plot <- ggplot(plot_data, aes(x = PC1, y = PC2, color = Group)) +
-      geom_point(size = 3.5) +  # Solid points, no alpha for PostScript
-      stat_ellipse(level = 0.95, linetype = 2, linewidth = 1.2) +
-      labs(
-        title = "SKIOME: PCoA using MeLSI Distance",
-        x = sprintf("PCoA1 (%.1f%%)", var_explained[1]),
-        y = sprintf("PCoA2 (%.1f%%)", var_explained[2]),
-        color = "Group"
-      ) +
-      theme_minimal() +
-      theme(
-        plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
-        legend.position = "right"
-      )
-    
-    postscript("skiome_pcoa_plot.ps", width = 10, height = 8, horizontal = FALSE, onefile = FALSE, paper = "special")
+    postscript("skiome_pcoa_plot.ps", width = 10, height = 8, 
+               horizontal = FALSE, onefile = FALSE, paper = "special")
     print(pcoa_plot)
     dev.off()
+    
     if (file.exists("skiome_pcoa_plot.ps")) {
       cat("  ✓ PCoA plot saved to: skiome_pcoa_plot.ps\n")
     } else {
@@ -281,6 +256,92 @@ tryCatch({
 }, error = function(e) {
   cat("  ✗ Error generating PCoA plot:", e$message, "\n")
 })
+
+# Generate pairwise plots (VIP and PCoA for each comparison)
+if ("pairwise" %in% names(melsi_result) && "pairwise_results" %in% names(melsi_result$pairwise)) {
+  cat("\n")
+  cat("==============================================================================\n")
+  cat("Generating Pairwise Comparison Plots\n")
+  cat("==============================================================================\n\n")
+  
+  pairwise_results <- melsi_result$pairwise$pairwise_results
+  
+  for (comparison_name in names(pairwise_results)) {
+    pair_result <- pairwise_results[[comparison_name]]
+    
+    if (is.null(pair_result)) {
+      cat("Skipping", comparison_name, "- no results available\n")
+      next
+    }
+    
+    # Extract group names from comparison name (e.g., "Atopic_Dermatitis_vs_Psoriasis")
+    group_names <- strsplit(comparison_name, "_vs_")[[1]]
+    if (length(group_names) != 2) {
+      cat("Skipping", comparison_name, "- invalid format\n")
+      next
+    }
+    
+    group1 <- group_names[1]
+    group2 <- group_names[2]
+    
+    # Subset data for this pairwise comparison
+    pair_indices <- groups %in% c(group1, group2)
+    X_pair <- X_clr[pair_indices, , drop = FALSE]
+    groups_pair <- groups[pair_indices]
+    
+    cat("Generating plots for:", comparison_name, "\n")
+    
+    # Generate VIP plot for this pairwise comparison
+    tryCatch({
+      if (!is.null(pair_result$feature_weights) && length(pair_result$feature_weights) > 0) {
+        vip_title <- paste0("SKIOME: VIP (", group1, " vs ", group2, ")")
+        vip_plot <- plot_vip(pair_result, top_n = 15, title = vip_title)
+        
+        vip_filename <- paste0("skiome_vip_", comparison_name, ".ps")
+        postscript(vip_filename, width = 10, height = 8, 
+                   horizontal = FALSE, onefile = FALSE, paper = "special")
+        print(vip_plot)
+        dev.off()
+        
+        if (file.exists(vip_filename)) {
+          cat("  ✓ VIP plot saved to:", vip_filename, "\n")
+        } else {
+          cat("  ✗ VIP plot file was not created\n")
+        }
+      } else {
+        cat("  ⚠️  No feature weights available for VIP plot\n")
+      }
+    }, error = function(e) {
+      cat("  ✗ Error generating VIP plot:", e$message, "\n")
+    })
+    
+    # Generate PCoA plot for this pairwise comparison
+    tryCatch({
+      if (!is.null(pair_result$distance_matrix)) {
+        pcoa_title <- paste0("SKIOME: PCoA (", group1, " vs ", group2, ")")
+        pcoa_plot <- plot_pcoa(pair_result, X_pair, groups_pair, title = pcoa_title)
+        
+        pcoa_filename <- paste0("skiome_pcoa_", comparison_name, ".ps")
+        postscript(pcoa_filename, width = 10, height = 8, 
+                   horizontal = FALSE, onefile = FALSE, paper = "special")
+        print(pcoa_plot)
+        dev.off()
+        
+        if (file.exists(pcoa_filename)) {
+          cat("  ✓ PCoA plot saved to:", pcoa_filename, "\n")
+        } else {
+          cat("  ✗ PCoA plot file was not created\n")
+        }
+      } else {
+        cat("  ⚠️  No distance matrix available for PCoA plot\n")
+      }
+    }, error = function(e) {
+      cat("  ✗ Error generating PCoA plot:", e$message, "\n")
+    })
+    
+    cat("\n")
+  }
+}
 
 cat("\n")
 

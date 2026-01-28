@@ -1,5 +1,5 @@
 #!/usr/bin/expect -f
-set timeout 30
+set timeout 60
 set user "nbhtd"
 set host "hellbender.rnet.missouri.edu"
 set password "Grad123!\$"
@@ -27,34 +27,52 @@ expect -re "\\\$ |# "
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== TABLE 6 RESUBMIT JOB STATUS (12381229) ==='\r"
+send "echo '=== TABLE 3 (12383275) STATUS ==='\r"
 expect -re "\\\$ |# "
 
-send "squeue -j 12381229 2>/dev/null || echo 'Job completed or not found'\r"
+send "squeue -j 12383275 2>/dev/null | wc -l && echo 'tasks still running' || echo 'Job completed'\r"
 expect -re "\\\$ |# "
 
-send "echo ''\r"
-expect -re "\\\$ |# "
-
-send "echo '=== CHECKING TABLE 6 RESUBMIT PROGRESS ==='\r"
-expect -re "\\\$ |# "
-
-send "sacct -j 12381229 --format=JobID,State,ExitCode,Elapsed | head -10\r"
+send "ls table3_sim_*.csv 2>/dev/null | wc -l && echo 'files completed (need 100)' || echo '0 files'\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== COUNTING COMPLETED HIGH CORRELATION SIMULATIONS ==='\r"
+send "echo '=== TABLE 6 FINAL 5 (12383824) STATUS ==='\r"
 expect -re "\\\$ |# "
 
-send "module load r/4.4.0 2>/dev/null || module load r/4.3.0 2>/dev/null || module load r 2>/dev/null\r"
+send "squeue -j 12383824 2>/dev/null | wc -l && echo 'tasks still running' || echo 'Job completed'\r"
+expect -re "\\\$ |# "
+
+send "sacct -j 12383824 --format=JobID,State,ExitCode,Elapsed | head -8\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== TABLE 6 CORRELATION LEVELS ==='\r"
+expect -re "\\\$ |# "
+
+send "module load r/4.4.0 2>/dev/null || module load r 2>/dev/null\r"
 expect -re "\\\$ |# "
 
 send "export R_LIBS_USER=~/R\r"
 expect -re "\\\$ |# "
 
-send "Rscript -e \"valid_count <- 0; for (i in 151:200) { file <- paste0('table6_sim_', i, '.csv'); if (file.exists(file)) { data <- tryCatch(read.csv(file, stringsAsFactors = FALSE), error = function(e) NULL); if (!is.null(data) && nrow(data) > 0 && 'Correlation_Level' %in% colnames(data) && any(data\\\$Correlation_Level == 'High')) { valid_count <- valid_count + 1 } } }; cat('Valid High correlation files:', valid_count, '/ 50\\n')\"\r"
+send "Rscript check_all_table6_levels.R\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== SKIOME JOB (12383423) STATUS ==='\r"
+expect -re "\\\$ |# "
+
+send "squeue -u nbhtd | grep skiome || echo 'Job completed'\r"
+expect -re "\\\$ |# "
+
+send "sacct -j 12383423 --format=JobID,State,ExitCode,Elapsed,TimeLimit | head -3\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

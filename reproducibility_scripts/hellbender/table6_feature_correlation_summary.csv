@@ -1,4 +1,5 @@
-"Correlation_Level","Correlation_Value","n_simulations","MeLSI_Power","MeLSI_Mean_F","MeLSI_SD_F","Precision_10","Recall_10","AUC_ROC","Best_Traditional","Best_Trad_Power","Best_Trad_Mean_F"
-"None",0,50,48,1.506,0.118,0.386,0.386,0.78,"WeightedUniFrac",70,1.65
-"Low",0.3,50,48,1.509,0.137,0.366,0.366,0.782,"BrayCurtis",98,1.54
-"Moderate",0.6,50,44,1.47,0.138,0.372,0.372,0.784,"BrayCurtis",96,1.484
+"Correlation_Level","Correlation_Value","n_simulations","MeLSI_Power","MeLSI_Mean_F","MeLSI_SD_F","Precision_10","Recall_10","AUC_ROC","Best_Traditional","Best_Trad_Power","Best_Trad_Mean_F","MeLSI_Rank"
+"None",0,50,50,1.512,0.141,0.392,0.392,0.817,"WeightedUniFrac",64,1.671,"3/6"
+"Low",0.3,50,42,1.481,0.147,0.348,0.348,0.788,"BrayCurtis",96,1.5,"3/6"
+"Moderate",0.6,50,46,1.498,0.135,0.356,0.356,0.783,"BrayCurtis",100,1.513,"2/6"
+"High",0.8,50,44,1.507,0.141,0.368,0.368,0.769,"BrayCurtis",96,1.492,"1/6"

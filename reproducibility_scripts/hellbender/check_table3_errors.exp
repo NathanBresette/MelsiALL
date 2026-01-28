@@ -18,25 +18,34 @@ expect {
 send "cd ${remote_dir}\r"
 expect -re "\\\$ |# "
 
-send "echo '=== TABLE 3 JOB (12381719) STATUS ==='\r"
+send "echo '=== TABLE 3 ERROR CHECK ==='\r"
 expect -re "\\\$ |# "
 
-send "sacct -j 12381719 --format=JobID,State,ExitCode,Elapsed | head -15\r"
-expect -re "\\\$ |# "
-
-send "echo ''\r"
-expect -re "\\\$ |# "
-
-send "echo '=== TABLE 6 FIX JOB (12382938) STATUS ==='\r"
-expect -re "\\\$ |# "
-
-send "sacct -j 12382938 --format=JobID,State,ExitCode,Elapsed | head -15\r"
+send "tail -30 table3_scalability_12381719_1.err 2>/dev/null || echo 'Error file not found'\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== TABLE 6 CORRELATION LEVEL CHECK ==='\r"
+send "echo '=== TABLE 3 OUTPUT CHECK ==='\r"
+expect -re "\\\$ |# "
+
+send "tail -20 table3_scalability_12381719_1.out 2>/dev/null || echo 'Output file not found'\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== COUNTING FAILED TABLE 3 TASKS ==='\r"
+expect -re "\\\$ |# "
+
+send "sacct -j 12381719 --format=JobID,State,ExitCode | grep FAILED | wc -l\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== TABLE 6 MODERATE MISSING FILES ==='\r"
 expect -re "\\\$ |# "
 
 send "module load r/4.4.0 2>/dev/null || module load r/4.3.0 2>/dev/null || module load r 2>/dev/null\r"
@@ -45,7 +54,7 @@ expect -re "\\\$ |# "
 send "export R_LIBS_USER=~/R\r"
 expect -re "\\\$ |# "
 
-send "Rscript check_all_table6_levels.R\r"
+send "Rscript fix_table6_all_levels.R | grep -A 5 'Moderate'\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

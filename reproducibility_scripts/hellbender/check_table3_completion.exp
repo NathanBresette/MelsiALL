@@ -18,34 +18,28 @@ expect {
 send "cd ${remote_dir}\r"
 expect -re "\\\$ |# "
 
-send "echo '=== TABLE 3 JOB (12381719) STATUS ==='\r"
+send "echo '=== TABLE 3 JOB SUMMARY ==='\r"
 expect -re "\\\$ |# "
 
-send "sacct -j 12381719 --format=JobID,State,ExitCode,Elapsed | head -15\r"
-expect -re "\\\$ |# "
-
-send "echo ''\r"
-expect -re "\\\$ |# "
-
-send "echo '=== TABLE 6 FIX JOB (12382938) STATUS ==='\r"
-expect -re "\\\$ |# "
-
-send "sacct -j 12382938 --format=JobID,State,ExitCode,Elapsed | head -15\r"
+send "sacct -j 12383275 --format=JobID,State,ExitCode | tail -25\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== TABLE 6 CORRELATION LEVEL CHECK ==='\r"
+send "echo '=== COUNTING FAILED TABLE 3 TASKS ==='\r"
 expect -re "\\\$ |# "
 
-send "module load r/4.4.0 2>/dev/null || module load r/4.3.0 2>/dev/null || module load r 2>/dev/null\r"
+send "sacct -j 12383275 --format=JobID,State,ExitCode | grep FAILED | wc -l\r"
 expect -re "\\\$ |# "
 
-send "export R_LIBS_USER=~/R\r"
+send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "Rscript check_all_table6_levels.R\r"
+send "echo '=== COUNTING COMPLETED TABLE 3 TASKS ==='\r"
+expect -re "\\\$ |# "
+
+send "sacct -j 12383275 --format=JobID,State | grep COMPLETED | grep '^12383275_[0-9]' | wc -l\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

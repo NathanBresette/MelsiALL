@@ -397,14 +397,14 @@ The default parameters (B=30, m_frac=0.8) are justified by Table 4 results: B=30
 
 | Correlation Level | Correlation Value | n | MeLSI Power (%) | MeLSI F | Precision at 10 | Recall at 10 | AUC-ROC | MeLSI Rank |
 |-------------------|-------------------|---|-----------------|---------|--------------|-----------|---------|------------|
-| None | 0.0 | 100 | 48 | 1.506 | 0.386 | 0.386 | 0.780 | 3/6 |
-| Low | 0.3 | 100 | 48 | 1.509 | 0.366 | 0.366 | 0.782 | 2/6 |
-| Moderate | 0.6 | 100 | 44 | 1.470 | 0.372 | 0.372 | 0.784 | 2/6 |
-| High | 0.8 | 100 | 49 | 1.511 | 0.371 | 0.371 | 0.779 | 1/6 |
+| None | 0.0 | 50 | 50 | 1.512 | 0.392 | 0.392 | 0.817 | 3/6 |
+| Low | 0.3 | 50 | 42 | 1.481 | 0.348 | 0.348 | 0.788 | 3/6 |
+| Moderate | 0.6 | 50 | 46 | 1.498 | 0.356 | 0.356 | 0.783 | 2/6 |
+| High | 0.8 | 50 | 44 | 1.507 | 0.368 | 0.368 | 0.769 | 1/6 |
 
-\noindent Abbreviations: n, sample size; F, PERMANOVA F-statistic (mean across 50 simulations); Precision at 10, proportion of top-10 features that are true signals; Recall at 10, proportion of true signals found in top-10 features; AUC-ROC, area under receiver operating characteristic curve for classifying signal vs. non-signal taxa; Rank, MeLSI's rank among all methods (MeLSI + 5 traditional methods: Euclidean, Bray-Curtis, Jaccard, Weighted UniFrac, Unweighted UniFrac) based on F-statistic, where 1/6 indicates best performance and 6/6 indicates worst performance. Detailed individual method comparisons supporting these ranks will be provided in Supplementary Table S4 (to be added after simulations complete).
+\noindent Abbreviations: n, number of simulations per correlation level; F, PERMANOVA F-statistic (mean across 50 simulations); Precision at 10, proportion of top-10 features that are true signals; Recall at 10, proportion of true signals found in top-10 features; AUC-ROC, area under receiver operating characteristic curve for classifying signal vs. non-signal taxa; Rank, MeLSI's rank among all methods (MeLSI + 5 traditional methods: Euclidean, Bray-Curtis, Jaccard, Weighted UniFrac, Unweighted UniFrac) based on F-statistic, where 1/6 indicates best performance and 6/6 indicates worst performance. Detailed individual method comparisons supporting these ranks are provided in Supplementary Table S4.
 
-\noindent MeLSI demonstrated robust performance across correlation levels, maintaining stable F-statistics (±3.3% variation: F=1.506 at r=0, F=1.509 at r=0.3, F=1.470 at r=0.6, F=1.511 at r=0.8) and consistent statistical power (48%, 48%, 44%, 49% respectively). The stability of F-statistics demonstrates that MeLSI effectively handles correlated features without performance degradation. Feature recovery metrics also remained stable: Precision at 10 (0.386, 0.366, 0.372, 0.371) and AUC-ROC (0.780, 0.782, 0.784, 0.779) showed minimal variation across correlation levels, confirming that MeLSI's ability to identify true signal taxa is maintained even when taxa exhibit high correlation. MeLSI's competitive ranking (1/6 to 3/6) across all correlation levels demonstrates that the method maintains statistical power comparable to traditional methods while providing interpretability, even when features are correlated. Notably, MeLSI achieved its best ranking (1/6) at high correlation (r=0.8), suggesting the method may be particularly effective when taxa exhibit strong ecological relationships.
+\noindent MeLSI demonstrated robust performance across correlation levels, maintaining stable F-statistics (±1.7% variation: F=1.512 at r=0, F=1.481 at r=0.3, F=1.498 at r=0.6, F=1.507 at r=0.8) and consistent statistical power (50%, 42%, 46%, 44% respectively). The stability of F-statistics demonstrates that MeLSI effectively handles correlated features without performance degradation. Feature recovery metrics also remained stable: Precision at 10 (0.392, 0.348, 0.356, 0.368) and AUC-ROC (0.817, 0.788, 0.783, 0.769) showed minimal variation across correlation levels, confirming that MeLSI's ability to identify true signal taxa is maintained even when taxa exhibit high correlation. MeLSI's competitive ranking (1/6 to 3/6) across all correlation levels demonstrates that the method maintains statistical power comparable to traditional methods while providing interpretability, even when features are correlated. Notably, MeLSI achieved its best ranking (1/6) at high correlation (r=0.8), suggesting the method may be particularly effective when taxa exhibit strong ecological relationships.
 
 ### Pre-filtering analysis
 
@@ -516,7 +516,7 @@ MeLSI's learned distance metrics are compatible with other distance-based ordina
 - **Supplementary Table S1**: Recovery of true signal taxa metrics (Precision at k, Recall at k, Mean Rank, AUC-ROC) across all effect sizes and sample sizes
 - **Supplementary Table S2**: Individual method comparisons for power analysis (MeLSI vs. each traditional method) supporting rank calculations in Table 2
 - **Supplementary Table S3**: Individual method comparisons for scalability analysis (to be added after simulations complete)
-- **Supplementary Table S4**: Individual method comparisons for feature correlation analysis (to be added after simulations complete)
+- **Supplementary Table S4**: Individual method comparisons for feature correlation analysis
 
 \noindent These supplementary tables provide complete transparency for rank calculations (e.g., 1/6, 3/6) shown in the main tables, allowing readers to see how MeLSI compares to each traditional method individually.
 

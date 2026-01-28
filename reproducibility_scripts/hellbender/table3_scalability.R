@@ -132,10 +132,13 @@ if (parallel_mode) {
   
   data <- generate_scalability_data(n_samples, n_taxa)
   
+  # Set column names for counts matrix (needed for UniFrac)
+  colnames(data$counts) <- paste0("Taxa_", 1:ncol(data$counts))
+  
   # CLR transformation
   X_clr <- log(data$counts + 1)
   X_clr <- X_clr - rowMeans(X_clr)
-  colnames(X_clr) <- paste0("Taxa_", 1:ncol(X_clr))
+  colnames(X_clr) <- colnames(data$counts)  # Use same names
   
   # Time MeLSI
   start_time <- Sys.time()
@@ -235,10 +238,13 @@ if (parallel_mode) {
       
       data <- generate_scalability_data(n, 200)
       
+      # Set column names for counts matrix (needed for UniFrac)
+      colnames(data$counts) <- paste0("Taxa_", 1:ncol(data$counts))
+      
       # CLR transformation
       X_clr <- log(data$counts + 1)
       X_clr <- X_clr - rowMeans(X_clr)
-      colnames(X_clr) <- paste0("Taxa_", 1:ncol(X_clr))
+      colnames(X_clr) <- colnames(data$counts)  # Use same names
       
       # Time MeLSI
       start_time <- Sys.time()
@@ -329,10 +335,13 @@ if (parallel_mode) {
       
       data <- generate_scalability_data(100, p)
       
+      # Set column names for counts matrix (needed for UniFrac)
+      colnames(data$counts) <- paste0("Taxa_", 1:ncol(data$counts))
+      
       # CLR transformation
       X_clr <- log(data$counts + 1)
       X_clr <- X_clr - rowMeans(X_clr)
-      colnames(X_clr) <- paste0("Taxa_", 1:ncol(X_clr))
+      colnames(X_clr) <- colnames(data$counts)  # Use same names
       
       # Time MeLSI
       start_time <- Sys.time()

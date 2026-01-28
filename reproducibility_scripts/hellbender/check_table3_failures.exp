@@ -1,0 +1,37 @@
+#!/usr/bin/expect -f
+set timeout 60
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set password "Grad123!\$"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "${user}@${host}"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    -re "\\\$ |# "
+}
+
+send "cd ${remote_dir}\r"
+expect -re "\\\$ |# "
+
+send "echo '=== CHECKING TABLE 3 ERROR ==='\r"
+expect -re "\\\$ |# "
+
+send "tail -10 table3_scalability_12383275_91.err\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== FINDING MISSING TABLE 3 FILES ==='\r"
+expect -re "\\\$ |# "
+
+send "for i in {1..100}; do if [ ! -f table3_sim_\${i}.csv ]; then echo \$i; fi; done | head -20\r"
+expect -re "\\\$ |# "
+
+send "exit\r"
+expect eof

@@ -88,6 +88,31 @@ This table will be generated after Table 3 job completes and will show detailed 
 
 ## Supplementary Table S4: Individual Method Comparisons for Feature Correlation Analysis
 
-This table will show detailed comparisons between MeLSI and each traditional method across correlation levels.
+This table shows detailed comparisons between MeLSI and each of the five traditional methods individually across all correlation levels. These comparisons support the rank calculations shown in Table 6.
 
-*[To be added after Table 6 simulations complete]*
+| Correlation Level | Correlation Value | Traditional Method | MeLSI Power (%) | MeLSI Mean F | Traditional Power (%) | Traditional Mean F | Power Difference (%) | F Difference |
+|-------------------|-------------------|-------------------|-----------------|--------------|----------------------|-------------------|---------------------|--------------|
+| None | 0.0 | Euclidean | 50.0 | 1.512 | 68.0 | 1.218 | -18.0 | 0.294 |
+| None | 0.0 | Bray-Curtis | 50.0 | 1.512 | 100.0 | 1.619 | -50.0 | -0.107 |
+| None | 0.0 | Jaccard | 50.0 | 1.512 | 8.0 | 1.024 | 42.0 | 0.488 |
+| None | 0.0 | Weighted UniFrac | 50.0 | 1.512 | 64.0 | 1.671 | -14.0 | -0.158 |
+| None | 0.0 | Unweighted UniFrac | 50.0 | 1.512 | 6.0 | 1.052 | 44.0 | 0.461 |
+| Low | 0.3 | Euclidean | 42.0 | 1.481 | 58.0 | 1.190 | -16.0 | 0.291 |
+| Low | 0.3 | Bray-Curtis | 42.0 | 1.481 | 96.0 | 1.500 | -54.0 | -0.019 |
+| Low | 0.3 | Jaccard | 42.0 | 1.481 | 6.0 | 0.998 | 36.0 | 0.483 |
+| Low | 0.3 | Weighted UniFrac | 42.0 | 1.481 | 40.0 | 1.498 | 2.0 | -0.018 |
+| Low | 0.3 | Unweighted UniFrac | 42.0 | 1.481 | 6.0 | 0.992 | 36.0 | 0.489 |
+| Moderate | 0.6 | Euclidean | 46.0 | 1.498 | 54.0 | 1.205 | -8.0 | 0.293 |
+| Moderate | 0.6 | Bray-Curtis | 46.0 | 1.498 | 100.0 | 1.513 | -54.0 | -0.015 |
+| Moderate | 0.6 | Jaccard | 46.0 | 1.498 | 6.0 | 1.000 | 40.0 | 0.498 |
+| Moderate | 0.6 | Weighted UniFrac | 46.0 | 1.498 | 32.0 | 1.385 | 14.0 | 0.113 |
+| Moderate | 0.6 | Unweighted UniFrac | 46.0 | 1.498 | 10.0 | 0.983 | 36.0 | 0.515 |
+| High | 0.8 | Euclidean | 44.0 | 1.507 | 52.0 | 1.208 | -8.0 | 0.299 |
+| High | 0.8 | Bray-Curtis | 44.0 | 1.507 | 96.0 | 1.492 | -52.0 | 0.015 |
+| High | 0.8 | Jaccard | 44.0 | 1.507 | 6.0 | 1.051 | 38.0 | 0.456 |
+| High | 0.8 | Weighted UniFrac | 44.0 | 1.507 | 20.0 | 1.376 | 24.0 | 0.131 |
+| High | 0.8 | Unweighted UniFrac | 44.0 | 1.507 | 8.0 | 1.021 | 36.0 | 0.486 |
+
+**Abbreviations:** Power, empirical statistical power (percentage of simulations with p < 0.05); F, PERMANOVA F-statistic (mean across 50 simulations per correlation level); Power Difference, MeLSI Power - Traditional Power (%); F Difference, MeLSI Mean F - Traditional Mean F. Results based on 50 simulations per correlation level.
+
+**Note:** The five traditional methods are: (1) **Euclidean distance** - standard Euclidean distance on CLR-transformed data; (2) **Bray-Curtis dissimilarity** - count-based dissimilarity metric; (3) **Jaccard dissimilarity** - binary (presence/absence) dissimilarity; (4) **Weighted UniFrac** - phylogenetically-informed distance using abundance-weighted branch lengths; (5) **Unweighted UniFrac** - phylogenetically-informed distance using presence/absence of taxa.

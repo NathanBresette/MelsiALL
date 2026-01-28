@@ -18,34 +18,28 @@ expect {
 send "cd ${remote_dir}\r"
 expect -re "\\\$ |# "
 
-send "echo '=== TABLE 3 JOB (12381719) STATUS ==='\r"
+send "echo '=== CHECKING ALL TABLE 3 JOBS IN HISTORY ==='\r"
 expect -re "\\\$ |# "
 
-send "sacct -j 12381719 --format=JobID,State,ExitCode,Elapsed | head -15\r"
-expect -re "\\\$ |# "
-
-send "echo ''\r"
-expect -re "\\\$ |# "
-
-send "echo '=== TABLE 6 FIX JOB (12382938) STATUS ==='\r"
-expect -re "\\\$ |# "
-
-send "sacct -j 12382938 --format=JobID,State,ExitCode,Elapsed | head -15\r"
+send "sacct -u nbhtd --name=melsi_scalability --format=JobID,JobName,State,ExitCode,Elapsed,End | tail -30\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== TABLE 6 CORRELATION LEVEL CHECK ==='\r"
+send "echo '=== CHECKING FOR TABLE 3 FILES WITH DIFFERENT NAMES ==='\r"
 expect -re "\\\$ |# "
 
-send "module load r/4.4.0 2>/dev/null || module load r/4.3.0 2>/dev/null || module load r 2>/dev/null\r"
+send "ls -lh table3*.csv 2>/dev/null | head -10 || echo 'No table3 files found'\r"
 expect -re "\\\$ |# "
 
-send "export R_LIBS_USER=~/R\r"
+send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "Rscript check_all_table6_levels.R\r"
+send "echo '=== CHECKING FOR ANY SCALABILITY FILES ==='\r"
+expect -re "\\\$ |# "
+
+send "ls -lh *scalability*.csv 2>/dev/null | head -10 || echo 'No scalability files found'\r"
 expect -re "\\\$ |# "
 
 send "exit\r"
