@@ -31,8 +31,8 @@ if (length(args) >= 2) {
 n_simulations_per_condition <- 50  # Rigorous: 50 simulations per condition
 
 # Correlation levels to test
-correlation_levels <- c(0.0, 0.3, 0.6)  # None, Low, Moderate
-correlation_names <- c("None", "Low", "Moderate")
+correlation_levels <- c(0.0, 0.3, 0.6, 0.8)  # None, Low, Moderate, High
+correlation_names <- c("None", "Low", "Moderate", "High")
 
 # Fixed conditions for focused analysis
 n_samples <- 100  # Medium sample size

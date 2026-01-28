@@ -1,0 +1,20 @@
+#!/usr/bin/expect -f
+set timeout 30
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set password "Grad123!\$"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn scp "${user}@${host}:${remote_dir}/table1_type1_error_summary.csv" /Users/nathanbresette/Desktop/MeLSI/reproducibility_scripts/hellbender/
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "yes/no" {
+        send "yes\r"
+        exp_continue
+    }
+    eof
+}

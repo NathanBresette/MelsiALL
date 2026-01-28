@@ -7,7 +7,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=4G
-#SBATCH --array=1-150
+#SBATCH --array=1-200
 
 # Load R module (Hellbender uses lowercase 'r')
 module load r/4.4.0 2>/dev/null || module load r/4.3.0 2>/dev/null || module load r 2>/dev/null || echo "Warning: Could not load R module"
@@ -16,8 +16,8 @@ module load r/4.4.0 2>/dev/null || module load r/4.3.0 2>/dev/null || module loa
 export R_LIBS_USER=~/R:${R_LIBS_USER:-}
 
 # Calculate total number of simulations
-# 3 correlation levels × 50 simulations = 150 total
-TOTAL_SIMS=150
+# 4 correlation levels × 50 simulations = 200 total
+TOTAL_SIMS=200
 
 # Get the simulation index from SLURM array task ID
 SIM_INDEX=${SLURM_ARRAY_TASK_ID}

@@ -367,7 +367,7 @@ pcoa_df$Group <- groups
 # Use same color scheme as VIP plot for consistency
 # Note: PostScript doesn't support transparency well, so use solid points
 pcoa_plot <- ggplot(pcoa_df, aes(x = PCoA1, y = PCoA2, color = Group)) +
-  geom_point(size = 3.5) +  # Larger, solid points for PostScript
+  geom_point(size = 5.5, alpha = 1.0, stroke = 1.0, shape = 19) +  # Large, solid, visible points (shape 19 = filled circle)
   stat_ellipse(aes(group = Group), level = 0.95, linetype = "dashed", linewidth = 1.2) +
   scale_color_manual(values = group_colors, name = "Group") +
   labs(

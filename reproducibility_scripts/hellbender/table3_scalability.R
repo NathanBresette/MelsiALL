@@ -155,10 +155,40 @@ if (parallel_mode) {
   perm_bray <- adonis2(dist_bray ~ data$group, permutations = 999)
   bray_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
   
-  # Find best traditional
-  best_trad_F <- max(perm_euc$F[1], perm_bray$F[1])
-  best_trad <- ifelse(perm_euc$F[1] > perm_bray$F[1], "Euclidean", "BrayCurtis")
-  best_trad_time <- ifelse(best_trad == "Euclidean", euc_time, bray_time)
+  # Time Jaccard PERMANOVA
+  start_time <- Sys.time()
+  dist_jaccard <- vegdist(data$counts, method = "jaccard", binary = TRUE)
+  perm_jaccard <- adonis2(dist_jaccard ~ data$group, permutations = 999)
+  jaccard_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+  
+  # Time Weighted UniFrac PERMANOVA (using random tree for synthetic data)
+  start_time <- Sys.time()
+  tree <- ape::rtree(ncol(data$counts))
+  tree$tip.label <- colnames(data$counts)
+  dist_wunifrac <- GUniFrac::GUniFrac(data$counts, tree)$unifracs[,,"d_1"]
+  perm_wunifrac <- adonis2(as.dist(dist_wunifrac) ~ data$group, permutations = 999)
+  wunifrac_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+  
+  # Time Unweighted UniFrac PERMANOVA
+  start_time <- Sys.time()
+  dist_uunifrac <- GUniFrac::GUniFrac(data$counts, tree)$unifracs[,,"d_UW"]
+  perm_uunifrac <- adonis2(as.dist(dist_uunifrac) ~ data$group, permutations = 999)
+  uunifrac_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+  
+  # Find best traditional method
+  traditional_F <- c(Euclidean = perm_euc$F[1], 
+                     BrayCurtis = perm_bray$F[1],
+                     Jaccard = perm_jaccard$F[1],
+                     WeightedUniFrac = perm_wunifrac$F[1],
+                     UnweightedUniFrac = perm_uunifrac$F[1])
+  best_trad <- names(which.max(traditional_F))
+  best_trad_F <- max(traditional_F)
+  best_trad_time <- switch(best_trad,
+                          "Euclidean" = euc_time,
+                          "BrayCurtis" = bray_time,
+                          "Jaccard" = jaccard_time,
+                          "WeightedUniFrac" = wunifrac_time,
+                          "UnweightedUniFrac" = uunifrac_time)
   
   # Store single result
   result <- data.frame(
@@ -170,11 +200,19 @@ if (parallel_mode) {
     MeLSI_time_sec = melsi_time,
     MeLSI_F = melsi_result$F_observed,
     MeLSI_p = melsi_result$p_value,
+    Euclidean_F = perm_euc$F[1],
+    Euclidean_time_sec = euc_time,
+    BrayCurtis_F = perm_bray$F[1],
+    BrayCurtis_time_sec = bray_time,
+    Jaccard_F = perm_jaccard$F[1],
+    Jaccard_time_sec = jaccard_time,
+    WeightedUniFrac_F = perm_wunifrac$F[1],
+    WeightedUniFrac_time_sec = wunifrac_time,
+    UnweightedUniFrac_F = perm_uunifrac$F[1],
+    UnweightedUniFrac_time_sec = uunifrac_time,
     Best_Traditional = best_trad,
     Best_Traditional_F = best_trad_F,
-    Best_Traditional_time_sec = best_trad_time,
-    Euclidean_time_sec = euc_time,
-    BrayCurtis_time_sec = bray_time
+    Best_Traditional_time_sec = best_trad_time
   )
   
   # Save single result to file (for parallel collection)
@@ -220,10 +258,40 @@ if (parallel_mode) {
       perm_bray <- adonis2(dist_bray ~ data$group, permutations = 999)
       bray_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
       
-      # Find best traditional
-      best_trad_F <- max(perm_euc$F[1], perm_bray$F[1])
-      best_trad <- ifelse(perm_euc$F[1] > perm_bray$F[1], "Euclidean", "BrayCurtis")
-      best_trad_time <- ifelse(best_trad == "Euclidean", euc_time, bray_time)
+      # Time Jaccard PERMANOVA
+      start_time <- Sys.time()
+      dist_jaccard <- vegdist(data$counts, method = "jaccard", binary = TRUE)
+      perm_jaccard <- adonis2(dist_jaccard ~ data$group, permutations = 999)
+      jaccard_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+      
+      # Time Weighted UniFrac PERMANOVA (using random tree for synthetic data)
+      start_time <- Sys.time()
+      tree <- ape::rtree(ncol(data$counts))
+      tree$tip.label <- colnames(data$counts)
+      dist_wunifrac <- GUniFrac::GUniFrac(data$counts, tree)$unifracs[,,"d_1"]
+      perm_wunifrac <- adonis2(as.dist(dist_wunifrac) ~ data$group, permutations = 999)
+      wunifrac_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+      
+      # Time Unweighted UniFrac PERMANOVA
+      start_time <- Sys.time()
+      dist_uunifrac <- GUniFrac::GUniFrac(data$counts, tree)$unifracs[,,"d_UW"]
+      perm_uunifrac <- adonis2(as.dist(dist_uunifrac) ~ data$group, permutations = 999)
+      uunifrac_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+      
+      # Find best traditional method
+      traditional_F <- c(Euclidean = perm_euc$F[1], 
+                         BrayCurtis = perm_bray$F[1],
+                         Jaccard = perm_jaccard$F[1],
+                         WeightedUniFrac = perm_wunifrac$F[1],
+                         UnweightedUniFrac = perm_uunifrac$F[1])
+      best_trad <- names(which.max(traditional_F))
+      best_trad_F <- max(traditional_F)
+      best_trad_time <- switch(best_trad,
+                              "Euclidean" = euc_time,
+                              "BrayCurtis" = bray_time,
+                              "Jaccard" = jaccard_time,
+                              "WeightedUniFrac" = wunifrac_time,
+                              "UnweightedUniFrac" = uunifrac_time)
       
       results <- rbind(results, data.frame(
         Condition_Type = "vary_n",
@@ -234,11 +302,19 @@ if (parallel_mode) {
         MeLSI_time_sec = melsi_time,
         MeLSI_F = melsi_result$F_observed,
         MeLSI_p = melsi_result$p_value,
+        Euclidean_F = perm_euc$F[1],
+        Euclidean_time_sec = euc_time,
+        BrayCurtis_F = perm_bray$F[1],
+        BrayCurtis_time_sec = bray_time,
+        Jaccard_F = perm_jaccard$F[1],
+        Jaccard_time_sec = jaccard_time,
+        WeightedUniFrac_F = perm_wunifrac$F[1],
+        WeightedUniFrac_time_sec = wunifrac_time,
+        UnweightedUniFrac_F = perm_uunifrac$F[1],
+        UnweightedUniFrac_time_sec = uunifrac_time,
         Best_Traditional = best_trad,
         Best_Traditional_F = best_trad_F,
-        Best_Traditional_time_sec = best_trad_time,
-        Euclidean_time_sec = euc_time,
-        BrayCurtis_time_sec = bray_time
+        Best_Traditional_time_sec = best_trad_time
       ))
     }
   }
@@ -276,10 +352,40 @@ if (parallel_mode) {
       perm_bray <- adonis2(dist_bray ~ data$group, permutations = 999)
       bray_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
       
-      # Find best traditional
-      best_trad_F <- max(perm_euc$F[1], perm_bray$F[1])
-      best_trad <- ifelse(perm_euc$F[1] > perm_bray$F[1], "Euclidean", "BrayCurtis")
-      best_trad_time <- ifelse(best_trad == "Euclidean", euc_time, bray_time)
+      # Time Jaccard PERMANOVA
+      start_time <- Sys.time()
+      dist_jaccard <- vegdist(data$counts, method = "jaccard", binary = TRUE)
+      perm_jaccard <- adonis2(dist_jaccard ~ data$group, permutations = 999)
+      jaccard_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+      
+      # Time Weighted UniFrac PERMANOVA (using random tree for synthetic data)
+      start_time <- Sys.time()
+      tree <- ape::rtree(ncol(data$counts))
+      tree$tip.label <- colnames(data$counts)
+      dist_wunifrac <- GUniFrac::GUniFrac(data$counts, tree)$unifracs[,,"d_1"]
+      perm_wunifrac <- adonis2(as.dist(dist_wunifrac) ~ data$group, permutations = 999)
+      wunifrac_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+      
+      # Time Unweighted UniFrac PERMANOVA
+      start_time <- Sys.time()
+      dist_uunifrac <- GUniFrac::GUniFrac(data$counts, tree)$unifracs[,,"d_UW"]
+      perm_uunifrac <- adonis2(as.dist(dist_uunifrac) ~ data$group, permutations = 999)
+      uunifrac_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+      
+      # Find best traditional method
+      traditional_F <- c(Euclidean = perm_euc$F[1], 
+                         BrayCurtis = perm_bray$F[1],
+                         Jaccard = perm_jaccard$F[1],
+                         WeightedUniFrac = perm_wunifrac$F[1],
+                         UnweightedUniFrac = perm_uunifrac$F[1])
+      best_trad <- names(which.max(traditional_F))
+      best_trad_F <- max(traditional_F)
+      best_trad_time <- switch(best_trad,
+                              "Euclidean" = euc_time,
+                              "BrayCurtis" = bray_time,
+                              "Jaccard" = jaccard_time,
+                              "WeightedUniFrac" = wunifrac_time,
+                              "UnweightedUniFrac" = uunifrac_time)
       
       results <- rbind(results, data.frame(
         Condition_Type = "vary_p",
@@ -290,11 +396,19 @@ if (parallel_mode) {
         MeLSI_time_sec = melsi_time,
         MeLSI_F = melsi_result$F_observed,
         MeLSI_p = melsi_result$p_value,
+        Euclidean_F = perm_euc$F[1],
+        Euclidean_time_sec = euc_time,
+        BrayCurtis_F = perm_bray$F[1],
+        BrayCurtis_time_sec = bray_time,
+        Jaccard_F = perm_jaccard$F[1],
+        Jaccard_time_sec = jaccard_time,
+        WeightedUniFrac_F = perm_wunifrac$F[1],
+        WeightedUniFrac_time_sec = wunifrac_time,
+        UnweightedUniFrac_F = perm_uunifrac$F[1],
+        UnweightedUniFrac_time_sec = uunifrac_time,
         Best_Traditional = best_trad,
         Best_Traditional_F = best_trad_F,
-        Best_Traditional_time_sec = best_trad_time,
-        Euclidean_time_sec = euc_time,
-        BrayCurtis_time_sec = bray_time
+        Best_Traditional_time_sec = best_trad_time
       ))
     }
   }

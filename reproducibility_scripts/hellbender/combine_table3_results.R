@@ -51,20 +51,44 @@ for (cond_type in unique(all_results$Condition_Type)) {
     
     if (nrow(subset_results) == 0) next
     
+    # Calculate mean F-statistics for all methods
+    melsi_mean_F <- mean(subset_results$MeLSI_F)
+    euclidean_mean_F <- mean(subset_results$Euclidean_F)
+    bray_mean_F <- mean(subset_results$BrayCurtis_F)
+    jaccard_mean_F <- mean(subset_results$Jaccard_F)
+    wunifrac_mean_F <- mean(subset_results$WeightedUniFrac_F)
+    uunifrac_mean_F <- mean(subset_results$UnweightedUniFrac_F)
+    
+    # Calculate rank (1/6 = best, 6/6 = worst)
+    all_methods_F <- c(MeLSI = melsi_mean_F,
+                      Euclidean = euclidean_mean_F,
+                      BrayCurtis = bray_mean_F,
+                      Jaccard = jaccard_mean_F,
+                      WeightedUniFrac = wunifrac_mean_F,
+                      UnweightedUniFrac = uunifrac_mean_F)
+    sorted_methods <- sort(all_methods_F, decreasing = TRUE)
+    melsi_rank <- which(names(sorted_methods) == "MeLSI")
+    
     summary_table <- rbind(summary_table, data.frame(
       Condition_Type = cond_type,
       Condition_Value = cond_val,
       n_samples = subset_results$n_samples[1],
       n_taxa = subset_results$n_taxa[1],
       n_simulations = nrow(subset_results),
-      MeLSI_Mean_F = round(mean(subset_results$MeLSI_F), 3),
+      MeLSI_Mean_F = round(melsi_mean_F, 3),
       MeLSI_SD_F = round(sd(subset_results$MeLSI_F), 3),
       MeLSI_Mean_Time = round(mean(subset_results$MeLSI_time_sec), 1),
       MeLSI_SD_Time = round(sd(subset_results$MeLSI_time_sec), 1),
+      Euclidean_Mean_F = round(euclidean_mean_F, 3),
+      BrayCurtis_Mean_F = round(bray_mean_F, 3),
+      Jaccard_Mean_F = round(jaccard_mean_F, 3),
+      WeightedUniFrac_Mean_F = round(wunifrac_mean_F, 3),
+      UnweightedUniFrac_Mean_F = round(uunifrac_mean_F, 3),
       Best_Traditional_Mean_F = round(mean(subset_results$Best_Traditional_F), 3),
       Best_Traditional_SD_F = round(sd(subset_results$Best_Traditional_F), 3),
       Best_Traditional_Mean_Time = round(mean(subset_results$Best_Traditional_time_sec), 1),
-      Best_Traditional_SD_Time = round(sd(subset_results$Best_Traditional_time_sec), 1)
+      Best_Traditional_SD_Time = round(sd(subset_results$Best_Traditional_time_sec), 1),
+      MeLSI_Rank = paste0(melsi_rank, "/6")
     ))
   }
 }

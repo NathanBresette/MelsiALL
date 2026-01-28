@@ -1,0 +1,46 @@
+#!/usr/bin/expect -f
+set timeout 30
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set password "Grad123!\$"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "${user}@${host}"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    -re "\\\$ |# "
+}
+
+send "cd ${remote_dir}\r"
+expect -re "\\\$ |# "
+
+send "echo '=== CHECKING TABLE 3 SIMULATION FILE COLUMNS ==='\r"
+expect -re "\\\$ |# "
+
+send "head -1 table3_sim_2.csv\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== CHECKING IF NEW FILES ARE BEING CREATED ==='\r"
+expect -re "\\\$ |# "
+
+send "ls -lt table3_sim_*.csv | head -5\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== CHECKING TABLE 3 JOB STATUS ==='\r"
+expect -re "\\\$ |# "
+
+send "squeue -u nbhtd | grep 12380033 | wc -l && echo 'tasks still running'\r"
+expect -re "\\\$ |# "
+
+send "exit\r"
+expect eof

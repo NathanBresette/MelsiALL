@@ -81,19 +81,38 @@ for (corr_level in correlation_levels) {
     best_trad_mean_F <- mean(subset_results$UnweightedUniFrac_F, na.rm = TRUE)
   }
   
+  # Calculate mean F-statistics for all methods
+  melsi_mean_F <- mean(subset_results$MeLSI_F)
+  euclidean_mean_F <- mean(subset_results$Euclidean_F, na.rm = TRUE)
+  bray_mean_F <- mean(subset_results$BrayCurtis_F, na.rm = TRUE)
+  jaccard_mean_F <- mean(subset_results$Jaccard_F, na.rm = TRUE)
+  wunifrac_mean_F <- mean(subset_results$WeightedUniFrac_F, na.rm = TRUE)
+  uunifrac_mean_F <- mean(subset_results$UnweightedUniFrac_F, na.rm = TRUE)
+  
+  # Calculate rank (1/6 = best, 6/6 = worst)
+  all_methods_F <- c(MeLSI = melsi_mean_F,
+                      Euclidean = euclidean_mean_F,
+                      BrayCurtis = bray_mean_F,
+                      Jaccard = jaccard_mean_F,
+                      WeightedUniFrac = wunifrac_mean_F,
+                      UnweightedUniFrac = uunifrac_mean_F)
+  sorted_methods <- sort(all_methods_F, decreasing = TRUE)
+  melsi_rank <- which(names(sorted_methods) == "MeLSI")
+  
   summary_table <- rbind(summary_table, data.frame(
     Correlation_Level = corr_level,
     Correlation_Value = unique(subset_results$Correlation_Value),
     n_simulations = nrow(subset_results),
     MeLSI_Power = round(mean(subset_results$MeLSI_significant) * 100, 1),
-    MeLSI_Mean_F = round(mean(subset_results$MeLSI_F), 3),
+    MeLSI_Mean_F = round(melsi_mean_F, 3),
     MeLSI_SD_F = round(sd(subset_results$MeLSI_F), 3),
     Precision_10 = round(mean(subset_results$Precision_10, na.rm = TRUE), 3),
     Recall_10 = round(mean(subset_results$Recall_10, na.rm = TRUE), 3),
     AUC_ROC = round(mean(subset_results$AUC_ROC, na.rm = TRUE), 3),
     Best_Traditional = best_trad_method,
     Best_Trad_Power = round(best_trad_power * 100, 1),
-    Best_Trad_Mean_F = round(best_trad_mean_F, 3)
+    Best_Trad_Mean_F = round(best_trad_mean_F, 3),
+    MeLSI_Rank = paste0(melsi_rank, "/6")
   ))
 }
 

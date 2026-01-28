@@ -57,7 +57,10 @@ for (dataset_type in unique(all_results$Dataset_Type)) {
       n_simulations = nrow(subset_results),
       MeLSI_TypeI_Rate = round(mean(subset_results$MeLSI_significant) * 100, 2),
       Euclidean_TypeI_Rate = round(mean(subset_results$Euclidean_significant) * 100, 2),
-      BrayCurtis_TypeI_Rate = round(mean(subset_results$BrayCurtis_significant) * 100, 2)
+      BrayCurtis_TypeI_Rate = round(mean(subset_results$BrayCurtis_significant) * 100, 2),
+      Jaccard_TypeI_Rate = round(mean(subset_results$Jaccard_significant) * 100, 2),
+      WeightedUniFrac_TypeI_Rate = round(mean(subset_results$WeightedUniFrac_significant) * 100, 2),
+      UnweightedUniFrac_TypeI_Rate = round(mean(subset_results$UnweightedUniFrac_significant) * 100, 2)
     ))
   }
 }
