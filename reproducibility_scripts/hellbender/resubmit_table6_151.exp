@@ -1,0 +1,76 @@
+#!/usr/bin/expect -f
+set timeout 60
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set password "Grad123!\$"
+set remote_dir "~/melsi_simulations/hellbender"
+
+# Transfer R script
+spawn scp check_all_table6_levels.R "${user}@${host}:${remote_dir}/"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    eof
+}
+
+# SSH and check, then resubmit file 151
+spawn ssh "${user}@${host}"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    -re "\\\$ |# "
+}
+
+send "cd ${remote_dir}\r"
+expect -re "\\\$ |# "
+
+send "echo '=== CHECKING ALL CORRELATION LEVELS ==='\r"
+expect -re "\\\$ |# "
+
+send "module load r/4.4.0 2>/dev/null || module load r/4.3.0 2>/dev/null || module load r 2>/dev/null\r"
+expect -re "\\\$ |# "
+
+send "export R_LIBS_USER=~/R\r"
+expect -re "\\\$ |# "
+
+send "Rscript check_all_table6_levels.R\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== CHECKING ERROR FOR FILE 151 ==='\r"
+expect -re "\\\$ |# "
+
+send "cat table6_corr_missing_12381229_151.err 2>/dev/null | head -10 || echo 'Error file not found'\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== RESUBMITTING FILE 151 ==='\r"
+expect -re "\\\$ |# "
+
+send "cat resubmit_table6_missing_job.sh | sed 's/151,153,154,155,157,158,159,161,162,163,165,166,167,169,170,171,173,174,175,177,178,179,181,182,183,185,186,187,189,190,191,193,194,195,197,198,199/151/' > resubmit_table6_151.sh\r"
+expect -re "\\\$ |# "
+
+send "chmod +x resubmit_table6_151.sh\r"
+expect -re "\\\$ |# "
+
+send "sbatch resubmit_table6_151.sh\r"
+expect -re "\\\$ |# "
+
+send "sleep 2\r"
+expect -re "\\\$ |# "
+
+send "squeue -u nbhtd | grep melsi_corr\r"
+expect -re "\\\$ |# "
+
+send "exit\r"
+expect eof

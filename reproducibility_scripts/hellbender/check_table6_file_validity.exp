@@ -1,0 +1,61 @@
+#!/usr/bin/expect -f
+set timeout 60
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set password "Grad123!\$"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "${user}@${host}"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    -re "\\\$ |# "
+}
+
+send "cd ${remote_dir}\r"
+expect -re "\\\$ |# "
+
+send "echo '=== CHECKING FILE VALIDITY FOR HIGH CORRELATION (151-200) ==='\r"
+expect -re "\\\$ |# "
+
+send "invalid_count=0\r"
+expect -re "\\\$ |# "
+
+send "for i in \$(seq 151 200); do file=\"table6_sim_\${i}.csv\"; if [ -f \"\$file\" ]; then lines=\$(wc -l < \"\$file\"); if [ \"\$lines\" -lt 2 ] || ! grep -q '\"High\"' \"\$file\" 2>/dev/null; then echo \"Invalid: \$file (lines: \$lines)\"; invalid_count=\$((invalid_count + 1)); fi; fi; done\r"
+expect -re "\\\$ |# "
+
+send "echo \"Invalid files: \$invalid_count\"\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== CHECKING ACTUAL ROW COUNTS IN FILES ==='\r"
+expect -re "\\\$ |# "
+
+send "echo 'High correlation files with data rows:'\r"
+expect -re "\\\$ |# "
+
+send "for i in \$(seq 151 200); do file=\"table6_sim_\${i}.csv\"; if [ -f \"\$file\" ]; then data_rows=\$(tail -n +2 \"\$file\" | wc -l); if [ \"\$data_rows\" -gt 0 ]; then echo \"\$file: \$data_rows data rows\"; fi; fi; done | head -10\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== COUNTING VALID HIGH CORRELATION SIMULATIONS ==='\r"
+expect -re "\\\$ |# "
+
+send "valid_count=0\r"
+expect -re "\\\$ |# "
+
+send "for i in \$(seq 151 200); do file=\"table6_sim_\${i}.csv\"; if [ -f \"\$file\" ] && grep -q '\"High\"' \"\$file\" 2>/dev/null && [ \$(wc -l < \"\$file\") -ge 2 ]; then valid_count=\$((valid_count + 1)); fi; done\r"
+expect -re "\\\$ |# "
+
+send "echo \"Valid High correlation simulations: \$valid_count\"\r"
+expect -re "\\\$ |# "
+
+send "exit\r"
+expect eof

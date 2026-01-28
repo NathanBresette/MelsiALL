@@ -5,8 +5,8 @@ set host "hellbender.rnet.missouri.edu"
 set password "Grad123!\$"
 set remote_dir "~/melsi_simulations/hellbender"
 
-# Transfer R script
-spawn scp fix_table6_all_levels.R "${user}@${host}:${remote_dir}/"
+# Transfer fixed files
+spawn scp table6_feature_correlation.R resubmit_table6_missing_job.sh "${user}@${host}:${remote_dir}/"
 
 expect {
     "password:" {
@@ -16,7 +16,7 @@ expect {
     eof
 }
 
-# SSH and run analysis
+# SSH and resubmit
 spawn ssh "${user}@${host}"
 
 expect {
@@ -30,22 +30,16 @@ expect {
 send "cd ${remote_dir}\r"
 expect -re "\\\$ |# "
 
-send "module load r/4.4.0 2>/dev/null || module load r/4.3.0 2>/dev/null || module load r 2>/dev/null\r"
+send "echo '=== RESUBMITTING 37 INVALID HIGH CORRELATION SIMULATIONS ==='\r"
 expect -re "\\\$ |# "
 
-send "export R_LIBS_USER=~/R\r"
+send "sbatch resubmit_table6_missing_job.sh\r"
 expect -re "\\\$ |# "
 
-send "Rscript fix_table6_all_levels.R\r"
+send "sleep 2\r"
 expect -re "\\\$ |# "
 
-send "echo ''\r"
-expect -re "\\\$ |# "
-
-send "echo '=== CURRENT JOB STATUS ==='\r"
-expect -re "\\\$ |# "
-
-send "squeue -u nbhtd\r"
+send "squeue -u nbhtd | grep melsi_corr_missing | head -5\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

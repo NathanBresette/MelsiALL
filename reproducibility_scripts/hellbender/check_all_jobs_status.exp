@@ -1,0 +1,61 @@
+#!/usr/bin/expect -f
+set timeout 30
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set password "Grad123!\$"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "${user}@${host}"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    -re "\\\$ |# "
+}
+
+send "cd ${remote_dir}\r"
+expect -re "\\\$ |# "
+
+send "echo '=== ALL RUNNING JOBS ==='\r"
+expect -re "\\\$ |# "
+
+send "squeue -u nbhtd\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== TABLE 6 RESUBMIT JOB STATUS (12381229) ==='\r"
+expect -re "\\\$ |# "
+
+send "squeue -j 12381229 2>/dev/null || echo 'Job completed or not found'\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== CHECKING TABLE 6 RESUBMIT PROGRESS ==='\r"
+expect -re "\\\$ |# "
+
+send "sacct -j 12381229 --format=JobID,State,ExitCode,Elapsed | head -10\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== COUNTING COMPLETED HIGH CORRELATION SIMULATIONS ==='\r"
+expect -re "\\\$ |# "
+
+send "module load r/4.4.0 2>/dev/null || module load r/4.3.0 2>/dev/null || module load r 2>/dev/null\r"
+expect -re "\\\$ |# "
+
+send "export R_LIBS_USER=~/R\r"
+expect -re "\\\$ |# "
+
+send "Rscript -e \"valid_count <- 0; for (i in 151:200) { file <- paste0('table6_sim_', i, '.csv'); if (file.exists(file)) { data <- tryCatch(read.csv(file, stringsAsFactors = FALSE), error = function(e) NULL); if (!is.null(data) && nrow(data) > 0 && 'Correlation_Level' %in% colnames(data) && any(data\\\$Correlation_Level == 'High')) { valid_count <- valid_count + 1 } } }; cat('Valid High correlation files:', valid_count, '/ 50\\n')\"\r"
+expect -re "\\\$ |# "
+
+send "exit\r"
+expect eof

@@ -1,0 +1,49 @@
+#!/usr/bin/expect -f
+set timeout 30
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set password "Grad123!\$"
+set remote_dir "~/melsi_simulations/hellbender"
+
+spawn ssh "${user}@${host}"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    -re "\\\$ |# "
+}
+
+send "cd ${remote_dir}\r"
+expect -re "\\\$ |# "
+
+send "echo '=== FAILED JOB IDS ==='\r"
+expect -re "\\\$ |# "
+
+send "sacct -u nbhtd -j 12380231 --format=JobID,State,ExitCode | grep FAILED | awk '{print \$1}' | grep -E '^[0-9]+$' | head -10\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== CHECKING WHICH SIMULATION INDICES FAILED ==='\r"
+expect -re "\\\$ |# "
+
+send "for jobid in \$(sacct -u nbhtd -j 12380231 --format=JobID,State,ExitCode | grep FAILED | awk '{print \$1}' | grep -E '^12380231_[0-9]+$' | head -5); do task=\$(echo \$jobid | cut -d'_' -f2); echo \"Task \$task would be: correlation level \$(((\$task - 1) / 50 + 1)), simulation \$(((\$task - 1) % 50 + 1))\"; done\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== CHECKING IF HIGH CORRELATION SIMS ARE MISSING ==='\r"
+expect -re "\\\$ |# "
+
+send "echo 'Expected High correlation sims: 151-200'\r"
+expect -re "\\\$ |# "
+
+send "for i in {151..200}; do if [ ! -f \"table6_sim_\${i}.csv\" ]; then echo \"Missing: sim \$i\"; fi; done | head -10\r"
+expect -re "\\\$ |# "
+
+send "exit\r"
+expect eof

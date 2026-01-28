@@ -5,8 +5,8 @@ set host "hellbender.rnet.missouri.edu"
 set password "Grad123!\$"
 set remote_dir "~/melsi_simulations/hellbender"
 
-# Transfer R script
-spawn scp fix_table6_all_levels.R "${user}@${host}:${remote_dir}/"
+# Transfer the R script
+spawn scp check_table6_validity.R "${user}@${host}:${remote_dir}/"
 
 expect {
     "password:" {
@@ -16,7 +16,7 @@ expect {
     eof
 }
 
-# SSH and run analysis
+# SSH and run the script
 spawn ssh "${user}@${host}"
 
 expect {
@@ -36,16 +36,7 @@ expect -re "\\\$ |# "
 send "export R_LIBS_USER=~/R\r"
 expect -re "\\\$ |# "
 
-send "Rscript fix_table6_all_levels.R\r"
-expect -re "\\\$ |# "
-
-send "echo ''\r"
-expect -re "\\\$ |# "
-
-send "echo '=== CURRENT JOB STATUS ==='\r"
-expect -re "\\\$ |# "
-
-send "squeue -u nbhtd\r"
+send "Rscript check_table6_validity.R\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

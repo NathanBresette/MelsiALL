@@ -1,5 +1,5 @@
 #!/usr/bin/expect -f
-set timeout 30
+set timeout 60
 set user "nbhtd"
 set host "hellbender.rnet.missouri.edu"
 set password "Grad123!\$"
@@ -18,28 +18,31 @@ expect {
 send "cd ${remote_dir}\r"
 expect -re "\\\$ |# "
 
-send "echo '=== TABLE 6 SUMMARY FILE ==='\r"
+send "echo '=== RERUNNING TABLE 6 COMBINE SCRIPT TO ADD RANK COLUMN ==='\r"
 expect -re "\\\$ |# "
 
-send "head -5 table6_feature_correlation_summary.csv\r"
+send "module load r/4.4.0 2>/dev/null || module load r/4.3.0 2>/dev/null || module load r 2>/dev/null\r"
 expect -re "\\\$ |# "
 
-send "echo ''\r"
+send "export R_LIBS_USER=~/R\r"
 expect -re "\\\$ |# "
 
-send "echo '=== COUNTING TABLE 6 SIMULATION FILES ==='\r"
-expect -re "\\\$ |# "
-
-send "ls table6_sim_*.csv 2>/dev/null | wc -l\r"
+send "Rscript combine_table6_results.R\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== CHECKING IF COMBINE SCRIPT NEEDS TO RUN ==='\r"
+send "echo '=== CHECKING IF RANK COLUMN WAS ADDED ==='\r"
 expect -re "\\\$ |# "
 
-send "wc -l table6_feature_correlation_summary.csv\r"
+send "head -1 table6_feature_correlation_summary.csv | tr ',' '\\n' | grep -n Rank\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "cat table6_feature_correlation_summary.csv\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

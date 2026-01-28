@@ -18,40 +18,40 @@ expect {
 send "cd ${remote_dir}\r"
 expect -re "\\\$ |# "
 
-send "echo '=== SIMULATION DISTRIBUTION ==='\r"
+send "echo '=== CHECKING TABLE 3 JOB (12380033) ==='\r"
 expect -re "\\\$ |# "
 
-send "echo 'None (should be sims 1-50):'\r"
-expect -re "\\\$ |# "
-
-send "ls table6_sim_{1..50}.csv 2>/dev/null | wc -l\r"
-expect -re "\\\$ |# "
-
-send "echo 'Low (should be sims 51-100):'\r"
-expect -re "\\\$ |# "
-
-send "ls table6_sim_{51..100}.csv 2>/dev/null | wc -l\r"
-expect -re "\\\$ |# "
-
-send "echo 'Moderate (should be sims 101-150):'\r"
-expect -re "\\\$ |# "
-
-send "ls table6_sim_{101..150}.csv 2>/dev/null | wc -l\r"
-expect -re "\\\$ |# "
-
-send "echo 'High (should be sims 151-200):'\r"
-expect -re "\\\$ |# "
-
-send "ls table6_sim_{151..200}.csv 2>/dev/null | wc -l\r"
+send "squeue -u nbhtd -j 12380033 | head -10\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== CHECKING ERROR LOGS FOR HIGH CORRELATION FAILURES ==='\r"
+send "echo '=== CHECKING TABLE 6 JOB (12380231) ==='\r"
 expect -re "\\\$ |# "
 
-send "cat table6_corr_12380231_151.err 2>/dev/null | head -5 || echo 'Error file not found'\r"
+send "squeue -u nbhtd -j 12380231 | head -10\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== CHECKING FOR COMPLETED TABLE JOBS ==='\r"
+expect -re "\\\$ |# "
+
+send "sacct -u nbhtd --starttime=2026-01-26 --format=JobID,JobName,State,ExitCode,Elapsed | grep -E 'table|melsi_co' | tail -20\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
+expect -re "\\\$ |# "
+
+send "echo '=== CHECKING FOR TABLE SUMMARY FILES ==='\r"
+expect -re "\\\$ |# "
+
+send "ls -lh table*_summary.csv 2>/dev/null | tail -5 || echo 'No summary files found'\r"
+expect -re "\\\$ |# "
+
+send "echo ''\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

@@ -1,0 +1,52 @@
+#!/usr/bin/expect -f
+set timeout 60
+set user "nbhtd"
+set host "hellbender.rnet.missouri.edu"
+set password "Grad123!\$"
+set remote_dir "~/melsi_simulations/hellbender"
+
+# Transfer fixed R script
+spawn scp table6_feature_correlation.R "${user}@${host}:${remote_dir}/"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    eof
+}
+
+# SSH and resubmit missing simulations
+spawn ssh "${user}@${host}"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    -re "\\\$ |# "
+}
+
+send "cd ${remote_dir}\r"
+expect -re "\\\$ |# "
+
+send "echo '=== RESUBMITTING INVALID HIGH CORRELATION SIMULATIONS ==='\r"
+expect -re "\\\$ |# "
+
+send "cat resubmit_table6_missing_job.sh | sed 's/103,104,105,106,107,108,109,110,111,112/151,153,154,155,157,158,159,161,162,163,165,166,167,169,170,171,173,174,175,177,178,179,181,182,183,185,186,187,189,190,191,193,194,195,197,198,199/' > resubmit_table6_fixed.sh\r"
+expect -re "\\\$ |# "
+
+send "chmod +x resubmit_table6_fixed.sh\r"
+expect -re "\\\$ |# "
+
+send "sbatch resubmit_table6_fixed.sh\r"
+expect -re "\\\$ |# "
+
+send "sleep 2\r"
+expect -re "\\\$ |# "
+
+send "squeue -u nbhtd | grep melsi_corr_missing | head -5\r"
+expect -re "\\\$ |# "
+
+send "exit\r"
+expect eof

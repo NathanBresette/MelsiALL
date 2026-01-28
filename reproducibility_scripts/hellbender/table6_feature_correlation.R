@@ -251,20 +251,20 @@ results <- data.frame()
 # Determine which simulation to run (for parallel execution)
 if (parallel_mode) {
   # Calculate which condition this simulation belongs to
-  conditions <- expand.grid(
-    correlation_level = correlation_levels,
-    sim = 1:n_simulations_per_condition
-  )
-  total_conditions <- nrow(conditions)
+  # Mapping: 1-50=None, 51-100=Low, 101-150=Moderate, 151-200=High
+  total_conditions <- length(correlation_levels) * n_simulations_per_condition
   
   if (sim_index < 1 || sim_index > total_conditions) {
     stop("sim_index out of range")
   }
   
-  current_condition <- conditions[sim_index, ]
-  corr_level <- as.numeric(current_condition$correlation_level)
-  sim <- as.integer(current_condition$sim)
-  corr_name <- correlation_names[which(correlation_levels == corr_level)]
+  # Calculate which correlation level (0-indexed)
+  corr_idx <- floor((sim_index - 1) / n_simulations_per_condition)
+  corr_level <- correlation_levels[corr_idx + 1]
+  corr_name <- correlation_names[corr_idx + 1]
+  
+  # Calculate which simulation within this correlation level (1-indexed)
+  sim <- ((sim_index - 1) %% n_simulations_per_condition) + 1
   
   cat(sprintf("Running simulation %d/%d: %s correlation (%.1f)\n", 
               sim_index, total_conditions, corr_name, corr_level))
