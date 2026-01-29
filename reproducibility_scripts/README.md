@@ -1,70 +1,42 @@
 # MeLSI Results Reproducibility Scripts
 
-This folder contains R scripts to reproduce each results table from the MeLSI paper.
+This folder contains scripts to reproduce all results from the MeLSI paper.
 
-## Prerequisites
+## Directory Structure
 
-Install required R packages:
+- **`hellbender/`** - All simulation scripts and job submission scripts for running on HPC
+  - See `hellbender/HELLBENDER_GUIDE.md` for detailed instructions
+  - Contains R scripts for all tables (Table 1-6) and SKIOME validation
+  - Contains SLURM job scripts for parallel execution
+- **`figure_atlas1006_vip_pcoa.R`** - Script to generate Atlas1006 VIP and PCoA figures
 
-```r
-install.packages(c("vegan", "ggplot2", "dplyr", "GUniFrac"))
+## Running Simulations
 
-# Install Bioconductor packages
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install(c("microbiome", "phyloseq"))
+All table simulations are designed to run on HPC (Hellbender cluster). See `hellbender/HELLBENDER_GUIDE.md` for complete instructions.
 
-# Install MeLSI package
-devtools::install_github("NathanBresette/MeLSI")
-```
+### Quick Overview
 
-## Scripts
+1. Transfer files to Hellbender
+2. Submit SLURM jobs for each table
+3. Combine results after jobs complete
+4. Download summary CSV files
+
+## Scripts Overview
 
 | Script | Table | Description |
 |--------|-------|-------------|
-| `table1_type1_error.R` | Table 1 | Type I Error Control on Null Data |
-| `table2_power_analysis.R` | Table 2 | Method Comparison on Synthetic and Real Datasets |
-| `table2_dietswap.R` | (supplement) | DietSwap-only reproduction of Table 2 real-data row |
-| `table3_scalability.R` | Table 3 | Scalability Across Sample Size and Dimensionality |
-| `table4_parameter_sensitivity.R` | Table 4 | Parameter Sensitivity Analysis |
-| `table5_prefiltering.R` | Table 5 | Benefit of Conservative Pre-filtering |
-
-## Usage
-
-Each script is standalone and can be run independently:
-
-```bash
-Rscript table1_type1_error.R
-Rscript table2_power_analysis.R
-# ... etc
-```
-
-Or run all scripts at once:
-
-```bash
-Rscript run_all_tables.R
-```
-
-## Expected Runtime
-
-- Table 1: ~5 minutes
-- Table 2: ~15-20 minutes (includes synthetic power analysis + real datasets)
-- Table 3: ~20-30 minutes (tests multiple dimensions)
-- Table 4: ~10-15 minutes (parameter sweeps)
-- Table 5: ~10 minutes
-
-## Output
-
-Each script generates:
-1. Console output showing progress and results
-2. A CSV file with the results (e.g., `table1_results.csv`)
-3. Summary statistics and interpretation
+| `hellbender/table1_type1_error.R` | Table 1 | Type I Error Control on Null Data |
+| `hellbender/table2_power_analysis.R` | Table 2 | Statistical Power Analysis |
+| `hellbender/table3_scalability.R` | Table 3 | Scalability Across Sample Size and Dimensionality |
+| `hellbender/table4_parameter_sensitivity.R` | Table 4 | Parameter Sensitivity Analysis |
+| `hellbender/table5_prefiltering.R` | Table 5 | Benefit of Conservative Pre-filtering |
+| `hellbender/table6_feature_correlation.R` | Table 6 | Feature Correlation Robustness |
+| `hellbender/skiome_validation.R` | - | SKIOME Real Data Validation |
 
 ## Notes
 
+- All simulations use 200 permutations for MeLSI (conservative compared to 999 for traditional methods)
+- Results are saved as CSV files for easy analysis
+- Summary files are generated after combining individual simulation results
 - All scripts use `set.seed(42)` for reproducibility
-- MeLSI uses 200 permutations (n_perms=200, B=30) for stable and accurate p-values
-- Comparison methods (Euclidean, Bray-Curtis, etc.) use 999 permutations (standard practice)
-- Real data (Atlas1006 and DietSwap) is loaded from the `microbiome` R package
-- DietSwap ships with the package; no external downloads are required
 
