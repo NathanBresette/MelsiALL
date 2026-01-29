@@ -5,6 +5,16 @@ set host "hellbender.rnet.missouri.edu"
 set password "Grad123!\$"
 set remote_dir "~/melsi_simulations/hellbender"
 
+spawn scp find_missing_table3.R "${user}@${host}:${remote_dir}/"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    eof
+}
+
 spawn ssh "${user}@${host}"
 
 expect {
@@ -18,19 +28,22 @@ expect {
 send "cd ${remote_dir}\r"
 expect -re "\\\$ |# "
 
-send "echo '=== CHECKING ERROR FILES FOR MISSING TASKS ==='\r"
+send "module load r/4.4.0 2>/dev/null || module load r 2>/dev/null\r"
 expect -re "\\\$ |# "
 
-send "for i in 91 92 93 94 95 96 97; do echo \"Task \$i:\"; tail -5 table3_scalability_miss_12384167_\${i}.err 2>/dev/null || echo '  No error file'; done\r"
+send "export R_LIBS_USER=~/R\r"
+expect -re "\\\$ |# "
+
+send "Rscript find_missing_table3.R\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== CHECKING OUTPUT FILES ==='\r"
+send "echo '=== CHECKING JOB 12384167 STATUS ==='\r"
 expect -re "\\\$ |# "
 
-send "for i in 91 92 93 94 95 96 97; do echo \"Task \$i output:\"; tail -3 table3_scalability_miss_12384167_\${i}.out 2>/dev/null || echo '  No output file'; done\r"
+send "sacct -j 12384167 --format=JobID,State,ExitCode,Elapsed | tail -20\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

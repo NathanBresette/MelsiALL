@@ -36,25 +36,22 @@ expect -re "\\\$ |# "
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== CHECKING FOR MISSING FILES ==='\r"
-expect -re "\\\$ |# "
-
 send "module load r/4.4.0 2>/dev/null || module load r 2>/dev/null\r"
 expect -re "\\\$ |# "
 
 send "export R_LIBS_USER=~/R\r"
 expect -re "\\\$ |# "
 
-send "Rscript -e \"missing <- c(); for (i in 1:100) { if (!file.exists(paste0('table3_sim_', i, '.csv'))) { missing <- c(missing, i) } }; cat('Missing files:', paste(missing, collapse=', '), '\\n'); cat('Total missing:', length(missing), '\\n')\"\r"
+send "Rscript find_missing_table3.R\r"
 expect -re "\\\$ |# "
 
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== CHECKING RECENT JOB HISTORY ==='\r"
+send "echo '=== CHECKING JOB 12384167 COMPLETION STATUS ==='\r"
 expect -re "\\\$ |# "
 
-send "sacct -u nbhtd --format=JobID,JobName,State,ExitCode,Elapsed,Start --starttime=2026-01-27 | grep -E 'melsi_sca|table3' | tail -10\r"
+send "sacct -j 12384167 --format=JobID,State,ExitCode,Elapsed --parsable2 | tail -20\r"
 expect -re "\\\$ |# "
 
 send "exit\r"
