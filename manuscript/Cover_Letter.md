@@ -6,29 +6,45 @@ pagestyle: empty
 
 \vspace*{0.3in}
 
-\begin{flushright}
-December 1, 2024
-\end{flushright}
+\begin{flushleft}
+Editor-in-Chief\\
+mSystems\\
+RE: Resubmission of Manuscript ID mSystems01710-25\\
+Title: "MeLSI: Metric Learning for Statistical Inference in Microbiome Community Composition Analysis"
+\end{flushleft}
 
 \vspace{0.2in}
 
 Dear Editor,
 
-We submit our manuscript entitled **"MeLSI: Metric Learning for Statistical Inference in Microbiome Community Composition Analysis"** for consideration as a Methods and Protocols article in mSystems.
+On behalf of my co-authors at the University of Missouri, I am pleased to resubmit our revised manuscript for consideration in mSystems. We have leveraged this revision period to fundamentally strengthen the statistical foundation of our proposed framework, MeLSI, moving from case-study validation to a rigorous, simulation-based "gold standard" approach.
 
-Current microbiome beta diversity analysis relies on fixed distance metrics (Bray-Curtis, Euclidean, UniFrac) that treat all taxa uniformly. This approach cannot adapt to dataset-specific signal structure and may miss subtle but biologically meaningful differences. We present MeLSI, a machine learning framework that learns data-adaptive distance metrics while maintaining rigorous statistical inference through permutation testing.
+The primary focus of this revision was addressing the critical need for distributional proof of Type I error control and statistical power. We believe the following upgrades position MeLSI as a statistically robust tool for the microbiome research community:
 
-MeLSI integrates ensemble metric learning with PERMANOVA-based hypothesis testing. The method provides interpretable feature importance weights that identify which taxa drive group separation, addressing a key limitation of black-box machine learning approaches. Comprehensive validation demonstrates proper Type I error control, competitive statistical power across synthetic benchmarks, and superior performance on real microbiome datasets (Atlas1006, DietSwap).
+\textbf{Statistical Validity and Power}
 
-The method is implemented as an open-source R package with comprehensive documentation and reproducible validation code (DOI: 10.5281/zenodo.17714848). We believe this work will be of broad interest to the mSystems readership and addresses an important methodological gap in microbiome analysis.
+\textbf{Type I Error Control:} We expanded our validation to include 600 independent simulations across multiple sample sizes, demonstrating that MeLSI maintains empirical rejection rates between 3\% and 6\%, aligning perfectly with the nominal 5\% significance level.
 
-All authors have approved this submission. We declare no conflicts of interest. This work was supported by NIH/NIA grant R56AG079586.
+\textbf{Comprehensive Power Analysis:} Through 450 new simulations across small, medium, and large effect sizes, we verified that MeLSI provides competitive or superior sensitivity compared to traditional fixed metrics, particularly when signals are distributed across multiple taxa.
+
+\textbf{Robustness to Ecological Correlation:} Addressing a key concern for biological data, we have demonstrated that MeLSI maintains stable F-statistics and power even under high feature correlation ($r=0.8$), suggesting it is uniquely suited for the complex co-occurrence patterns inherent in microbial communities.
+
+\textbf{Interpretability and Software Accessibility}
+
+\textbf{Feature Recovery Metrics:} We now provide quantitative evidence—including Precision at k and AUC-ROC—of MeLSI's ability to accurately recover "true" signal taxa. On real-world datasets like Atlas1006 and DietSwap, MeLSI identified key biological drivers that traditional methods partially obscured.
+
+\textbf{Bioconductor Integration:} Reflecting our commitment to high-quality software standards, the MeLSI R package is currently under review for inclusion in the Bioconductor repository, ensuring long-term stability and interoperability for the bioinformatics community.
+
+By integrating the adaptive nature of metric learning with the rigor of permutation-based inference, MeLSI offers researchers a way to move beyond "one-size-fits-all" distance metrics without sacrificing statistical validity.
+
+We thank the reviewers for their insights, which have significantly improved this work. We have no competing interests to disclose.
+
+\vspace{0.2in}
 
 Sincerely,
 
-Nathan Bresette  
-Aaron C. Ericsson  
-Carter Woods  
-Ai-Ling Lin
+\vspace{0.1in}
 
-Corresponding author: ai-ling.lin@health.missouri.edu
+Nathan Bresette\\
+PhD Student, Institute for Data Science and Informatics\\
+Roy Blunt NextGen Precision Health, University of Missouri
