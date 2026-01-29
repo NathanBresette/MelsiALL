@@ -4,8 +4,8 @@
 library(stringr)
 
 # Read the manuscript
-input_file <- "MeLSI_Research_Paper_mSystems_wordcount.md"
-output_file <- "MeLSI_Research_Paper_mSystems_wordcount.md"
+input_file <- "manuscript/MeLSI_Research_Paper_mSystems.md"
+output_file <- "manuscript/MeLSI_Research_Paper_mSystems_wordcount.md"
 
 text <- readLines(input_file)
 

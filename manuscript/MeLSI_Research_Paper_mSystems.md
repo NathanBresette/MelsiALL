@@ -1,3 +1,8 @@
+---
+mainfont: Times New Roman
+geometry: margin=1in
+---
+
 # MeLSI: Metric Learning for Statistical Inference in Microbiome Community Composition Analysis
 
 **Nathan Bresette**$^{1,2}$, **Aaron C. Ericsson**$^{3,4}$, **Carter Woods**$^{1}$, **Ai-Ling Lin**$^{1,2,5,6,*}$
@@ -399,7 +404,7 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 
 \noindent For the DietSwap dataset, MeLSI's learned feature weights identified taxa including Akkermansia and Oxalobacter as key drivers of diet-induced community differences. Figure 3 displays the top 15 taxa by learned feature weight alongside the PCoA ordination.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figures/dietswap_combined.png}
 \end{figure}

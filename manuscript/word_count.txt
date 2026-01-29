@@ -1,5 +1,5 @@
-Word count: 6064
-Character count: 34810
+Word count: 4928
+Character count: 28151
 
 Note: This count excludes:
 - Tables

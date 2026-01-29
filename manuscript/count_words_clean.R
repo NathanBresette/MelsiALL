@@ -4,7 +4,7 @@
 library(stringr)
 
 # Read the cleaned manuscript
-text <- readLines("MeLSI_Research_Paper_mSystems_wordcount.md")
+text <- readLines("manuscript/MeLSI_Research_Paper_mSystems_wordcount.md")
 
 # Remove LaTeX commands and formatting
 # Remove \noindent, \footnotesize, \normalsize, etc.
@@ -54,6 +54,6 @@ writeLines(c(
   "- Funding, Acknowledgments, Author sections",
   "- URLs, DOIs, email addresses",
   "- LaTeX formatting commands"
-), "word_count.txt")
+), "manuscript/word_count.txt")
 
 cat("\nWord count saved to word_count.txt\n")
