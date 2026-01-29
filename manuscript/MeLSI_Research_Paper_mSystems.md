@@ -262,11 +262,11 @@ MeLSI source code and all validation scripts are permanently archived at Zenodo 
 
 \noindent Abbreviations: n, sample size; Type I, empirical Type I error rate (percentage of simulations with p < 0.05). Results based on 100 simulations per condition.
 
-\noindent We evaluated Type I error control using 100 simulations per condition across three sample sizes (n = 50, 100, 200) for both synthetic null data (randomly assigned group labels) and real data with shuffled labels (preserving data structure while breaking group associations). Across all conditions, MeLSI maintained proper Type I error control, with empirical rejection rates near the nominal 5% level (range: 3-6%). All traditional methods also maintained appropriate error rates: Euclidean (0-7%), Bray-Curtis (2-7%), Jaccard (2-6%), Weighted UniFrac (2-6%), and Unweighted UniFrac (1-9%). The permutation testing framework properly accounts for the flexibility of learned metrics, ensuring that MeLSI's adaptive approach does not inflate false positive rates. Type I error rates remained stable across sample sizes, indicating robust performance from small (n=50) to larger (n=200) studies.
+\noindent We evaluated Type I error control using 100 simulations per condition across three sample sizes (n = 50, 100, 200) for both synthetic null data (randomly assigned group labels) and real data with shuffled labels (preserving data structure while breaking group associations). MeLSI was evaluated using 200 permutations per simulation, while traditional methods used 999 permutations (the field standard), making this a conservative comparison that requires MeLSI to demonstrate higher precision to reach significance. Across all conditions, MeLSI maintained proper Type I error control, with empirical rejection rates near the nominal 5% level (range: 3-6%). All traditional methods also maintained appropriate error rates: Euclidean (0-7%), Bray-Curtis (2-7%), Jaccard (2-6%), Weighted UniFrac (2-6%), and Unweighted UniFrac (1-9%). The permutation testing framework properly accounts for the flexibility of learned metrics, ensuring that MeLSI's adaptive approach does not inflate false positive rates. Type I error rates remained stable across sample sizes, indicating robust performance from small (n=50) to larger (n=200) studies.
 
 ### Performance across synthetic and real datasets
 
-\noindent We evaluated MeLSI's ability to detect true group differences across synthetic datasets with varying effect sizes and real microbiome datasets (Table 2).
+\noindent We evaluated MeLSI's ability to detect true group differences across synthetic datasets with varying effect sizes and real microbiome datasets (Table 2). All comparisons use MeLSI's 200 permutations versus traditional methods' 999 permutations, making this a conservative comparison that requires MeLSI to demonstrate higher precision to reach significance.
 
 **Table 2. Statistical Power Analysis Across Effect Sizes and Sample Sizes**
 
@@ -375,7 +375,7 @@ These results reveal important contextual strengths between methods. MeLSI excel
 | Moderate | 0.6 | 50 | 46 | 1.498 | 0.356 | 0.356 | 0.783 | 2/6 |
 | High | 0.8 | 50 | 44 | 1.507 | 0.368 | 0.368 | 0.769 | 1/6 |
 
-\noindent Abbreviations: n, number of simulations per correlation level; F, PERMANOVA F-statistic (mean across 50 simulations); Precision at 10, proportion of top-10 features that are true signals; Recall at 10, proportion of true signals found in top-10 features; AUC-ROC, area under receiver operating characteristic curve for classifying signal vs. non-signal taxa; Rank, MeLSI's rank among all methods (MeLSI + 5 traditional methods: Euclidean, Bray-Curtis, Jaccard, Weighted UniFrac, Unweighted UniFrac) based on F-statistic, where 1/6 indicates best performance and 6/6 indicates worst performance. Detailed individual method comparisons supporting these ranks are provided in Supplementary Table S4.
+\noindent Abbreviations: n, number of simulations per correlation level (not sample size); F, PERMANOVA F-statistic (mean across 50 simulations); Precision at 10, proportion of top-10 features that are true signals; Recall at 10, proportion of true signals found in top-10 features; AUC-ROC, area under receiver operating characteristic curve for classifying signal vs. non-signal taxa; Rank, MeLSI's rank among all methods (MeLSI + 5 traditional methods: Euclidean, Bray-Curtis, Jaccard, Weighted UniFrac, Unweighted UniFrac) based on F-statistic, where 1/6 indicates best performance and 6/6 indicates worst performance. Detailed individual method comparisons supporting these ranks are provided in Supplementary Table S4.
 
 \noindent MeLSI demonstrated robust performance across correlation levels, maintaining stable F-statistics (±1.7% variation: F=1.512 at r=0, F=1.481 at r=0.3, F=1.498 at r=0.6, F=1.507 at r=0.8) and consistent statistical power (50%, 42%, 46%, 44% respectively). The stability of F-statistics demonstrates that MeLSI effectively handles correlated features without performance degradation. Feature recovery metrics also remained stable: Precision at 10 (0.392, 0.348, 0.356, 0.368) and AUC-ROC (0.817, 0.788, 0.783, 0.769) showed minimal variation across correlation levels, confirming that MeLSI's ability to identify true signal taxa is maintained even when taxa exhibit high correlation. MeLSI's competitive ranking (1/6 to 3/6) across all correlation levels demonstrates that the method maintains statistical power comparable to traditional methods while providing interpretability, even when features are correlated. Notably, MeLSI achieved its best ranking (1/6) at high correlation (r=0.8), suggesting the method may be particularly effective when taxa exhibit strong ecological relationships.
 
@@ -397,7 +397,7 @@ These results reveal important contextual strengths between methods. MeLSI excel
 
 ### Real data validation
 
-\noindent To evaluate MeLSI's utility in real-world applications, we analyzed two published microbiome datasets: Atlas1006 (sex-associated differences) and DietSwap (dietary intervention). These analyses demonstrate MeLSI's ability to detect biologically meaningful differences while providing interpretable feature weights that identify key taxa driving group separation.
+\noindent To evaluate MeLSI's utility in real-world applications, we analyzed two published microbiome datasets: Atlas1006 (sex-associated differences) and DietSwap (dietary intervention). These analyses demonstrate MeLSI's ability to detect biologically meaningful differences while providing interpretable feature weights that identify key taxa driving group separation. All comparisons use MeLSI's 200 permutations versus traditional methods' 999 permutations, making this a conservative comparison.
 
 #### Atlas1006 dataset
 
@@ -474,7 +474,7 @@ MeLSI's learned distance metrics are compatible with other distance-based ordina
 
 - **Supplementary Table S1**: Recovery of true signal taxa metrics (Precision at k, Recall at k, Mean Rank, AUC-ROC) across all effect sizes and sample sizes
 - **Supplementary Table S2**: Individual method comparisons for power analysis (MeLSI vs. each traditional method) supporting rank calculations in Table 2
-- **Supplementary Table S3**: Individual method comparisons for scalability analysis (to be added after simulations complete)
+- **Supplementary Table S3**: Individual method comparisons for scalability analysis supporting rank calculations in Table 3
 - **Supplementary Table S4**: Individual method comparisons for feature correlation analysis
 
 \noindent These supplementary tables provide complete transparency for rank calculations (e.g., 1/6, 3/6) shown in the main tables, allowing readers to see how MeLSI compares to each traditional method individually.
