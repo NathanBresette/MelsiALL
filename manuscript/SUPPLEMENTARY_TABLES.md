@@ -80,9 +80,66 @@ This table shows detailed comparisons between MeLSI and each of the five traditi
 
 ## Supplementary Table S3: Individual Method Comparisons for Scalability Analysis
 
-This table will be generated after Table 3 job completes and will show detailed comparisons between MeLSI and each traditional method for scalability analysis.
+This table shows detailed comparisons between MeLSI and each of the five traditional methods individually across all scalability conditions. These comparisons support the rank calculations shown in Table 3.
 
-*[To be added after Table 3 simulations complete]*
+| Condition Type | Condition Value | n | p | Traditional Method | MeLSI Mean F | Traditional Mean F | F Difference |
+|----------------|-----------------|---|---|---|-------------------|--------------|-------------------|--------------|
+| **Varying n (p=200)** | | | | | | | |
+| vary_n | 20 | 20 | 200 | Euclidean | 1.132 | 1.042 | 0.090 |
+| vary_n | 20 | 20 | 200 | Bray-Curtis | 1.132 | 1.123 | 0.009 |
+| vary_n | 20 | 20 | 200 | Jaccard | 1.132 | 1.031 | 0.101 |
+| vary_n | 20 | 20 | 200 | Weighted UniFrac | 1.132 | 1.151 | -0.019 |
+| vary_n | 20 | 20 | 200 | Unweighted UniFrac | 1.132 | 1.015 | 0.117 |
+| vary_n | 50 | 50 | 200 | Euclidean | 1.277 | 1.085 | 0.192 |
+| vary_n | 50 | 50 | 200 | Bray-Curtis | 1.277 | 1.324 | -0.047 |
+| vary_n | 50 | 50 | 200 | Jaccard | 1.277 | 0.993 | 0.284 |
+| vary_n | 50 | 50 | 200 | Weighted UniFrac | 1.277 | 1.268 | 0.009 |
+| vary_n | 50 | 50 | 200 | Unweighted UniFrac | 1.277 | 1.008 | 0.269 |
+| vary_n | 100 | 100 | 200 | Euclidean | 1.497 | 1.209 | 0.288 |
+| vary_n | 100 | 100 | 200 | Bray-Curtis | 1.497 | 1.660 | -0.163 |
+| vary_n | 100 | 100 | 200 | Jaccard | 1.497 | 1.078 | 0.419 |
+| vary_n | 100 | 100 | 200 | Weighted UniFrac | 1.497 | 1.684 | -0.187 |
+| vary_n | 100 | 100 | 200 | Unweighted UniFrac | 1.497 | 1.064 | 0.433 |
+| vary_n | 200 | 200 | 200 | Euclidean | 1.836 | 1.466 | 0.370 |
+| vary_n | 200 | 200 | 200 | Bray-Curtis | 1.836 | 2.283 | -0.447 |
+| vary_n | 200 | 200 | 200 | Jaccard | 1.836 | 1.026 | 0.810 |
+| vary_n | 200 | 200 | 200 | Weighted UniFrac | 1.836 | 2.240 | -0.404 |
+| vary_n | 200 | 200 | 200 | Unweighted UniFrac | 1.836 | 1.027 | 0.809 |
+| vary_n | 500 | 500 | 200 | Euclidean | 2.511 | 2.008 | 0.503 |
+| vary_n | 500 | 500 | 200 | Bray-Curtis | 2.511 | 4.000 | -1.489 |
+| vary_n | 500 | 500 | 200 | Jaccard | 2.511 | 1.050 | 1.461 |
+| vary_n | 500 | 500 | 200 | Weighted UniFrac | 2.511 | 5.135 | -2.624 |
+| vary_n | 500 | 500 | 200 | Unweighted UniFrac | 2.511 | 0.994 | 1.517 |
+| **Varying p (n=100)** | | | | | | | |
+| vary_p | 50 | 100 | 50 | Euclidean | 1.666 | 1.356 | 0.310 |
+| vary_p | 50 | 100 | 50 | Bray-Curtis | 1.666 | 2.153 | -0.487 |
+| vary_p | 50 | 100 | 50 | Jaccard | 1.666 | 0.964 | 0.702 |
+| vary_p | 50 | 100 | 50 | Weighted UniFrac | 1.666 | 1.980 | -0.314 |
+| vary_p | 50 | 100 | 50 | Unweighted UniFrac | 1.666 | 1.026 | 0.640 |
+| vary_p | 100 | 100 | 100 | Euclidean | 1.670 | 1.333 | 0.337 |
+| vary_p | 100 | 100 | 100 | Bray-Curtis | 1.670 | 2.144 | -0.474 |
+| vary_p | 100 | 100 | 100 | Jaccard | 1.670 | 0.958 | 0.712 |
+| vary_p | 100 | 100 | 100 | Weighted UniFrac | 1.670 | 2.401 | -0.731 |
+| vary_p | 100 | 100 | 100 | Unweighted UniFrac | 1.670 | 0.989 | 0.681 |
+| vary_p | 200 | 100 | 200 | Euclidean | 1.470 | 1.178 | 0.292 |
+| vary_p | 200 | 100 | 200 | Bray-Curtis | 1.470 | 1.614 | -0.144 |
+| vary_p | 200 | 100 | 200 | Jaccard | 1.470 | 1.011 | 0.459 |
+| vary_p | 200 | 100 | 200 | Weighted UniFrac | 1.470 | 1.676 | -0.206 |
+| vary_p | 200 | 100 | 200 | Unweighted UniFrac | 1.470 | 1.063 | 0.407 |
+| vary_p | 500 | 100 | 500 | Euclidean | 1.375 | 1.098 | 0.277 |
+| vary_p | 500 | 100 | 500 | Bray-Curtis | 1.375 | 1.264 | 0.111 |
+| vary_p | 500 | 100 | 500 | Jaccard | 1.375 | 1.028 | 0.347 |
+| vary_p | 500 | 100 | 500 | Weighted UniFrac | 1.375 | 1.216 | 0.159 |
+| vary_p | 500 | 100 | 500 | Unweighted UniFrac | 1.375 | 1.034 | 0.341 |
+| vary_p | 1000 | 100 | 1000 | Euclidean | 1.331 | 1.036 | 0.295 |
+| vary_p | 1000 | 100 | 1000 | Bray-Curtis | 1.331 | 1.123 | 0.208 |
+| vary_p | 1000 | 100 | 1000 | Jaccard | 1.331 | 1.020 | 0.311 |
+| vary_p | 1000 | 100 | 1000 | Weighted UniFrac | 1.331 | 1.147 | 0.184 |
+| vary_p | 1000 | 100 | 1000 | Unweighted UniFrac | 1.331 | 1.023 | 0.308 |
+
+**Abbreviations:** n, sample size; p, number of taxa/features; F, PERMANOVA F-statistic (mean across 10 simulations per condition); F Difference, MeLSI Mean F - Traditional Mean F. Results based on 10 simulations per condition.
+
+**Note:** The five traditional methods are: (1) **Euclidean distance** - standard Euclidean distance on CLR-transformed data; (2) **Bray-Curtis dissimilarity** - count-based dissimilarity metric; (3) **Jaccard dissimilarity** - binary (presence/absence) dissimilarity; (4) **Weighted UniFrac** - phylogenetically-informed distance using abundance-weighted branch lengths; (5) **Unweighted UniFrac** - phylogenetically-informed distance using presence/absence of taxa.
 
 ---
 

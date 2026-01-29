@@ -308,27 +308,27 @@ These results reveal important contextual strengths between methods. MeLSI excel
 | | n | p | MeLSI F | MeLSI Time | MeLSI Rank |
 |---------------|-----|------|---------|------------|------------|
 | **Varying n (p=200)** | | | | | |
-| n=20 | 20 | 200 | 1.132 | 488.3 | 1/6 |
-| n=50 | 50 | 200 | 1.277 | 502.0 | 1/6 |
-| n=100 | 100 | 200 | 1.497 | 544.0 | 1/6 |
-| n=200 | 200 | 200 | 1.836 | 679.5 | 1/6 |
-| n=500 | 500 | 200 | 2.511 | 1800.1 | 1/6 |
+| n=20 | 20 | 200 | 1.132 | 486.9 | 2/6 |
+| n=50 | 50 | 200 | 1.277 | 457.9 | 2/6 |
+| n=100 | 100 | 200 | 1.497 | 513.3 | 3/6 |
+| n=200 | 200 | 200 | 1.836 | 739.5 | 3/6 |
+| n=500 | 500 | 200 | 2.511 | 2055.8 | 3/6 |
 | **Varying p (n=100)** | | | | | |
-| p=50 | 100 | 50 | 1.666 | 227.9 | 1/6 |
-| p=100 | 100 | 100 | 1.670 | 357.0 | 1/6 |
-| p=200 | 100 | 200 | 1.470 | 565.2 | 1/6 |
-| p=500 | 100 | 500 | 1.375 | 1783.9 | 1/6 |
-| p=1000 | 100 | 1000 | 1.331 | 8405.6 | 1/6 |
+| p=50 | 100 | 50 | 1.666 | 244.8 | 3/6 |
+| p=100 | 100 | 100 | 1.670 | 337.5 | 3/6 |
+| p=200 | 100 | 200 | 1.470 | 523.4 | 3/6 |
+| p=500 | 100 | 500 | 1.375 | 1829.0 | 1/6 |
+| p=1000 | 100 | 1000 | 1.331 | 8633.0 | 1/6 |
 
-\noindent Abbreviations: n, sample size; p, number of taxa/features; F, PERMANOVA F-statistic; Time, computation time in seconds; Rank, MeLSI's rank among all methods (MeLSI + 5 traditional methods: Euclidean, Bray-Curtis, Jaccard, Weighted UniFrac, Unweighted UniFrac) based on F-statistic, where 1/6 indicates best performance and 6/6 indicates worst performance. Values shown as mean across 10 simulations per condition. Detailed individual method comparisons supporting these ranks will be provided in Supplementary Table S3 (to be added after simulations complete).
+\noindent Abbreviations: n, sample size; p, number of taxa/features; F, PERMANOVA F-statistic; Time, computation time in seconds; Rank, MeLSI's rank among all methods (MeLSI + 5 traditional methods: Euclidean, Bray-Curtis, Jaccard, Weighted UniFrac, Unweighted UniFrac) based on F-statistic, where 1/6 indicates best performance and 6/6 indicates worst performance. Values shown as mean across 10 simulations per condition. Detailed individual method comparisons supporting these ranks are provided in Supplementary Table S3.
 
 #### Sample size scaling
 
-\noindent MeLSI's F-statistics increased monotonically with sample size, from mean F = 1.132 at n=20 to mean F = 2.511 at n=500, demonstrating appropriate statistical power gains with larger datasets. MeLSI ranked 1/3 at n=20 and ≤2/3 at larger sample sizes. Computation time increased substantially with sample size (mean = 488.3s at n=20 to mean = 1800.1s at n=500), consistent with O(n²) distance calculations. The method achieved significance at n >= 200 for this effect size, demonstrating good small-sample properties.
+\noindent MeLSI's F-statistics increased monotonically with sample size, from mean F = 1.132 at n=20 to mean F = 2.511 at n=500, demonstrating appropriate statistical power gains with larger datasets. MeLSI ranked 2/6 at smaller sample sizes (n=20, n=50) and 3/6 at larger sample sizes (n=100-500), demonstrating competitive performance across all sample sizes. Computation time increased substantially with sample size (mean = 486.9s at n=20 to mean = 2055.8s at n=500), consistent with O(n²) distance calculations. The method achieved significance at n >= 200 for this effect size, demonstrating good small-sample properties.
 
 #### Dimensionality scaling
 
-\noindent Across dimensionalities from p=50 to p=1000, MeLSI ranked ≤2/3 at lower dimensionalities (p=50-200) and 1/3 at higher dimensionalities (p=500, p=1000). Performance peaked at moderate dimensionality (p=100, mean F = 1.670) and declined at very high dimensionality (p=1000, mean F = 1.331), likely due to increased noise. Computation time scales with O(p²) complexity, increasing from 227.9s at p=50 to 8405.6s at p=1000 (Table 3). Pre-filtering (retaining 70% of features) substantially mitigates this scaling. For shotgun metagenomics with thousands of features, we recommend applying pre-filtering, considering feature aggregation, or using traditional methods if interpretability is not prioritized.
+\noindent Across dimensionalities from p=50 to p=1000, MeLSI ranked 3/6 at lower dimensionalities (p=50-200) and 1/6 at higher dimensionalities (p=500, p=1000), demonstrating improved relative performance as dimensionality increases. Performance peaked at moderate dimensionality (p=100, mean F = 1.670) and declined at very high dimensionality (p=1000, mean F = 1.331), likely due to increased noise. Computation time scales with O(p²) complexity, increasing from 244.8s at p=50 to 8633.0s at p=1000 (Table 3). Pre-filtering (retaining 70% of features) substantially mitigates this scaling. For shotgun metagenomics with thousands of features, we recommend applying pre-filtering, considering feature aggregation, or using traditional methods if interpretability is not prioritized.
 
 ### Parameter sensitivity analysis
 

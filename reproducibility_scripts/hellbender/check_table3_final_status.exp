@@ -18,15 +18,6 @@ expect {
 send "cd ${remote_dir}\r"
 expect -re "\\\$ |# "
 
-send "echo '=== CHECKING TABLE 3 JOB STATUS ==='\r"
-expect -re "\\\$ |# "
-
-send "squeue -u nbhtd | grep -E 'melsi_sca|table3' || echo 'No Table 3 jobs running'\r"
-expect -re "\\\$ |# "
-
-send "echo ''\r"
-expect -re "\\\$ |# "
-
 send "echo '=== COUNTING TABLE 3 FILES ==='\r"
 expect -re "\\\$ |# "
 
@@ -48,10 +39,10 @@ expect -re "\\\$ |# "
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== CHECKING SPECIFIC MISSING FILES ==='\r"
+send "echo '=== CHECKING IF TASKS 91-97 COMPLETED ==='\r"
 expect -re "\\\$ |# "
 
-send "ls table3_sim_91.csv table3_sim_92.csv table3_sim_93.csv table3_sim_94.csv table3_sim_95.csv table3_sim_96.csv table3_sim_97.csv 2>&1 | grep -v 'cannot access' | wc -l\r"
+send "for i in 91 92 93 94 95 96 97; do if [ -f table3_sim_\${i}.csv ]; then echo \"Task \$i: COMPLETE\"; else echo \"Task \$i: MISSING\"; fi; done\r"
 expect -re "\\\$ |# "
 
 send "exit\r"

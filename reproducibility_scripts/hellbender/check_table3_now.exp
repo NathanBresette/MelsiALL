@@ -48,10 +48,10 @@ expect -re "\\\$ |# "
 send "echo ''\r"
 expect -re "\\\$ |# "
 
-send "echo '=== CHECKING SPECIFIC MISSING FILES ==='\r"
+send "echo '=== CHECKING TASKS 91-97 STATUS ==='\r"
 expect -re "\\\$ |# "
 
-send "ls table3_sim_91.csv table3_sim_92.csv table3_sim_93.csv table3_sim_94.csv table3_sim_95.csv table3_sim_96.csv table3_sim_97.csv 2>&1 | grep -v 'cannot access' | wc -l\r"
+send "for i in 91 92 93 94 95 96 97; do if [ -f table3_sim_\${i}.csv ]; then echo \"Task \$i: COMPLETE\"; else echo \"Task \$i: MISSING\"; fi; done\r"
 expect -re "\\\$ |# "
 
 send "exit\r"
