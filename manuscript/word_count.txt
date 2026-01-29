@@ -1,0 +1,10 @@
+Word count: 6064
+Character count: 34810
+
+Note: This count excludes:
+- Tables
+- Figure captions
+- References
+- Funding, Acknowledgments, Author sections
+- URLs, DOIs, email addresses
+- LaTeX formatting commands
