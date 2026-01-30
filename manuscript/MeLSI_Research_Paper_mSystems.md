@@ -47,7 +47,7 @@ Furthermore, microbiome data presents unique analytical challenges including hig
 
 We formalize metric learning as follows: Let $\mathbf{X} \in \mathbb{R}^{n \times p}$ denote a feature abundance matrix with $n$ samples and $p$ taxa, and let $\mathbf{y} = (y_1, \ldots, y_n)$ denote group labels. A distance metric is parameterized by a positive semi-definite matrix $\mathbf{M} \in \mathbb{R}^{p \times p}$, where the Mahalanobis distance between samples $i$ and $j$ is $d_M(\mathbf{x}_i, \mathbf{x}_j) = \sqrt{(\mathbf{x}_i - \mathbf{x}_j)^T \mathbf{M} (\mathbf{x}_i - \mathbf{x}_j)}$. For diagonal $\mathbf{M}$, this reduces to weighted Euclidean distance with feature-specific weights $M_{jj}$ representing the importance of feature $j$.
 
-Mahalanobis distance learning (18) learns a positive semi-definite matrix **M** that defines distances as $d(\mathbf{x}_i, \mathbf{x}_j) = \sqrt{(\mathbf{x}_i - \mathbf{x}_j)^T \mathbf{M} (\mathbf{x}_i - \mathbf{x}_j)}$. When **M** is diagonal, this reduces to learning feature-specific weights, providing interpretable importance scores (17).
+Mahalanobis distance learning (18) learns a positive semi-definite matrix $\mathbf{M}$ that defines distances as $d(\mathbf{x}_i, \mathbf{x}_j) = \sqrt{(\mathbf{x}_i - \mathbf{x}_j)^T \mathbf{M} (\mathbf{x}_i - \mathbf{x}_j)}$. When $\mathbf{M}$ is diagonal, this reduces to learning feature-specific weights, providing interpretable importance scores (17).
 
 Despite its promise, metric learning has seen limited application in microbiome beta diversity analysis. Previous work has explored metric learning for clinical prediction tasks (19), but not specifically for statistical inference in community composition analysis where rigorous Type I error control is essential.
 
@@ -69,7 +69,7 @@ This paper presents the MeLSI framework, comprehensive validation results, and d
 2. For each of B weak learners:
     - Bootstrap sample the data
     - Subsample features
-    - Optimize metric matrix M via gradient descent
+    - Optimize metric matrix $\mathbf{M}$ via gradient descent
 3. Combine weak learners via performance-weighted ensemble averaging
 4. Compute robust distance matrix using eigenvalue decomposition
 
@@ -91,7 +91,7 @@ We parameterize the distance metric using a diagonal positive semi-definite matr
 
 $$d_M(\mathbf{x}_i, \mathbf{x}_k) = \sqrt{(\mathbf{x}_i - \mathbf{x}_k)^T \mathbf{M} (\mathbf{x}_i - \mathbf{x}_k)}$$
 
-For diagonal M, this simplifies to a weighted Euclidean distance:
+For diagonal $\mathbf{M}$, this simplifies to a weighted Euclidean distance:
 
 \noindent $$d_M(\mathbf{x}_i, \mathbf{x}_k) = \sqrt{\sum_{j} M_{jj} (x_{ij} - x_{kj})^2}$$
 
@@ -117,7 +117,7 @@ The combination of bootstrap sampling (sample-level randomness) and feature subs
 
 #### Optimization objective
 
-\noindent For each weak learner, we optimize M to maximize between-group distances while minimizing within-group distances. For a two-group comparison (groups $G_1$ and $G_2$), we maximize the objective:
+\noindent For each weak learner, we optimize $\mathbf{M}$ to maximize between-group distances while minimizing within-group distances. For a two-group comparison (groups $G_1$ and $G_2$), we maximize the objective:
 
 $$F(\mathbf{M}) = \frac{1}{|G_1||G_2|} \sum_{i \in G_1} \sum_{k \in G_2} d_M(\mathbf{x}_i, \mathbf{x}_k)^2 - \frac{1}{2|G_1|^2} \sum_{i,j \in G_1} d_M(\mathbf{x}_i, \mathbf{x}_j)^2 - \frac{1}{2|G_2|^2} \sum_{i,j \in G_2} d_M(\mathbf{x}_i, \mathbf{x}_j)^2$$
 
@@ -194,7 +194,7 @@ $$p = \frac{\sum \mathbb{I}(F_{perm} \geq F_{obs}) + 1}{n_{perms} + 1}$$
 3. Parameter sensitivity: Robustness to hyperparameter choices (Section 3.4)
 4. Feature correlation robustness: Performance under varying levels of feature correlation (Section 3.5)
 5. Pre-filtering value: Benefit of conservative feature pre-filtering (Section 3.6)
-6. Real data validation: Comparative performance against standard distance metrics on Atlas1006 and DietSwap datasets (Section 3.7)
+6. Real data validation: Comparative performance against standard distance metrics on Atlas1006, DietSwap, and SKIOME datasets (Section 3.7)
 7. Biological interpretability: Feature importance weights and visualization (Section 3.8)
 8. Computational performance: Runtime characteristics on standard hardware (Section 3.9)
 
@@ -382,19 +382,6 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 
 \noindent On the DietSwap dataset (Western vs. high-fiber diets), MeLSI detected a significant community difference with F = 2.856 (p = 0.015), outperforming all traditional metrics. The strongest fixed metric was Bray-Curtis (F = 2.153, p = 0.058). These results suggest that MeLSI's adaptive weighting captures diet-induced compositional shifts that fixed metrics only weakly detect.
 
-#### SKIOME dataset: Multi-group validation
-
-\noindent To validate multi-group capability, we analyzed the SKIOME skin microbiome dataset (PRJNA554499, 511 samples, 3 groups: Atopic_Dermatitis, Healthy, Psoriasis). MeLSI's omnibus test detected significant differences (F = 4.895, p = 0.005), comparable to Euclidean distance (F = 4.897, p = 0.001) but lower than count-based methods (Bray-Curtis: F = 16.275, Jaccard: F = 11.058, both p = 0.001). All pairwise comparisons remained significant after FDR correction (p = 0.005 for all pairs). Figure 4 displays feature importance weights and PCoA ordination, demonstrating MeLSI's interpretability for multi-group analyses. This validates MeLSI's utility beyond two-group comparisons and across different body sites (skin vs. gut microbiome).
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\textwidth]{figures/skiome_combined.png}
-\end{figure}
-
-\noindent \footnotesize
-**Figure 4.** SKIOME multi-group validation: Feature importance weights (left) and PCoA ordination (right) for three-group comparison (Atopic_Dermatitis, Healthy, Psoriasis). Dashed ellipses show 95% confidence intervals. Consistent with significant omnibus PERMANOVA result (F=4.895, p=0.005).
-\normalsize
-
 ### Feature importance and biological interpretability
 
 \noindent MeLSI provides interpretable feature importance weights. For the Atlas1006 dataset, the learned metric assigned highest weights to genera in the families Bacteroidaceae, Lachnospiraceae, and Ruminococcaceae, taxonomic groups previously associated with sex differences in gut microbiome composition (30, 31). Figure 1 displays the top 15 taxa by learned feature weight.
@@ -405,7 +392,7 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 **Figure 1.** Top 15 taxa ranked by MeLSI feature weights for Atlas1006 dataset, colored by directionality. Taxa from Bacteroidaceae, Lachnospiraceae, and Ruminococcaceae families show strongest contributions.
 \normalsize
 
-\noindent The diagonal elements of the learned metric matrix M directly represent feature importance: higher values indicate taxa that contribute more to group separation. MeLSI automatically calculates directionality and log2 fold-change values on CLR-transformed data. Figure 2 shows PCoA ordination using the MeLSI-learned distance matrix, demonstrating group separation consistent with significant PERMANOVA results.
+\noindent The diagonal elements of the learned metric matrix $\mathbf{M}$ directly represent feature importance: higher values indicate taxa that contribute more to group separation. MeLSI automatically calculates directionality and log2 fold-change values on CLR-transformed data. Figure 2 shows PCoA ordination using the MeLSI-learned distance matrix, demonstrating group separation consistent with significant PERMANOVA results.
 
 ![](figures/atlas1006_pcoa.png)
 
@@ -424,6 +411,19 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 
 \noindent \footnotesize
 **Figure 3.** DietSwap dataset: Top 15 taxa by feature weights (left) and PCoA ordination (right). Taxa including Akkermansia and Oxalobacter show strong contributions. Dashed ellipses show 95% confidence intervals.
+\normalsize
+
+#### SKIOME dataset: Multi-group validation
+
+\noindent To validate multi-group capability, we analyzed the SKIOME skin microbiome dataset (PRJNA554499, 511 samples, 3 groups: Atopic_Dermatitis, Healthy, Psoriasis). MeLSI's omnibus test detected significant differences (F = 4.895, p = 0.005), comparable to Euclidean distance (F = 4.897, p = 0.001) but lower than count-based methods (Bray-Curtis: F = 16.275, Jaccard: F = 11.058, both p = 0.001). All pairwise comparisons remained significant after FDR correction (p = 0.005 for all pairs). Figure 4 displays feature importance weights and PCoA ordination, demonstrating MeLSI's interpretability for multi-group analyses. This validates MeLSI's utility beyond two-group comparisons and across different body sites (skin vs. gut microbiome).
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/skiome_combined.png}
+\end{figure}
+
+\noindent \footnotesize
+**Figure 4.** SKIOME multi-group validation: Feature importance weights (left) and PCoA ordination (right) for three-group comparison (Atopic_Dermatitis, Healthy, Psoriasis). Dashed ellipses show 95% confidence intervals. Consistent with significant omnibus PERMANOVA result (F=4.895, p=0.005).
 \normalsize
 
 ### Computational performance
