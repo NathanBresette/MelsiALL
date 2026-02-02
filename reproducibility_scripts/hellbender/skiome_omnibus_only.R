@@ -186,6 +186,32 @@ results <- data.frame(
 write.csv(results, "skiome_omnibus_results.csv", row.names = FALSE)
 cat("Results saved to: skiome_omnibus_results.csv\n\n")
 
+# Save feature weights as backup (for plot regeneration if needed)
+if (!is.null(melsi_omnibus$feature_weights) && length(melsi_omnibus$feature_weights) > 0) {
+  feature_weights_df <- data.frame(
+    Feature = names(melsi_omnibus$feature_weights),
+    Weight = as.numeric(melsi_omnibus$feature_weights),
+    stringsAsFactors = FALSE
+  )
+  # Add directionality if available
+  if (!is.null(melsi_omnibus$directionality)) {
+    feature_weights_df$Directionality <- melsi_omnibus$directionality[names(melsi_omnibus$feature_weights)]
+  }
+  write.csv(feature_weights_df, "skiome_omnibus_feature_weights.csv", row.names = FALSE)
+  cat("Feature weights saved to: skiome_omnibus_feature_weights.csv\n")
+}
+
+# Save distance matrix as backup (for PCoA plot regeneration if needed)
+if (!is.null(melsi_omnibus$distance_matrix)) {
+  # Save as CSV (symmetric matrix, so we can save upper triangle or full)
+  write.csv(melsi_omnibus$distance_matrix, "skiome_omnibus_distance_matrix.csv", row.names = FALSE)
+  cat("Distance matrix saved to: skiome_omnibus_distance_matrix.csv\n")
+}
+
+# Save full results object as RData backup
+save(melsi_omnibus, X_clr, groups, file = "skiome_omnibus_results_backup.RData")
+cat("Full results backup saved to: skiome_omnibus_results_backup.RData\n\n")
+
 cat("==============================================================================\n")
 cat("SUMMARY\n")
 cat("==============================================================================\n")
@@ -210,8 +236,23 @@ cat("Generating VIP plot (3-group directionality enabled)...\n")
 tryCatch({
   if (!is.null(melsi_omnibus$feature_weights) && length(melsi_omnibus$feature_weights) > 0) {
     # For 3+ groups, directionality shows which group has highest abundance for each feature
-    # Note: plot_vip currently only colors for 2 groups, but directionality info is still useful
-    # We'll enable it - the function will show directionality labels even if colors are limited
+    # Ensure directionality is available - if not in omnibus, calculate it
+    if (is.null(melsi_omnibus$directionality)) {
+      cat("  Calculating directionality for 3+ groups...\n")
+      # Calculate which group has highest mean abundance for each feature
+      groups_unique <- unique(groups)
+      mean_by_group <- list()
+      for (g in groups_unique) {
+        group_idx <- which(groups == g)
+        mean_by_group[[as.character(g)]] <- colMeans(X_clr[group_idx, , drop = FALSE])
+      }
+      mean_matrix <- do.call(rbind, mean_by_group)
+      max_group_idx <- apply(mean_matrix, 2, which.max)
+      directionality_calc <- as.character(groups_unique[max_group_idx])
+      names(directionality_calc) <- colnames(X_clr)
+      melsi_omnibus$directionality <- directionality_calc
+    }
+    
     vip_plot <- plot_vip(melsi_omnibus, top_n = 15, 
                          title = "SKIOME: Variable Importance (MeLSI)",
                          directionality = TRUE)  # Enable directionality - shows which group has highest abundance
@@ -240,17 +281,32 @@ tryCatch({
   if (!is.null(melsi_omnibus$distance_matrix)) {
     dist_matrix <- melsi_omnibus$distance_matrix
     
-    # Method 1: Use MeLSI's plot_pcoa function (cmdscale) - fix alpha for PostScript
+    # Method 1: Use MeLSI's plot_pcoa function (cmdscale) - recreate with solid points for PostScript
     cat("  Method 1: cmdscale (MeLSI default)...\n")
-    pcoa_plot1 <- plot_pcoa(melsi_omnibus, X_clr, groups, 
-                            title = "SKIOME: PCoA using MeLSI Distance (cmdscale)")
+    # Get distance matrix and calculate PCoA manually to fix alpha issue
+    dist_matrix <- melsi_omnibus$distance_matrix
+    pcoa_result <- cmdscale(dist_matrix, k = 2, eig = TRUE)
+    var_explained <- pcoa_result$eig / sum(abs(pcoa_result$eig)) * 100
     
-    # Fix alpha transparency for PostScript: replace point layer
-    pcoa_plot1_fixed <- pcoa_plot1
-    # Remove first layer (points with alpha) and add solid points
-    pcoa_plot1_fixed$layers <- pcoa_plot1_fixed$layers[-1]  # Remove point layer
-    pcoa_plot1_fixed <- pcoa_plot1_fixed + 
-      ggplot2::geom_point(size = 3, alpha = 1.0)  # Add solid points
+    plot_data1 <- data.frame(
+      PC1 = pcoa_result$points[, 1],
+      PC2 = pcoa_result$points[, 2],
+      Group = as.factor(groups)
+    )
+    
+    pcoa_plot1_fixed <- ggplot2::ggplot(plot_data1, ggplot2::aes(x = PC1, y = PC2, color = Group)) +
+      ggplot2::geom_point(size = 3, alpha = 1.0) +  # Solid points for PostScript
+      ggplot2::stat_ellipse(level = 0.95, linetype = 2, alpha = 1.0) +
+      ggplot2::labs(
+        title = "SKIOME: PCoA using MeLSI Distance (cmdscale)",
+        x = sprintf("PCoA1 (%.1f%%)", var_explained[1]),
+        y = sprintf("PCoA2 (%.1f%%)", var_explained[2])
+      ) +
+      ggplot2::theme_minimal() +
+      ggplot2::theme(
+        plot.title = ggplot2::element_text(hjust = 0.5, size = 14, face = "bold"),
+        legend.position = "right"
+      )
     
     postscript("skiome_omnibus_pcoa_cmdscale.ps", width = 10, height = 8, 
                horizontal = FALSE, onefile = FALSE, paper = "special")

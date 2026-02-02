@@ -3,7 +3,7 @@
 set timeout 3
 set password "Grad123!\$"
 
-spawn ssh nbhtd@hellbender.rnet.missouri.edu "squeue -u nbhtd -n skiome_melsi -o '%.18i %.9P %.20j %.8u %.2t %.10M %.6D %R %S %e'"
+spawn ssh nbhtd@hellbender.rnet.missouri.edu "ls -lh ~/melsi_simulations/hellbender/skiome* 2>/dev/null | head -20"
 
 expect {
     -re "(password|Password):" {

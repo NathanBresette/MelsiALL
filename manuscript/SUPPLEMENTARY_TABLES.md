@@ -143,9 +143,35 @@ This table shows detailed comparisons between MeLSI and each of the five traditi
 
 ---
 
-## Supplementary Table S4: Individual Method Comparisons for Feature Correlation Analysis
+## Supplementary Table S4: Parameter Sensitivity Analysis with Standard Deviations
 
-This table shows detailed comparisons between MeLSI and each of the five traditional methods individually across all correlation levels. These comparisons support the rank calculations shown in Table 6.
+This table shows mean and standard deviation (SD) values for F-statistics, p-values, and computation times across 25 replications per parameter value. These values support the variance analysis discussed in the Parameter Sensitivity section and demonstrate that ensemble learning (B≥10) substantially reduces variance compared to the single-learner baseline (B=1).
+
+| Parameter Type | Parameter Value | n | Mean F (SD) | Mean p-value (SD) | Mean Time (s) (SD) |
+|----------------|-----------------|---|-------------|-------------------|-------------------|
+| **Ensemble Size (B)** | | | | | |
+| | 1 | 25 | 1.365 (0.505) | 0.421 (0.290) | 32.9 (1.3) |
+| | 10 | 25 | 1.543 (0.128) | 0.094 (0.175) | 233.0 (4.0) |
+| | 20 | 25 | 1.538 (0.126) | 0.089 (0.155) | 419.8 (6.7) |
+| | 30 | 25 | 1.530 (0.123) | 0.091 (0.156) | 576.8 (6.7) |
+| | 50 | 25 | 1.529 (0.120) | 0.093 (0.165) | 760.0 (11.8) |
+| | 100 | 25 | 1.528 (0.119) | 0.102 (0.165) | 1284.1 (39.8) |
+| **Feature Fraction (m_frac)** | | | | | |
+| | 0.5 | 25 | 1.578 (0.126) | 0.093 (0.162) | 405.2 (7.0) |
+| | 0.7 | 25 | 1.551 (0.117) | 0.083 (0.155) | 523.7 (8.2) |
+| | 0.8 | 25 | 1.530 (0.123) | 0.091 (0.156) | 578.2 (8.8) |
+| | 0.9 | 25 | 1.517 (0.118) | 0.097 (0.165) | 630.3 (12.7) |
+| | 1.0 | 25 | 1.498 (0.115) | 0.100 (0.159) | 666.7 (11.7) |
+
+**Abbreviations:** B, ensemble size (number of weak learners); m_frac, feature subsampling fraction; n, number of replications; F, PERMANOVA F-statistic; SD, standard deviation; Time, computation time in seconds. Values shown as mean (SD) across 25 replications per parameter value.
+
+**Key findings:** The single-learner baseline (B=1) shows substantially higher variance in F-statistics (SD = 0.505) compared to ensemble approaches (SD = 0.119-0.128 for B≥10), demonstrating that ensemble learning reduces variance and prevents overfitting. F-statistics remained stable across ensemble sizes (B=10-100), with minimal variation in mean values (1.528-1.543) and standard deviations (0.119-0.128).
+
+---
+
+## Supplementary Table S5: Individual Method Comparisons for Feature Correlation Analysis
+
+This table shows detailed comparisons between MeLSI and each of the five traditional methods individually across all correlation levels. These comparisons support the rank calculations shown in Table 5.
 
 | Correlation Level | Correlation Value | Traditional Method | MeLSI Power (%) | MeLSI Mean F | Traditional Power (%) | Traditional Mean F | Power Difference (%) | F Difference |
 |-------------------|-------------------|-------------------|-----------------|--------------|----------------------|-------------------|---------------------|--------------|

@@ -94,7 +94,7 @@ For the current resubmission, we focus on rigorous two-group validation, which a
 
 **Reviewer Comment:** Exploring multiple sample sizes in both Type I error and power analyses would strengthen the evaluation. (may consider a few typical sample sizes in microbiome studies)
 
-**Response:** We have expanded both Type I error and power analyses to include multiple sample sizes (n=50, 100, 200), addressing the reviewer's concern about evaluating performance across typical microbiome study sizes. The revised analyses now report empirical Type I error rates and statistical power at each sample size, allowing assessment of how MeLSI's performance scales from small (n=50) to larger (n=200) studies. This complements the scalability analysis in Table 3 (line 295), which demonstrates computational performance across sample sizes, by now also showing statistical validity (Type I error control) and detection capability (power) at each sample size. The results confirm that MeLSI maintains proper Type I error control and demonstrates appropriate power gains with increasing sample size, consistent with standard statistical expectations.
+**Response:** We have expanded both Type I error and power analyses to include multiple sample sizes (n=50, 100, 200), evaluating performance across typical microbiome study sizes. The revised analyses now report empirical Type I error rates and statistical power at each sample size, allowing assessment of how MeLSI's performance scales from small (n=50) to larger (n=200) studies. This complements the scalability analysis in Table 3 (line 295), which demonstrates computational performance across sample sizes, by now also showing statistical validity (Type I error control) and detection capability (power) at each sample size. The results confirm that MeLSI maintains proper Type I error control and demonstrates appropriate power gains with increasing sample size, consistent with standard statistical expectations.
 
 **Location in revised manuscript:** Table 1 (line 254), Table 2 (line 275), Table 3 (line 295), and Results sections (lines 265-267, 289-305, 328-338)
 
@@ -104,13 +104,7 @@ For the current resubmission, we focus on rigorous two-group validation, which a
 
 **Reviewer Comment:** Synthetic data generation assumed independent taxa; given the multivariate and correlated structure of microbiome data. Simulations incorporating feature correlation would be important.
 
-**Response:** We have added comprehensive validation of MeLSI's performance under varying levels of feature correlation (Table 5, line 344). The analysis evaluated four correlation levels: None (r=0), Low (r=0.3), Moderate (r=0.6), and High (r=0.8), using 50 simulations per condition (200 total simulations) with synthetic datasets containing 100 samples, 200 taxa, and medium effect size (2× fold change in 10 signal taxa).
-
-Results demonstrate that MeLSI is robust to the multivariate, correlated structure of microbiome data. Across correlation levels, MeLSI maintained stable F-statistics (None: F=1.512, SD=0.118; Low: F=1.481, SD=0.137; Moderate: F=1.498, SD=0.138; High: F=1.507, SD=0.142) and consistent statistical power (50%, 42%, 46%, 44% respectively). The stability of F-statistics across correlation levels (±1.7% variation) demonstrates that MeLSI effectively handles correlated features without performance degradation. Precision at 10 (0.392, 0.348, 0.356, 0.368) and AUC-ROC (0.817, 0.788, 0.783, 0.769) metrics also remained stable, confirming that feature recovery performance is maintained even when taxa exhibit moderate to high correlation. Notably, MeLSI achieved its best ranking (1/6) at high correlation (r=0.8), suggesting the method is particularly well-suited for correlated microbiome data.
-
-This robustness is particularly important for microbiome data, where taxonomic correlations arise from ecological relationships (e.g., co-occurring taxa in microbial communities). MeLSI's ensemble learning approach (bootstrap sampling and feature subsampling) naturally handles correlated features by aggregating signal across correlated taxa, treating correlated features as a functional unit rather than independent noise—appropriate for microbiome data where correlated taxa often represent biologically related groups.
-
-Comparison with traditional methods shows that MeLSI maintains competitive performance across correlation levels. At low correlation (r=0.3), Bray-Curtis achieved the highest F-statistic (F=1.54) among traditional methods, while MeLSI achieved comparable performance (F=1.509). At moderate correlation (r=0.6), both MeLSI (F=1.47) and Bray-Curtis (F=1.484) showed similar F-statistics, demonstrating performance parity with the best traditional methods even when features are correlated.
+**Response:** We have added comprehensive validation of MeLSI's performance under varying levels of feature correlation (Table 5, line 344). The analysis evaluated four correlation levels (r=0, 0.3, 0.6, 0.8) using 50 simulations per condition (200 total simulations). Results demonstrate that MeLSI is robust to correlated features: F-statistics remained stable across correlation levels (±1.7% variation), statistical power was consistent (42-50%), and feature recovery metrics (Precision at 10, AUC-ROC) showed minimal variation. MeLSI achieved its best ranking (1/6) at high correlation (r=0.8), suggesting the method is particularly well-suited for correlated microbiome data. The ensemble learning approach naturally handles correlated features by aggregating signal across correlated taxa, which is appropriate for microbiome data where correlated taxa often represent biologically related groups.
 
 **Location in revised manuscript:** Table 5 (line 344), Feature Correlation Robustness section (lines 340-356)
 
@@ -120,9 +114,7 @@ Comparison with traditional methods shows that MeLSI maintains competitive perfo
 
 **Reviewer Comment:** Emphasizing the interpretability advantage of the proposed method, particularly in identifying taxa that drive group differences, would improve positioning of the manuscript. It would strengthen the manuscript to examine how learned weights recover true signal taxa, possibly across varying effect sizes, sample sizes, and feature dimensions.
 
-**Response:** We have added comprehensive validation of interpretability and recovery of true signal taxa across varying effect sizes and sample sizes. The revised analysis (lines 295-304) evaluates how well MeLSI's learned feature weights identify true signal taxa in synthetic data using four metrics: Precision at k (proportion of top-k features that are true signals), Recall at k (proportion of true signals found in top-k features), Mean Rank (average rank of true signal features), and AUC-ROC (area under the receiver operating characteristic curve for classifying signal vs. non-signal taxa based on weights).
-
-Results demonstrate that MeLSI effectively recovers true signal taxa, with performance improving substantially with effect size and sample size. For small effects, Precision at 5 ranged from 0.104-0.148 and AUC-ROC from 0.641-0.673, indicating modest but above-chance recovery. For medium effects, Precision at 5 increased to 0.356-0.660 and AUC-ROC to 0.733-0.842, demonstrating strong recovery capability. For large effects, Precision at 5 reached 0.876-1.000 and AUC-ROC 0.858-0.960, showing excellent recovery. Mean Rank of true signals decreased from 50.3 (small effects, n=50) to 14.4 (large effects, n=200), confirming that true signal taxa are consistently ranked among the top features. These results validate MeLSI's interpretability advantage: the learned feature weights reliably identify biologically relevant taxa that drive group differences, with recovery performance scaling appropriately with signal strength and sample size.
+**Response:** We have added comprehensive validation of interpretability and recovery of true signal taxa across varying effect sizes and sample sizes (lines 295-304). The analysis evaluates how well MeLSI's learned feature weights identify true signal taxa using four metrics: Precision at k, Recall at k, Mean Rank, and AUC-ROC. Results demonstrate that MeLSI effectively recovers true signal taxa, with performance improving substantially with effect size and sample size. For large effects, Precision at 5 reached 0.876-1.000 and Mean Rank decreased to 14.4, confirming that true signal taxa are consistently ranked among the top features. These results validate MeLSI's interpretability advantage: the learned feature weights reliably identify biologically relevant taxa that drive group differences, with recovery performance scaling appropriately with signal strength and sample size.
 
 **Location in revised manuscript:** Lines 295-304 (Recovery of true signal taxa subsection)
 
@@ -132,7 +124,7 @@ Results demonstrate that MeLSI effectively recovers true signal taxa, with perfo
 
 **Reviewer Comment:** The observed outperformance of MeLSI on real datasets may partly reflect overfitting or double-dipping, despite the ensemble strategy. This possibility should be discussed more explicitly.
 
-**Response:** We have added explicit discussion addressing this concern in the Real Data: Atlas1006 section. The revised text explains that MeLSI's outperformance on real datasets does not reflect overfitting because the permutation testing framework relearns the metric on each permutation, ensuring the null distribution properly accounts for the adaptive nature of the method. This is confirmed by proper Type I error control on real shuffled data (3-6% rejection rates across 100 simulations, Table 1), demonstrating that MeLSI's outperformance reflects genuine signal detection rather than overfitting. The permutation framework treats each permutation as an independent metric learning experiment under the null hypothesis, which serves as the inherent guardrail against overfitting.
+**Response:** We have added explicit discussion in the Real Data: Atlas1006 section. The revised text explains that MeLSI's outperformance on real datasets does not reflect overfitting because the permutation testing framework relearns the metric on each permutation, ensuring the null distribution properly accounts for the adaptive nature of the method. This is confirmed by proper Type I error control on real shuffled data (3-6% rejection rates across 100 simulations, Table 1), demonstrating that MeLSI's outperformance reflects genuine signal detection rather than overfitting. The permutation framework treats each permutation as an independent metric learning experiment under the null hypothesis, which serves as the inherent guardrail against overfitting.
 
 **Location in revised manuscript:** Real Data: Atlas1006 section and Table 1 (line 254)
 
@@ -156,7 +148,7 @@ Results demonstrate that MeLSI effectively recovers true signal taxa, with perfo
 
 **Reviewer Comment:** The significant PERMANOVA result (F=5.141, p=0.005) may be influenced by the large sample size (N>1000). I was wondering if the seemingly subtle separation shown in the figure is considered biologically meaningful besides statistical significance.
 
-**Response:** We have added explicit discussion addressing this concern. The revised text (line 403) now includes: "While the large sample size (n=1,114) contributes to statistical significance, the sex-associated microbiome differences identified by MeLSI align with previously documented biological patterns (29, 30), and the learned feature weights provide actionable biological insight regardless of sample size." This acknowledges the role of sample size in statistical significance while emphasizing that the biological patterns identified are consistent with known sex-associated microbiome differences.
+**Response:** We have added explicit discussion. The revised text (line 403) now includes: "While the large sample size (n=1,114) contributes to statistical significance, the sex-associated microbiome differences identified by MeLSI align with previously documented biological patterns (29, 30), and the learned feature weights provide actionable biological insight regardless of sample size." This acknowledges the role of sample size in statistical significance while emphasizing that the biological patterns identified are consistent with known sex-associated microbiome differences.
 
 **Location in revised manuscript:** Line 403
 
@@ -182,7 +174,7 @@ Results demonstrate that MeLSI effectively recovers true signal taxa, with perfo
 
 **Reviewer Comment:** In the ensemble size analysis, the authors refer to "variance" in performance, but Table 4 does not report variance estimates. If results are based on a single synthetic dataset, clarification of what is meant by variance is needed.
 
-**Response:** We have significantly expanded the parameter sensitivity analysis to include 25 replications per parameter value (11 parameter values × 25 replications = 275 total simulations), addressing the reviewer's concern about variance estimation. The revised Table 4 (line 318) now reports mean F-statistics, p-values, and computation times with standard deviations (SD) across the 25 replications. We also added a direct comparison with a single-learner approach (B=1), which shows substantially higher variance (SD = 0.505) compared to ensemble approaches (SD = 0.119-0.128), supporting the use of ensemble learning. The table footnote (line 336) now clarifies that values are shown as "mean (SD) across 25 replications per parameter value."
+**Response:** We have significantly expanded the parameter sensitivity analysis to include 25 replications per parameter value (11 parameter values × 25 replications = 275 total simulations), enabling robust variance estimation. The revised Table 4 (line 318) now reports mean F-statistics, p-values, and computation times across the 25 replications. We also added a direct comparison with a single-learner approach (B=1), which shows substantially higher variance (SD = 0.505) compared to ensemble approaches (SD = 0.119-0.128), supporting the use of ensemble learning. Standard deviations for all parameters are provided in Supplementary Table S4, which demonstrates that ensemble learning reduces variance and prevents overfitting. The analysis shows that F-statistics remained stable across ensemble sizes (B=10-100) compared to the single-learner baseline (B=1). The table footnote (line 336) clarifies that values are shown as mean across 25 replications per parameter value, with SD values in Supplementary Table S4.
 
 **Location in revised manuscript:** Table 4 (line 318), Parameter Sensitivity section text (line 338)
 
@@ -208,7 +200,9 @@ Results demonstrate that MeLSI effectively recovers true signal taxa, with perfo
 
 **Reviewer Comment:** As with other simulation sections, results based on a single synthetic dataset cannot be interpreted as statistical power.
 
-**Response:** We have significantly expanded the pre-filtering analysis to include 50 simulations per effect size (3 effect sizes × 50 simulations = 150 total), addressing the reviewer's concern about proper statistical evaluation. The revised analysis now reports empirical statistical power (detection rates) for both pre-filtered and non-filtered approaches across repeated simulations, along with mean F-statistics and standard deviations. The revised Table 6 (line 361) now includes power estimates, mean F-statistics, and mean time reduction percentages, providing a rigorous evaluation of the pre-filtering strategy's impact on both statistical power and computational efficiency. The results demonstrate substantial benefits: pre-filtering increases power from 4% to 100% for small effects, from 14% to 94% for medium effects, and from 14% to 84% for large effects, while providing 16-40% time savings.
+**Response:** We have significantly expanded the pre-filtering analysis to include 50 simulations per scenario (150 total), enabling robust statistical power evaluation. The revised Table 6 (line 361) now reports empirical power, mean F-statistics (with standard deviations), and computational time savings.
+
+Our results demonstrate that pre-filtering is most impactful in high-dimensional, sparse-signal settings—the exact conditions where standard microbiome analyses often fail. In the high-dimensional setting (p=500 features, small effect: 1.5× fold change in 5 signal taxa), pre-filtering removed 150 noise features, increasing power from 4% to 100%. In the lower-dimensional setting (p=100 features, large effect: 3.0× fold change in 20 signal taxa), power increased from 14% to 84%. The higher power observed in the small-effect scenario relative to the large-effect scenario is a function of the experimental design: pre-filtering provides maximum benefit when the initial signal-to-noise ratio is lowest (i.e., higher dimensionality). By removing 30% of non-informative features in the p=500 environment, the model successfully recovered signal that was previously masked by noise. This highlights the utility of our approach for typical high-dimensional microbiome datasets.
 
 **Location in revised manuscript:** Table 6 (line 361) and Pre-filtering analysis section (lines 357-373)
 
@@ -218,9 +212,9 @@ Results demonstrate that MeLSI effectively recovers true signal taxa, with perfo
 
 **Reviewer Comment:** The manuscript states that MeLSI provides directionality and log2 fold-change information for each taxon. Additional details on how this information is derived would be helpful.
 
-**Response:** We have added explicit details in the Results section explaining how directionality and log2 fold-change are calculated. The revised text (line 401) now includes: "Directionality is calculated by comparing mean abundances between groups: for each taxon, we identify which group (Group 1 or Group 2) has higher mean abundance on CLR-transformed data. Log2 fold-change is calculated as log2(mean_group1 / mean_group2), where small epsilon values are added to both means to avoid division by zero. These values are computed on the CLR-transformed data used for metric learning, ensuring consistency with the distance metric calculation."
+**Response:** We have clarified the derivation of directionality and effect size in the Results section (lines 395-396). **Directionality:** Is determined by identifying which group has the higher mean abundance on the CLR-transformed data, ensuring consistency with the metric learning process. **Effect Size:** We report the difference in CLR-transformed means between groups. Because CLR data is already in log-ratio space, the difference between means ($\mu_{\text{CLR,1}} - \mu_{\text{CLR,2}}$) is the standard way to represent the log-fold change for compositional data. This ensures that the reported effect sizes are directly derived from the same feature space used to calculate the distances in MeLSI, providing a mathematically consistent representation of the taxa's contribution to group separation.
 
-**Location in revised manuscript:** Line 401
+**Location in revised manuscript:** Lines 395-396
 
 ---
 
@@ -248,15 +242,9 @@ Results demonstrate that MeLSI effectively recovers true signal taxa, with perfo
 
 **Reviewer Comment:** Tables would benefit from clearer annotations and definitions of abbreviations.
 
-**Response:** We have added clear annotations and abbreviation definitions to all tables (Tables 1-5). Each table now includes a footnote explaining abbreviations such as: n (sample size), p (number of taxa/features), F (PERMANOVA F-statistic), p (p-value), Time (computation time in seconds), Trad (traditional method), and other table-specific terms.
+**Response:** We have added clear annotations and abbreviation definitions to all tables (Tables 1-6). Each table now includes a concise footnote explaining abbreviations such as: n (sample size), p (number of taxa/features), F (PERMANOVA F-statistic), Power (empirical statistical power), Time (computation time in seconds), Rank (MeLSI's rank among 6 methods), and other table-specific terms. Footnotes are standardized for consistency, with repeated abbreviations (e.g., Rank) using the same concise format across tables.
 
-**Location in revised manuscript:** 
-- Table 1: Line 254
-- Table 2: Line 275
-- Table 3: Line 295
-- Table 4: Line 318
-- Table 5: Line 344
-- Table 6: Line 361
+**Location in revised manuscript:** Table 1: Line 262; Table 2: Line 284; Table 3: Line 310; Table 4: Line 336; Table 5: Line 353; Table 6: Line 369
 
 ---
 
@@ -274,9 +262,9 @@ Results demonstrate that MeLSI effectively recovers true signal taxa, with perfo
 
 **Reviewer Comment:** The role and impact of the CLR transformation in conjunction with the proposed method should be discussed more explicitly. CLR transformation for MeLSI is mentioned only in the software availability section as part of the recommended usage.
 
-**Response:** We have added explicit discussion of the CLR transformation role and impact in the Methods section (line 234). The revised text explains that: (1) CLR transformation converts relative abundances to log-ratios, making the data suitable for Euclidean distance while preserving relative relationships between taxa, (2) CLR treats abundance ratios more equitably than count-based metrics, which can be dominated by highly abundant taxa, (3) CLR may attenuate large fold-change signals compared to count-based metrics, as evidenced by results showing traditional count-based methods achieve higher F-statistics on synthetic data with large effects (3× fold change), and (4) CLR is particularly appropriate when signals are distributed across multiple taxa rather than concentrated in highly abundant taxa, and when interpretability through feature weights is prioritized. We also added discussion in the Results section (lines 305-307) explicitly stating when the CLR-based approach is most appropriate versus when count-based methods may be preferable.
+**Response:** We have added explicit discussion of the CLR transformation role and impact in the Methods section. The revised text explains that: (1) CLR transformation converts relative abundances to log-ratios, making the data suitable for Euclidean distance while preserving relative relationships between taxa, (2) CLR treats abundance ratios more equitably than count-based metrics, which can be dominated by highly abundant taxa, (3) CLR may attenuate large fold-change signals compared to count-based metrics, as evidenced by results showing traditional count-based methods achieve higher F-statistics on synthetic data with large effects (3× fold change), and (4) CLR is particularly appropriate when signals are distributed across multiple taxa rather than concentrated in highly abundant taxa, and when interpretability through feature weights is prioritized. We also added explicit discussion in the Results section stating when the CLR-based approach is most appropriate versus when count-based methods may be preferable.
 
-**Location in revised manuscript:** Methods section (line 234) and Results section (lines 305-307)
+**Location in revised manuscript:** Methods section (Real data preprocessing) and Results section (Statistical power analysis)
 
 ---
 
@@ -336,7 +324,7 @@ For the current resubmission, we focus on independent group comparisons, which r
 
 **Reviewer Comment:** While pre-filtering is used, the method does not explicitly model compositionality or zero-inflation beyond CLR. Aitchison geometry or Dirichlet-multinomial models might be more appropriate for compositional data.
 
-**Response:** We address compositionality through CLR transformation, which converts compositional data to log-ratios. The Aitchison distance between two compositions x and y is defined as the Euclidean distance in CLR space: d_A(x,y) = sqrt(sum((clr(x) - clr(y))^2)). Our method computes Mahalanobis distance on CLR-transformed data, which is mathematically equivalent to a generalized Aitchison distance: d_M(x,y) = sqrt((clr(x) - clr(y))^T M^(-1) (clr(x) - clr(y))), where M is a learned positive-definite metric matrix. When M = I (identity matrix), this reduces exactly to Aitchison distance. When M ≠ I (learned from data), this is a weighted Aitchison distance that adaptively weights dimensions based on their contribution to group separation. Thus, MeLSI uses Aitchison geometry as the foundation but extends it with an adaptive metric that learns feature-specific weights rather than treating all taxa equally—maintaining compositional properties while allowing the distance metric to adapt to dataset-specific signal structure. Zero-inflation is handled through pseudocounts (adding 1 before log transformation) rather than explicit Dirichlet-multinomial modeling. This approach works well in practice, as demonstrated by proper Type I error control (Table 1) and performance on real data (Atlas1006, DietSwap, SKIOME). We acknowledge that explicit zero-inflation models represent a potential future enhancement, though the current CLR + pseudocount approach maintains statistical validity through permutation testing.
+**Response:** We address compositionality through CLR transformation, which converts compositional data to log-ratios. The Aitchison distance between two compositions $x$ and $y$ is defined as the Euclidean distance in CLR space: $d_A(x,y) = \sqrt{\sum(\text{clr}(x) - \text{clr}(y))^2}$. Our method computes Mahalanobis distance on CLR-transformed data, which is mathematically equivalent to a generalized Aitchison distance: $d_M(x,y) = \sqrt{(\text{clr}(x) - \text{clr}(y))^T \mathbf{M}^{-1} (\text{clr}(x) - \text{clr}(y))}$, where $\mathbf{M}$ is a learned positive-definite metric matrix. When $\mathbf{M} = \mathbf{I}$ (identity matrix), this reduces exactly to Aitchison distance. When $\mathbf{M} \neq \mathbf{I}$ (learned from data), this is a weighted Aitchison distance that adaptively weights dimensions based on their contribution to group separation. Thus, MeLSI uses Aitchison geometry as the foundation but extends it with an adaptive metric that learns feature-specific weights rather than treating all taxa equally—maintaining compositional properties while allowing the distance metric to adapt to dataset-specific signal structure. Zero-inflation is handled through pseudocounts (adding 1 before log transformation) rather than explicit Dirichlet-multinomial modeling. This approach works well in practice, as demonstrated by proper Type I error control (Table 1) and performance on real data (Atlas1006, DietSwap, SKIOME). We acknowledge that explicit zero-inflation models represent a potential future enhancement, though the current CLR + pseudocount approach maintains statistical validity through permutation testing.
 
 **Location in revised manuscript:** Methods section (line 234) and Limitations and future work section (line 447)
 
@@ -346,7 +334,7 @@ For the current resubmission, we focus on independent group comparisons, which r
 
 **Reviewer Comment:** Only two real datasets (Atlas1006, DietSwap) were used for benchmarking, both from gut microbiome studies. Performance in other body sites (oral, skin) or disease cohorts is unknown.
 
-**Response:** We have expanded real-world validation to include three published datasets representing diverse body sites and study designs: (1) **Atlas1006** (gut microbiome, 1,114 samples, sex-associated differences), (2) **DietSwap** (gut microbiome, 43 samples, dietary intervention), and (3) **SKIOME** (skin microbiome, 511 samples, three-group comparison: Atopic Dermatitis, Healthy, Psoriasis). The addition of SKIOME addresses the reviewer's concern about validation in other body sites, demonstrating MeLSI's utility beyond gut microbiome studies.
+**Response:** We have expanded real-world validation to include three published datasets representing diverse body sites and study designs: (1) **Atlas1006** (gut microbiome, 1,114 samples, sex-associated differences), (2) **DietSwap** (gut microbiome, 43 samples, dietary intervention), and (3) **SKIOME** (skin microbiome, 511 samples, three-group comparison: Atopic Dermatitis, Healthy, Psoriasis). The addition of SKIOME demonstrates MeLSI's utility across diverse body sites, validating performance beyond gut microbiome studies.
 
 On the SKIOME dataset, MeLSI's omnibus test detected significant differences (F = 4.895, p = 0.005), comparable to Euclidean distance (F = 4.897, p = 0.001) but lower than count-based methods (Bray-Curtis: F = 16.275, Jaccard: F = 11.058, both p = 0.001). All pairwise comparisons remained significant after FDR correction (p = 0.005 for all pairs). While count-based methods achieved higher F-statistics on this dataset, MeLSI provides unique interpretability through learned feature weights that identify which taxa drive group separation—a capability that fixed metrics cannot supply. The SKIOME validation demonstrates MeLSI's generalizability across body sites (skin vs. gut) and validates multi-group capability beyond two-group comparisons.
 
@@ -370,7 +358,15 @@ We acknowledge that validation in additional body sites (oral, vaginal) or disea
 
 **Reviewer Comment:** No comparison to other interpretable ML models (e.g., Random Forest feature importance, logistic regression with regularization) that also provide taxa rankings. MeLSI is presented as unique, but similar insights might be obtained from simpler models. If authors do so, the ground truth should be well defined for benchmarking.
 
-**Response:** MeLSI addresses a fundamentally different research question than prediction-focused ML methods (Random Forest, logistic regression). MeLSI is designed for **statistical inference in beta diversity analysis** (hypothesis testing: "Do groups differ in community composition?"), while Random Forest and logistic regression are designed for **prediction/classification** ("Can I predict group membership?"). These serve different purposes: MeLSI provides p-values and F-statistics for testing community composition differences via PERMANOVA, while prediction methods provide accuracy metrics and predictions. The appropriate comparisons for MeLSI are other beta diversity methods used with PERMANOVA (Bray-Curtis, Euclidean, Jaccard, UniFrac), which we comprehensively evaluate. As noted in the manuscript (line 47), "Previous work has explored metric learning for clinical prediction tasks, but not specifically for statistical inference in community composition analysis where rigorous Type I error control is essential." MeLSI bridges this gap by providing interpretable feature weights within a rigorous statistical inference framework, rather than a prediction framework. For researchers interested in prediction tasks, Random Forest and logistic regression remain appropriate choices; for beta diversity hypothesis testing, MeLSI provides a statistically rigorous alternative to fixed distance metrics.
+**Response:** While interpretable ML models like Random Forest (RF) and penalized regression provide feature rankings, MeLSI serves a distinct and complementary role in microbiome research:
+
+**Metric-Based Inference:** Methods like RF identify features that maximize classification accuracy. In contrast, MeLSI learns a distance metric that optimizes group separation in beta-diversity space. This allows researchers to perform traditional statistical hypothesis testing (PERMANOVA) while simultaneously gaining the interpretability usually reserved for classification models.
+
+**Global vs. Local Structure:** RF rankings are optimized for predicting group labels, whereas MeLSI feature weights describe the specific taxa driving the Aitchison geometry of the entire community. MeLSI captures global community-level differences (beta diversity), while RF focuses on local, per-feature contributions to classification.
+
+**Type I Error Control:** Standard ML importance scores lack a formal framework for $p$-value generation in community composition testing. MeLSI bridges this gap by providing interpretable weights within a permutation-based inference framework that maintains proper Type I error control.
+
+We have updated the Introduction (line 47) to clarify that while RF and logistic regression are excellent for prediction, MeLSI is specifically tailored for metric-based statistical inference, where the goal is to define and test community-level differences. The appropriate comparisons for MeLSI are other beta diversity methods used with PERMANOVA (Bray-Curtis, Euclidean, Jaccard, UniFrac), which we comprehensively evaluate.
 
 **Location in revised manuscript:** Introduction (line 47) - distinction between prediction and inference
 
@@ -395,43 +391,3 @@ We acknowledge that validation in additional body sites (oral, vaginal) or disea
 **Location in revised manuscript:** Methods section (line 206) - note on permutation strategies
 
 ---
-
-## SUMMARY OF CHANGES
-
-### Major Additions:
-1. ✅ Expanded Type I error validation with 100+ simulations (Table 1, line 254: 600 total simulations across 2 dataset types × 3 sample sizes × 100 simulations)
-2. ✅ Expanded power analysis with multiple simulations per condition (Table 2, line 275: 450 total simulations across 3 effect sizes × 3 sample sizes × 50 simulations)
-3. ✅ Sample size exploration in validation (Tables 1 & 2: n=50, 100, 200; Table 3: n=20, 50, 100, 200, 500)
-4. ✅ DietSwap VIP and PCoA figures (Figure 3, lines 418-427)
-5. ✅ SKIOME multi-group validation (Figure 4, lines 416-427: skin microbiome dataset with 3 groups, 511 samples, demonstrating multi-group capability and generalizability across body sites)
-6. ✅ Interpretation/recovery validation (Recovery of true signal taxa subsection, lines 295-304: Precision@k, Recall@k, Mean Rank, AUC-ROC metrics)
-7. ✅ Feature correlation robustness validation (Table 5, line 344: 200 total simulations across 4 correlation levels × 50 simulations, demonstrating MeLSI's stability across correlation levels including high correlation r=0.8)
-
-### Major Revisions:
-1. ✅ Clarify double-dipping/overfitting prevention (Line 182: explicit statement that metric is relearned on each permutation; Table 4: B=1 comparison showing overfitting prevention)
-2. ✅ Fix Figure 2 inconsistencies and improve descriptions (Lines 403, 408)
-3. ✅ Explicit CLR transformation discussion (Methods section, line 234: role and impact; Results section, line 305: trade-offs and when appropriate)
-4. ✅ Better justification for computational costs (Limitations and future work section, line 443: interpretability gains, pre-filtering benefits, power-time trade-off analysis)
-5. ✅ Improved limitations discussion (Limitations and future work section, line 447: computational intensity, covariate adjustment, multi-group synthetic validation, compositionality)
-
-### Minor Revisions Completed:
-1. ✅ Table annotations and abbreviations (Tables 1-6, Lines 262, 284, 310, 336, 353, 369)
-2. ✅ Systematic notation introduction (Introduction section, "Metric learning: an emerging paradigm" subsection, line 43: formal definition of X, y, M, Mahalanobis distance)
-3. ✅ Pre-filtering assumptions discussion (Line 381)
-4. ✅ Directionality calculation details (Line 401)
-5. ✅ Prevalence threshold clarification (Line 381)
-6. ✅ DietSwap transition improvement (Line 375)
-7. ✅ Figure 2 ellipses changed to 95% (Lines 403, 408; Code updated)
-8. ✅ Figure 2 PCoA variance fixed (21.5%, Lines 403, 408)
-9. ✅ Figure 2 separation language revised (Line 403)
-10. ✅ Biological vs statistical significance discussion (Line 403)
-11. ✅ Table 4 variance clarification (Line 336)
-12. ✅ Conclusions section updated to reflect rigorous validation (Line 437)
-13. ✅ Parameter sensitivity mention enhanced with B=1 comparison (Line 338)
-
----
-
-**Manuscript pages revised:** All sections revised; major additions in Results section (Type I error, Power analysis, Feature correlation, SKIOME validation)
-**New figures added:** Figure 3 (DietSwap VIP and PCoA), Figure 4 (SKIOME VIP and PCoA)
-**New tables added:** Table 5 (Feature correlation analysis), Table 6 (Pre-filtering analysis) - note: Table numbers were reordered during revision
-**New supplementary materials:** Supplementary Table S1 (Recovery metrics), Supplementary Table S2 (Power analysis individual comparisons), Supplementary Table S3 (Scalability individual comparisons), Supplementary Table S4 (Feature correlation individual comparisons)
