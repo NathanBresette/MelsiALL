@@ -392,17 +392,11 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 **Figure 1.** Top 15 taxa ranked by MeLSI feature weights for Atlas1006 dataset, colored by directionality. Taxa from Bacteroidaceae, Lachnospiraceae, and Ruminococcaceae families show strongest contributions.
 \normalsize
 
-\noindent The diagonal elements of the learned metric matrix $\mathbf{M}$ directly represent feature importance: higher values indicate taxa that contribute more to group separation. MeLSI automatically calculates directionality and effect sizes on CLR-transformed data. Directionality is determined by identifying which group has the higher mean abundance on CLR-transformed data, ensuring consistency with the metric learning process. Effect size is reported as the difference in CLR-transformed means between groups ($\mu_{\text{CLR,1}} - \mu_{\text{CLR,2}}$). Because CLR data is already in log-ratio space, this difference is the standard way to represent log-fold change for compositional data, ensuring that reported effect sizes are directly derived from the same feature space used to calculate distances in MeLSI. Figure 2 shows PCoA ordination using the MeLSI-learned distance matrix, demonstrating group separation consistent with significant PERMANOVA results.
-
-![](figures/atlas1006_pcoa.png)
-
-\noindent \footnotesize
-**Figure 2.** PCoA ordination for Atlas1006 dataset showing separation along PCoA1 (21.5% variance). Dashed ellipses show 95% confidence intervals.
-\normalsize
+\noindent The diagonal elements of the learned metric matrix $\mathbf{M}$ directly represent feature importance: higher values indicate taxa that contribute more to group separation. MeLSI automatically calculates directionality and effect sizes on CLR-transformed data. Directionality is determined by identifying which group has the higher mean abundance on CLR-transformed data, ensuring consistency with the metric learning process. Effect size is reported as the difference in CLR-transformed means between groups ($\mu_{\text{CLR,1}} - \mu_{\text{CLR,2}}$). Because CLR data is already in log-ratio space, this difference is the standard way to represent log-fold change for compositional data, ensuring that reported effect sizes are directly derived from the same feature space used to calculate distances in MeLSI. The learned distance matrices can also be used for Principal Coordinates Analysis (PCoA) ordination to visualize group separation, just as traditional distance metrics (Bray-Curtis, Euclidean, etc.) are used with PCoA throughout the microbiome field. For datasets where group separation is visually apparent, PCoA ordination provides complementary visualization alongside feature importance weights (see Figures 2-3 for DietSwap and SKIOME examples).
 
 #### DietSwap dataset
 
-\noindent For the DietSwap dataset, MeLSI's learned feature weights identified taxa including Akkermansia and Oxalobacter as key drivers of diet-induced community differences. Figure 3 displays the top 15 taxa by learned feature weight alongside the PCoA ordination.
+\noindent For the DietSwap dataset, MeLSI's learned feature weights identified taxa including Akkermansia and Oxalobacter as key drivers of diet-induced community differences. Figure 2 displays the top 15 taxa by learned feature weight alongside the PCoA ordination.
 
 \begin{figure}[ht]
 \centering
@@ -410,12 +404,12 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 \end{figure}
 
 \noindent \footnotesize
-**Figure 3.** DietSwap dataset: Top 15 taxa by feature weights (left) and PCoA ordination (right). Taxa including Akkermansia and Oxalobacter show strong contributions. Dashed ellipses show 95% confidence intervals.
+**Figure 2.** DietSwap dataset: Top 15 taxa by feature weights (left) and PCoA ordination (right). Taxa including Akkermansia and Oxalobacter show strong contributions. Dashed ellipses show 95% confidence intervals.
 \normalsize
 
 #### SKIOME dataset: Multi-group validation
 
-\noindent To validate multi-group capability, we analyzed the SKIOME skin microbiome dataset (PRJNA554499, 511 samples, 3 groups: Atopic_Dermatitis, Healthy, Psoriasis). MeLSI's omnibus test detected significant differences (F = 4.895, p = 0.005), comparable to Euclidean distance (F = 4.897, p = 0.001) but lower than count-based methods (Bray-Curtis: F = 16.275, Jaccard: F = 11.058, both p = 0.001). All pairwise comparisons remained significant after FDR correction (p = 0.005 for all pairs). Figure 4 displays feature importance weights and PCoA ordination, demonstrating MeLSI's interpretability for multi-group analyses. This validates MeLSI's utility beyond two-group comparisons and across different body sites (skin vs. gut microbiome).
+\noindent To validate multi-group capability, we analyzed the SKIOME skin microbiome dataset (PRJNA554499, 511 samples, 3 groups: Atopic_Dermatitis, Healthy, Psoriasis). MeLSI's omnibus test detected significant differences (F = 4.895, p = 0.005), comparable to Euclidean distance (F = 4.897, p = 0.001) but lower than count-based methods (Bray-Curtis: F = 16.275, Jaccard: F = 11.058, both p = 0.001). All pairwise comparisons remained significant after FDR correction (p = 0.005 for all pairs). Figure 3 displays feature importance weights and PCoA ordination, demonstrating MeLSI's interpretability for multi-group analyses. This validates MeLSI's utility beyond two-group comparisons and across different body sites (skin vs. gut microbiome).
 
 \begin{figure}[ht]
 \centering
@@ -423,7 +417,7 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 \end{figure}
 
 \noindent \footnotesize
-**Figure 4.** SKIOME multi-group validation: Feature importance weights (left) and PCoA ordination (right) for three-group comparison (Atopic_Dermatitis, Healthy, Psoriasis). Top 15 taxa are colored by the group with highest mean abundance. Dashed ellipses show 95% confidence intervals. Consistent with significant omnibus PERMANOVA result (F=4.895, p=0.005).
+**Figure 3.** SKIOME multi-group validation: Feature importance weights (left) and PCoA ordination (right) for three-group comparison (Atopic_Dermatitis, Healthy, Psoriasis). Top 15 taxa are colored by the group with highest mean abundance. Dashed ellipses show 95% confidence intervals. Consistent with significant omnibus PERMANOVA result (F=4.895, p=0.005).
 \normalsize
 
 ### Computational performance

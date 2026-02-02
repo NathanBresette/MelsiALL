@@ -132,41 +132,41 @@ For the current resubmission, we focus on rigorous two-group validation, which a
 
 **Reviewer Comment:** In Figure 2, the manuscript describes a "clear separation" between male and female samples along PCoA1; however, substantial overlap between groups appears to remain. Can authors elaborate this? Is this separation clearer compared to the results of traditional approaches?
 
-**Response:** We have revised the language to be more precise. The text now states "modest but statistically significant separation" and explicitly compares to traditional methods. The revised text (line 403) reads: "Figure 2 shows modest but statistically significant separation between male and female samples along the first principal coordinate (21.5% of variance). This separation is comparable to that observed with traditional metrics (Euclidean: F=4.711, Bray-Curtis: F=4.442), demonstrating that MeLSI maintains visual separation while providing additional interpretability through learned feature weights."
+**Response:** We acknowledge the reviewer's valid concern about the visual separation in the Atlas1006 PCoA plot. Given the substantial overlap and the reviewer's question about whether the separation is meaningful, we have removed the standalone Atlas1006 PCoA figure (previously Figure 2) to avoid overstating visual separation. The statistical significance (F=5.141, p=0.005) is already reported in the text, and the VIP plot (Figure 1) provides the primary interpretability value by identifying key taxa. PCoA ordination is a standard visualization tool for traditional distance-based methods (Bray-Curtis, Euclidean, etc.) and works equally well with MeLSI's learned distance matrices. We now show PCoA ordination for DietSwap and SKIOME datasets (Figures 2-3), where group separation is more visually apparent, demonstrating MeLSI's utility for ordination when separation is clearer and reaffirming that MeLSI-learned distances are compatible with standard ordination approaches used throughout the microbiome field.
 
-**Location in revised manuscript:** Line 403
+**Location in revised manuscript:** Figure 1 (Atlas1006 VIP only), Figures 2-3 (DietSwap and SKIOME with combined VIP+PCoA)
 
 ---
 
 **Reviewer Comment:** Could authors explain the rationale for presenting 68% confidence ellipses, rather than more conventional choice of 95%?
 
-**Response:** We have updated Figure 2 to use the conventional 95% confidence ellipses. The manuscript text and figure caption now reflect this change (lines 403 and 408), and the figure has been regenerated accordingly. The code has also been updated to generate 95% confidence ellipses.
+**Response:** All figures now use the conventional 95% confidence ellipses. The manuscript text and figure captions reflect this change, and all figures have been regenerated accordingly. The code has also been updated to generate 95% confidence ellipses for all PCoA plots.
 
-**Location in revised manuscript:** Lines 403, 408; Code: `reproducibility_scripts/figure_atlas1006_vip_pcoa.R` line 249, `github/R/melsi_robust.R` line 1227
+**Location in revised manuscript:** Figures 2-3 (DietSwap and SKIOME PCoA plots); Code: `github/R/melsi_robust.R` line 1227
 
 ---
 
 **Reviewer Comment:** The significant PERMANOVA result (F=5.141, p=0.005) may be influenced by the large sample size (N>1000). I was wondering if the seemingly subtle separation shown in the figure is considered biologically meaningful besides statistical significance.
 
-**Response:** We have added explicit discussion. The revised text (line 403) now includes: "While the large sample size (n=1,114) contributes to statistical significance, the sex-associated microbiome differences identified by MeLSI align with previously documented biological patterns (29, 30), and the learned feature weights provide actionable biological insight regardless of sample size." This acknowledges the role of sample size in statistical significance while emphasizing that the biological patterns identified are consistent with known sex-associated microbiome differences.
+**Response:** We acknowledge that the large sample size (n=1,114) contributes to statistical significance. The revised text (line 379) explicitly states that "MeLSI's improvement over the best fixed metric suggests that learned metrics can capture biologically relevant patterns in subtle, high-dimensional comparisons, consistent with previously documented sex-associated microbiome differences (29, 30)." This emphasizes that the biological patterns identified are consistent with known sex-associated microbiome differences, and the learned feature weights (Figure 1) provide actionable biological insight regardless of sample size.
 
-**Location in revised manuscript:** Line 403
+**Location in revised manuscript:** Line 379, Figure 1
 
 ---
 
 **Reviewer Comment:** There is an inconsistency in Figure 2, where PCoA1 variance is listed as 18.4% in the legend but 21.5% on the x-axis.
 
-**Response:** We have fixed this inconsistency by updating the manuscript text to match the actual values shown on the figure. The text now correctly states that PCoA1 explains 21.5% of variance (matching the x-axis), and the figure caption has been updated accordingly (lines 403 and 408). The x-axis label is dynamically generated from the PCoA calculation, and we have ensured the text matches these correct values.
+**Response:** This issue has been resolved by removing the standalone Atlas1006 PCoA figure (previously Figure 2) in response to the reviewer's concern about visual separation. All remaining PCoA figures (Figures 2-3) have been verified to ensure consistency between x-axis labels (dynamically generated from PCoA calculations) and figure captions.
 
-**Location in revised manuscript:** Lines 403, 408
+**Location in revised manuscript:** Figures 2-3 (DietSwap and SKIOME PCoA plots)
 
 ---
 
 **Reviewer Comment:** Transition to the DietSwap data analysis is abrupt, and corresponding results including VIP feature and PCoA plots are not shown.
 
-**Response:** We have improved the transition to the DietSwap section by adding: "To further evaluate MeLSI's utility in real-world applications, we analyzed the DietSwap dietary intervention dataset." (line 375). This provides better context and flow between the Atlas1006 and DietSwap analyses. VIP and PCoA plots for DietSwap have been added to the manuscript (Figure 3, lines 418-427).
+**Response:** We have improved the transition to the DietSwap section by adding: "To evaluate MeLSI's utility in real-world applications, we analyzed three published microbiome datasets: Atlas1006 (sex-associated differences), DietSwap (dietary intervention), and SKIOME (multi-group skin microbiome validation)." (line 375). This provides better context and flow between the Atlas1006 and DietSwap analyses. VIP and PCoA plots for DietSwap have been added to the manuscript (Figure 2, lines 399-407).
 
-**Location in revised manuscript:** Line 375
+**Location in revised manuscript:** Line 375, Figure 2 (lines 399-407)
 
 ---
 
@@ -340,7 +340,7 @@ On the SKIOME dataset, MeLSI's omnibus test detected significant differences (F 
 
 We acknowledge that validation in additional body sites (oral, vaginal) or disease cohorts would further strengthen generalizability. However, the current validation across three datasets representing different body sites (gut, skin), study designs (observational, intervention, multi-group), and sample sizes (n=43 to n=1,114) provides evidence of MeLSI's broad applicability. The statistical framework (permutation testing, Type I error control) is consistent across all datasets, ensuring that the method's statistical properties are maintained regardless of body site or study design.
 
-**Location in revised manuscript:** Real data validation section (lines 373-427), including SKIOME dataset subsection (lines 416-427) with Figure 4 (lines 420-427)
+**Location in revised manuscript:** Real data validation section (lines 373-427), including SKIOME dataset subsection (lines 416-427) with Figure 3 (lines 420-427)
 
 ---
 
