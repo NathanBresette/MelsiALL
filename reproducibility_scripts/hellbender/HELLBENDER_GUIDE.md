@@ -4,7 +4,7 @@ This guide explains how to run MeLSI validation simulations on Mizzou's Hellbend
 
 ## Prerequisites
 
-- SSH access to Hellbender: `ssh nbhtd@hellbender.rnet.missouri.edu`
+- SSH access to Hellbender: `ssh <your_username>@hellbender.rnet.missouri.edu`
 - R module available (typically `r/4.4.0`)
 - MeLSI package installed in your R library
 
@@ -15,14 +15,14 @@ This guide explains how to run MeLSI validation simulations on Mizzou's Hellbend
 From your local machine:
 
 ```bash
-cd /Users/nathanbresette/Desktop/MeLSI/reproducibility_scripts/hellbender
-scp -r *.R *.sh nbhtd@hellbender.rnet.missouri.edu:~/melsi_simulations/hellbender/
+cd <local_path>/reproducibility_scripts/hellbender
+scp -r *.R *.sh <your_username>@hellbender.rnet.missouri.edu:~/melsi_simulations/hellbender/
 ```
 
 ### 2. SSH into Hellbender
 
 ```bash
-ssh nbhtd@hellbender.rnet.missouri.edu
+ssh <your_username>@hellbender.rnet.missouri.edu
 cd ~/melsi_simulations/hellbender
 ```
 
@@ -93,7 +93,7 @@ Rscript combine_table6_results.R
 From your local machine:
 
 ```bash
-scp nbhtd@hellbender.rnet.missouri.edu:~/melsi_simulations/hellbender/*_summary.csv ./
+scp <your_username>@hellbender.rnet.missouri.edu:~/melsi_simulations/hellbender/*_summary.csv ./
 ```
 
 ## R Scripts Overview

@@ -239,7 +239,7 @@ Time complexity is O(n²p²B·n_perms) in the worst case, but conservative pre-f
 
 ## DATA AVAILABILITY
 
-MeLSI source code and all validation scripts are permanently archived at Zenodo (DOI: 10.5281/zenodo.17714848) and available at https://github.com/NathanBresette/MeLSI under the MIT license. All validation data and analysis scripts are included in the package repository for full reproducibility. The Atlas1006 and DietSwap datasets are available through the R microbiome package (https://microbiome.github.io/).
+MeLSI source code is permanently archived at Zenodo (DOI: 10.5281/zenodo.17714848) and available as an R package at https://github.com/NathanBresette/MeLSI under the MIT license. All validation scripts, reproducibility materials, supplementary tables, and figures are available at https://github.com/NathanBresette/MelsiALL. The Atlas1006 and DietSwap datasets are available through the R microbiome package (https://microbiome.github.io/).
 
 ## RESULTS
 
@@ -445,7 +445,7 @@ MeLSI's learned distance metrics are compatible with other distance-based ordina
 
 ### Software availability
 
-\noindent MeLSI is freely available as an open-source R package under the MIT license at https://github.com/NathanBresette/MeLSI (DOI: 10.5281/zenodo.17714848). The package includes comprehensive documentation, tutorial vignettes, and example datasets. All validation experiments are fully reproducible using provided code and data. Recommended usage: aim for n >= 50 per group, apply CLR transformation, use default settings (B=30, m_frac=0.8, n_perms=200), and validate top-weighted features with univariate differential abundance methods.
+\noindent MeLSI is freely available as an open-source R package under the MIT license at https://github.com/NathanBresette/MeLSI (DOI: 10.5281/zenodo.17714848). The package includes comprehensive documentation, tutorial vignettes, and example datasets. All validation scripts, reproducibility materials, supplementary tables, and figures are available at https://github.com/NathanBresette/MelsiALL. Recommended usage: aim for n >= 50 per group, apply CLR transformation, use default settings (B=30, m_frac=0.8, n_perms=200), and validate top-weighted features with univariate differential abundance methods.
 
 ## FUNDING
 
