@@ -42,7 +42,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Response:** We clarify that these statistics serve as ranking heuristics, not inferential tests. We use them solely to rank features by between-group signal, without relying on distributional assumptions. All statistical inference uses permutation testing, which is distribution-free.
 
-**Location:** Line 99
+**Location:** Lines 155-160
 
 ---
 
@@ -50,7 +50,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Response:** We address multi-group generalizability through real-world validation on the SKIOME skin microbiome dataset (511 samples, 3 groups: Atopic Dermatitis, Healthy, Psoriasis). MeLSI detected significant differences (F = 4.895, p = 0.005), with all pairwise comparisons significant after FDR correction. The permutation framework ensures valid inference regardless of group number. Comprehensive multi-group synthetic validation (>1,500 additional simulations) represents future work.
 
-**Location:** Limitations (line 445), Methods (line 229), SKIOME results (lines 416-427)
+**Location:** Limitations (lines 565-570), Methods (lines 304-311), SKIOME results (lines 501-516)
 
 ---
 
@@ -60,7 +60,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Response:** The metric is relearned on each permutation, preventing double-dipping. Each permutation represents an independent metric learning experiment under the null hypothesis—the metric is never optimized on observed data and then tested on the same data. The p-value properly accounts for the adaptive nature of the method.
 
-**Location:** Line 182
+**Location:** Lines 218-229
 
 ---
 
@@ -68,7 +68,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Response:** Two lines of evidence confirm overfitting prevention: (1) Table 4 shows ensemble learning reduces variance 4× compared to a single learner (SD = 0.119-0.128 vs. 0.505), and (2) proper Type I error control across 100 simulations (3-6% rejection rates, Table 1) confirms overfitting does not inflate false positives.
 
-**Location:** Table 4 (line 318), Table 1 (line 254), Parameter Sensitivity (line 338)
+**Location:** Table 4 (line 391), Table 1 (line 343), Parameter Sensitivity (line 387)
 
 ---
 
@@ -76,7 +76,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Response:** Table 4 now includes a single-learner baseline (B=1), which shows substantially higher variance (SD = 0.505) and higher p-values (mean = 0.421) compared to ensemble approaches (SD = 0.119-0.128 for B≥10). Bootstrap sampling and feature subsampling create diversity among learners, following established ensemble learning practice (20).
 
-**Location:** Table 4 (line 318), Parameter Sensitivity (line 338)
+**Location:** Table 4 (line 391), Parameter Sensitivity (line 387)
 
 ---
 
@@ -86,9 +86,9 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Reviewer Comment:** Type I error control appears to be evaluated using a single synthetic dataset, with conclusions drawn from a single p-value. Repeated simulations are necessary to support claims of proper error control. Type I error control is a distributional property that must be assessed over repeated realizations of the null hypothesis. Demonstrating that a single test yields p-values greater than 0.05 in one or two null examples does not quantify the probability of false positive findings. Proper evaluation would require repeated simulations under the null, with estimation of the empirical rejection rate at the chosen significance level and, ideally, examination of the null p-value distribution.
 
-**Response:** We have expanded the Type I error analysis to include 100 simulations per condition across three sample sizes (n=50, 100, 200) for both synthetic null data and real shuffled data (600 total simulations: 2 dataset types × 3 sample sizes × 100 simulations). Table 1 now reports empirical rejection rates at α = 0.05 for each sample size and dataset type, confirming Type I error rates near the nominal 5% level (range: 3-6% across all conditions). The Conclusions section (line 437) has been updated accordingly.
+**Response:** We have expanded the Type I error analysis to include 100 simulations per condition across three sample sizes (n=50, 100, 200) for both synthetic null data and real shuffled data (600 total simulations: 2 dataset types × 3 sample sizes × 100 simulations). Table 1 now reports empirical rejection rates at α = 0.05 for each sample size and dataset type, confirming Type I error rates near the nominal 5% level (range: 3-6% across all conditions). The Conclusions section has been updated accordingly.
 
-**Location:** Table 1 (line 254), Results (lines 265-267), Conclusions (line 437)
+**Location:** Table 1 (line 343), Results (lines 346-350), Conclusions (lines 534-536)
 
 ---
 
@@ -98,7 +98,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Response:** We have expanded the power analysis to include 50 simulations per condition across three effect sizes (small, medium, large) and three sample sizes (n=50, 100, 200), totaling 450 simulations. Table 2 now reports empirical power (detection rates) and mean F-statistics for each combination. Individual method comparisons in Supplementary Table S2 show MeLSI consistently outperforms Jaccard and Unweighted UniFrac while demonstrating appropriate conservatism for small effects.
 
-**Location:** Table 2 (line 275), method comparisons (lines 285-287), power analysis (lines 289-305)
+**Location:** Table 2 (line 354), method comparisons (lines 360-369), power analysis (lines 351-369)
 
 ---
 
@@ -108,7 +108,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Response:** Both Type I error and power analyses now include multiple sample sizes (n=50, 100, 200), covering typical microbiome study sizes. The revised analyses report empirical Type I error rates and statistical power at each sample size, complementing the computational scalability analysis in Table 3. Results confirm proper Type I error control and appropriate power gains with increasing sample size.
 
-**Location:** Table 1 (line 254), Table 2 (line 275), Table 3 (line 295), Results (lines 265-267, 289-305, 328-338)
+**Location:** Table 1 (line 343), Table 2 (line 354), Table 3 (line 375), Results (lines 337-350, 351-369, 370-386)
 
 ---
 
@@ -118,7 +118,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Response:** We have added validation under varying feature correlation levels (Table 5). The analysis evaluated four correlation levels (r=0, 0.3, 0.6, 0.8) using 50 simulations per condition (200 total). MeLSI is robust to correlated features: F-statistics remained stable (±1.7% variation), power was consistent (42-50%), and feature recovery metrics showed minimal variation. MeLSI achieved its best ranking (1/6) at high correlation (r=0.8), suggesting particular suitability for correlated microbiome data. The ensemble approach naturally handles correlated features by aggregating signal across correlated taxa.
 
-**Location:** Table 5 (line 344), Feature Correlation Robustness (lines 340-356)
+**Location:** Table 5 (line 409), Feature Correlation Robustness (lines 401-428)
 
 ---
 
@@ -128,7 +128,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Response:** We have added validation of signal taxa recovery across varying effect sizes and sample sizes. Supplementary Table S1 provides detailed recovery metrics: Precision at k, Recall at k, Mean Rank, and AUC-ROC. MeLSI effectively recovers true signal taxa, with performance improving with effect size and sample size. For large effects, Precision at 5 reached 0.876-1.000 and Mean Rank decreased to 14.4, confirming that true signal taxa are consistently ranked among the top features.
 
-**Location:** Results section (Statistical Power text, Table 2 footnote referencing Supplementary Table S1); Supplementary Table S1
+**Location:** Results section (lines 355-359, Table 2 footnote referencing Supplementary Table S1); Supplementary Table S1
 
 ---
 
@@ -138,7 +138,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Response:** MeLSI's outperformance on real datasets does not reflect overfitting because the permutation framework relearns the metric on each permutation. This is directly confirmed by proper Type I error control on real shuffled Atlas1006 data (3-6% rejection rates across 100 simulations, Table 1), demonstrating genuine signal detection rather than overfitting.
 
-**Location:** Table 1 ("Null Real Shuffled" rows), Null distribution generation subsection in Methods
+**Location:** Table 1 (line 343, "Null Real Shuffled" rows), Null distribution generation (lines 218-229)
 
 ---
 
@@ -146,7 +146,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Response:** We acknowledge this concern. We have removed the standalone Atlas1006 PCoA figure (previously Figure 2) to avoid overstating visual separation. The statistical significance (F=5.141, p=0.005) is reported in the text, and the VIP plot (Figure 1) provides the primary interpretability value. We now show PCoA ordination for DietSwap and SKIOME (Figures 2-3), where group separation is more visually apparent, confirming that MeLSI-learned distances are compatible with standard ordination approaches.
 
-**Location:** Figure 1 (Atlas1006 VIP only), Figures 2-3 (DietSwap and SKIOME with combined VIP+PCoA)
+**Location:** Figure 1 (lines 474-479), Figures 2-3 (lines 497-500, 511-516)
 
 ---
 
@@ -160,9 +160,9 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Reviewer Comment:** The significant PERMANOVA result (F=5.141, p=0.005) may be influenced by the large sample size (N>1000). I was wondering if the seemingly subtle separation shown in the figure is considered biologically meaningful besides statistical significance.
 
-**Response:** We acknowledge that the large sample size (n=1,114) contributes to statistical significance. The revised text (line 379) states that "MeLSI's improvement over the best fixed metric suggests that learned metrics can capture biologically relevant patterns in subtle, high-dimensional comparisons, consistent with previously documented sex-associated microbiome differences (29, 30)." The learned feature weights (Figure 1) provide actionable biological insight regardless of sample size.
+**Response:** We acknowledge that the large sample size (n=1,114) contributes to statistical significance. The revised text (lines 458-461) states that "MeLSI's improvement over the best fixed metric suggests that learned metrics can capture biologically relevant patterns in subtle, high-dimensional comparisons, consistent with previously documented sex-associated microbiome differences (29, 30)." The learned feature weights (Figure 1) provide actionable biological insight regardless of sample size.
 
-**Location:** Line 379, Figure 1
+**Location:** Lines 458-461, Figure 1 (lines 474-479)
 
 ---
 
@@ -176,9 +176,9 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Reviewer Comment:** Transition to the DietSwap data analysis is abrupt, and corresponding results including VIP feature and PCoA plots are not shown.
 
-**Response:** We have improved the transition by adding introductory text (line 375): "To evaluate MeLSI's utility in real-world applications, we analyzed three published microbiome datasets: Atlas1006 (sex-associated differences), DietSwap (dietary intervention), and SKIOME (multi-group skin microbiome validation)." VIP and PCoA plots for DietSwap have been added (Figure 2).
+**Response:** We have improved the transition by adding introductory text (lines 451-454): "To evaluate MeLSI's utility in real-world applications, we analyzed three published microbiome datasets: Atlas1006 (sex-associated differences), DietSwap (dietary intervention), and SKIOME (multi-group skin microbiome validation)." VIP and PCoA plots for DietSwap have been added (Figure 2).
 
-**Location:** Line 375, Figure 2 (lines 399-407)
+**Location:** Lines 451-454, Figure 2 (lines 497-500)
 
 ---
 
@@ -188,7 +188,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Response:** We have expanded the parameter sensitivity analysis to include 25 replications per parameter value (275 total simulations), enabling robust variance estimation. Table 4 now reports mean F-statistics, p-values, and computation times, with a single-learner baseline (B=1) showing substantially higher variance (SD = 0.505) compared to ensemble approaches (SD = 0.119-0.128). Standard deviations are provided in Supplementary Table S4. F-statistics remained stable across ensemble sizes (B=10-100) compared to the single-learner baseline.
 
-**Location:** Table 4 (line 318), Parameter Sensitivity (line 338)
+**Location:** Table 4 (line 391), Parameter Sensitivity (line 387)
 
 ---
 
@@ -198,7 +198,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Response:** We have clarified that all pre-filtering analyses use n=100 samples per condition. The text describing the experimental conditions for Table 6 now explicitly states "n=100 samples per condition" along with the dimensionalities for each effect size.
 
-**Location:** Pre-filtering analysis section (text preceding Table 6)
+**Location:** Pre-filtering analysis section (lines 429-434)
 
 ---
 
@@ -206,7 +206,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Response:** We have clarified in the pre-filtering analysis section that the varying dimensionality (p=500 for small, p=200 for medium, p=100 for large) is now explicitly stated alongside sample sizes. This design tests pre-filtering benefits across different dimensionalities, with higher-dimensional datasets (p=500) showing greater time savings (39.8%) compared to lower-dimensional datasets (p=100, 16.5% time savings).
 
-**Location:** Pre-filtering analysis section (text preceding Table 6)
+**Location:** Pre-filtering analysis section (lines 429-434)
 
 ---
 
@@ -216,7 +216,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 Pre-filtering is most impactful in high-dimensional, sparse-signal settings. In the high-dimensional setting (p=500, small effect: 1.5× fold change in 5 signal taxa), pre-filtering removed 150 noise features, increasing power from 4% to 100%. In the lower-dimensional setting (p=100, large effect: 3.0× fold change in 20 signal taxa), power increased from 14% to 84%. The higher power in the small-effect scenario reflects the experimental design: pre-filtering provides maximum benefit when the signal-to-noise ratio is lowest (higher dimensionality), as removing 30% of non-informative features in the p=500 environment recovers signal masked by noise.
 
-**Location:** Table 6 (line 361), Pre-filtering analysis (lines 357-373)
+**Location:** Table 6 (line 435), Pre-filtering analysis (lines 429-450)
 
 ---
 
@@ -226,7 +226,7 @@ Pre-filtering is most impactful in high-dimensional, sparse-signal settings. In 
 
 **Response:** We have clarified the derivation of directionality and effect size in the Results section. **Directionality:** Is determined by identifying which group has the higher mean abundance on the CLR-transformed data, ensuring consistency with the metric learning process. **Effect Size:** We report the log2 fold change computed from CLR-transformed group means: $\log_2(\mu_{\text{CLR,1}} / \mu_{\text{CLR,2}})$. This provides a standardized measure of the magnitude of difference between groups for each taxon.
 
-**Location:** Lines 395-396
+**Location:** Lines 480-486
 
 ---
 
@@ -234,9 +234,9 @@ Pre-filtering is most impactful in high-dimensional, sparse-signal settings. In 
 
 **Reviewer Comment:** The claim that increased computational time is justified by improved statistical power is not fully supported, especially given inadequate validation study designs and given that Table 2 shows performance comparable to the best traditional methods.
 
-**Response:** The revised Limitations section (line 443) justifies MeLSI's computational time (2-30 minutes for typical datasets) based on: (1) interpretability gains through learned feature weights, (2) pre-filtering providing 16-40% time savings while improving power by 36-37% (Table 6), and (3) the modest time investment relative to overall study timelines. For large-scale screening studies, traditional methods may be more appropriate. The justification emphasizes interpretability as the primary benefit, consistent with Table 2 showing comparable power to traditional methods.
+**Response:** The revised Limitations section (lines 559-564) justifies MeLSI's computational time (2-30 minutes for typical datasets) based on: (1) interpretability gains through learned feature weights, (2) pre-filtering providing 16-40% time savings while improving power by 36-37% (Table 6), and (3) the modest time investment relative to overall study timelines. For large-scale screening studies, traditional methods may be more appropriate. The justification emphasizes interpretability as the primary benefit, consistent with Table 2 showing comparable power to traditional methods.
 
-**Location:** Limitations (line 443), Table 6 (line 361)
+**Location:** Limitations (lines 559-564), Table 6 (line 435)
 
 ---
 
@@ -246,7 +246,7 @@ Pre-filtering is most impactful in high-dimensional, sparse-signal settings. In 
 
 **Response:** We have added clarification in the Methods section (Real data sources) explaining that "Prevalence filtering (retaining features present in ≥10% of samples) is an optional preprocessing step distinct from MeLSI's variance-based pre-filtering; when applied, prevalence filtering removes rare taxa before analysis, while MeLSI's pre-filtering focuses on variance-based feature selection after preprocessing." This clarifies the distinction between the two filtering steps and their roles.
 
-**Location:** Methods section, Real data sources
+**Location:** Methods section, Real data sources (lines 281-284)
 
 ---
 
@@ -256,7 +256,7 @@ Pre-filtering is most impactful in high-dimensional, sparse-signal settings. In 
 
 **Response:** All tables (Tables 1-6) now include concise footnotes defining abbreviations: n (sample size), p (number of taxa/features), F (PERMANOVA F-statistic), Power (empirical statistical power), Time (computation time in seconds), Rank (MeLSI's rank among 6 methods), and other table-specific terms. Footnotes are standardized for consistency across tables.
 
-**Location:** Table 1: Line 262; Table 2: Line 284; Table 3: Line 310; Table 4: Line 336; Table 5: Line 353; Table 6: Line 369
+**Location:** Table 1: Line 344; Table 2: Line 355; Table 3: Line 376; Table 4: Line 392; Table 5: Line 410; Table 6: Line 436
 
 ---
 
@@ -264,9 +264,9 @@ Pre-filtering is most impactful in high-dimensional, sparse-signal settings. In 
 
 **Reviewer Comment:** Introduce notation more systematically in the "Metric learning: an emerging paradigm" section.
 
-**Response:** The revised text (lines 41-43) now formally defines: (1) the feature abundance matrix $\mathbf{X} \in \mathbb{R}^{n \times p}$ with $n$ samples and $p$ taxa, (2) group labels $\mathbf{y} = (y_1, \ldots, y_n)$, (3) the positive semi-definite metric matrix $\mathbf{M} \in \mathbb{R}^{p \times p}$, (4) the Mahalanobis distance formula $d_M(\mathbf{x}_i, \mathbf{x}_j) = \sqrt{(\mathbf{x}_i - \mathbf{x}_j)^T \mathbf{M} (\mathbf{x}_i - \mathbf{x}_j)}$, and (5) the special case of diagonal $\mathbf{M}$ reducing to weighted Euclidean distance with feature-specific weights $M_{jj}$.
+**Response:** The revised text (lines 88-96) now formally defines: (1) the feature abundance matrix $\mathbf{X} \in \mathbb{R}^{n \times p}$ with $n$ samples and $p$ taxa, (2) group labels $\mathbf{y} = (y_1, \ldots, y_n)$, (3) the positive semi-definite metric matrix $\mathbf{M} \in \mathbb{R}^{p \times p}$, (4) the Mahalanobis distance formula $d_M(\mathbf{x}_i, \mathbf{x}_j) = \sqrt{(\mathbf{x}_i - \mathbf{x}_j)^T \mathbf{M} (\mathbf{x}_i - \mathbf{x}_j)}$, and (5) the special case of diagonal $\mathbf{M}$ reducing to weighted Euclidean distance with feature-specific weights $M_{jj}$.
 
-**Location:** Introduction, "Metric learning: an emerging paradigm" subsection (line 43)
+**Location:** Introduction, "Metric learning: an emerging paradigm" subsection (lines 81-96)
 
 ---
 
@@ -276,7 +276,7 @@ Pre-filtering is most impactful in high-dimensional, sparse-signal settings. In 
 
 **Response:** We have added explicit discussion of the CLR transformation in the Methods section, explaining that: (1) CLR converts relative abundances to log-ratios suitable for Euclidean distance, (2) CLR treats abundance ratios more equitably than count-based metrics, which can be dominated by highly abundant taxa, (3) CLR may attenuate large fold-change signals, as evidenced by traditional count-based methods achieving higher F-statistics on synthetic data with large effects (3× fold change), and (4) CLR is most appropriate when signals are distributed across multiple taxa and interpretability is prioritized. The Results section now states when CLR-based versus count-based methods are preferable.
 
-**Location:** Methods (Real data preprocessing), Results (Statistical power analysis)
+**Location:** Methods (lines 269-284), Results (lines 360-369)
 
 ---
 
@@ -292,9 +292,9 @@ Pre-filtering is most impactful in high-dimensional, sparse-signal settings. In 
 
 **Reviewer Comment:** MeLSI looks slower (minutes to hours) than traditional PERMANOVA (seconds). The paper argues this is acceptable given the gain in interpretability, but for large-scale or screening studies, this may be prohibitive. No clear power-time trade-off analysis is provided to justify when MeLSI is worth the extra computation.
 
-**Response:** We have added an explicit power-time trade-off analysis (Computational Performance, line 431). Pre-filtering increases power by 36-37% while reducing computation time by 16-40% (Table 6). For typical studies (n=50-200, p=100-500), MeLSI completes in 2-30 minutes (Table 3). The trade-off is most favorable when: (1) sample sizes are moderate, (2) interpretability is prioritized, and (3) pre-filtering is applied. For very large studies (n>500) or rapid screening, traditional methods may be preferable.
+**Response:** We have added an explicit power-time trade-off analysis (Computational Performance, lines 517-529). Pre-filtering increases power by 36-37% while reducing computation time by 16-40% (Table 6). For typical studies (n=50-200, p=100-500), MeLSI completes in 2-30 minutes (Table 3). The trade-off is most favorable when: (1) sample sizes are moderate, (2) interpretability is prioritized, and (3) pre-filtering is applied. For very large studies (n>500) or rapid screening, traditional methods may be preferable.
 
-**Location:** Computational Performance (line 431), Tables 2, 3, and 6
+**Location:** Computational Performance (lines 517-529), Tables 2 (line 354), 3 (line 375), and 6 (line 435)
 
 ---
 
@@ -302,9 +302,9 @@ Pre-filtering is most impactful in high-dimensional, sparse-signal settings. In 
 
 **Reviewer Comment:** On Atlas1006, MeLSI's F-statistic was only 9.1% higher than Euclidean distance (5.141 vs. 4.711)-a modest improvement. On DietSwap, MeLSI reached significance (p=0.015) while Bray-Curtis was marginal (p=0.058), but the effect size difference is small. The authors acknowledge that on synthetic data with large effects, traditional metrics (Bray-Curtis, UniFrac) often outperformed MeLSI.
 
-**Response:** The revised Conclusions (line 439) explicitly position when MeLSI versus traditional methods are preferable. MeLSI is recommended when: (1) effect sizes are moderate (2× fold change), (2) interpretability through feature weights is needed, (3) traditional methods yield marginal results (p-values near 0.05), and (4) signals are distributed across multiple taxa. Traditional methods are preferable for: (1) large, obvious effects (3× fold change), (2) large-scale screening studies where speed is critical, and (3) when only omnibus testing is needed without feature-level interpretation.
+**Response:** The revised Conclusions (lines 545-557) explicitly position when MeLSI versus traditional methods are preferable. MeLSI is recommended when: (1) effect sizes are moderate (2× fold change), (2) interpretability through feature weights is needed, (3) traditional methods yield marginal results (p-values near 0.05), and (4) signals are distributed across multiple taxa. Traditional methods are preferable for: (1) large, obvious effects (3× fold change), (2) large-scale screening studies where speed is critical, and (3) when only omnibus testing is needed without feature-level interpretation.
 
-**Location:** Conclusions (line 439), Table 2 (line 275)
+**Location:** Conclusions (lines 545-557), Table 2 (line 354)
 
 ---
 
@@ -312,9 +312,9 @@ Pre-filtering is most impactful in high-dimensional, sparse-signal settings. In 
 
 **Reviewer Comment:** MeLSI uses CLR-transformed data for Euclidean distance, which may attenuate large fold-change signals compared to count-based metrics (Bray-Curtis, UniFrac). This could explain why MeLSI underperforms on synthetic data with strong effects.
 
-**Response:** We have added discussion of CLR trade-offs in both the Methods (line 234) and Results (line 305) sections. CLR may attenuate large fold-change signals, as evidenced by traditional count-based methods achieving higher F-statistics with large effects (3× fold change). The CLR-based approach is most appropriate when: (1) signals are distributed across multiple taxa, (2) interpretability is prioritized, and (3) effect sizes are moderate. For large, obvious effects, count-based methods (Bray-Curtis, UniFrac) may be preferable.
+**Response:** We have added discussion of CLR trade-offs in both the Methods (lines 269-284) and Results (lines 364-369) sections. CLR may attenuate large fold-change signals, as evidenced by traditional count-based methods achieving higher F-statistics with large effects (3× fold change). The CLR-based approach is most appropriate when: (1) signals are distributed across multiple taxa, (2) interpretability is prioritized, and (3) effect sizes are moderate. For large, obvious effects, count-based methods (Bray-Curtis, UniFrac) may be preferable.
 
-**Location:** Methods (line 234), Results (line 305)
+**Location:** Methods (lines 269-284), Results (lines 364-369)
 
 ---
 
@@ -322,11 +322,11 @@ Pre-filtering is most impactful in high-dimensional, sparse-signal settings. In 
 
 **Reviewer Comment:** MeLSI currently only supports simple group comparisons. No ability to adjust for confounders (age, BMI, antibiotics) or model continuous outcomes. This limits its utility in observational studies where confounding is common.
 
-**Response:** We acknowledge this limitation (Limitations section, line 447). The current implementation focuses on simple group comparisons, which represent the primary use case for microbiome beta diversity analysis.
+**Response:** We acknowledge this limitation (Limitations section, lines 571-577). The current implementation focuses on simple group comparisons, which represent the primary use case for microbiome beta diversity analysis.
 
 Covariate adjustment is a high-priority future extension. The underlying PERMANOVA framework (via vegan's `adonis2`) already supports covariates through formula syntax (e.g., `adonis2(dist ~ group + age + BMI)`), providing a natural pathway. The technical approach would involve learning the metric on residuals after regressing out covariates, or incorporating covariates directly into the objective function. This extension would require separate validation specific to that design type.
 
-**Location:** Limitations (line 445)
+**Location:** Limitations (lines 571-577)
 
 ---
 
@@ -336,7 +336,7 @@ Covariate adjustment is a high-priority future extension. The underlying PERMANO
 
 **Response:** MeLSI addresses compositionality through CLR transformation. The Aitchison distance is defined as the Euclidean distance in CLR space: $d_A(x,y) = \sqrt{\sum(\text{clr}(x) - \text{clr}(y))^2}$. Our method computes Mahalanobis distance on CLR-transformed data, which is a generalized Aitchison distance: $d_M(x,y) = \sqrt{(\text{clr}(x) - \text{clr}(y))^T \mathbf{M}^{-1} (\text{clr}(x) - \text{clr}(y))}$. When $\mathbf{M} = \mathbf{I}$, this reduces exactly to Aitchison distance; when $\mathbf{M} \neq \mathbf{I}$ (learned from data), this is a weighted Aitchison distance that adaptively weights dimensions based on their contribution to group separation. MeLSI thus uses Aitchison geometry as the foundation but extends it with learned feature-specific weights. Zero-inflation is handled through pseudocounts (adding 1 before log transformation). This approach maintains statistical validity through permutation testing, as demonstrated by proper Type I error control (Table 1). Explicit zero-inflation models represent a potential future enhancement.
 
-**Location:** Methods (line 234), Limitations (line 447)
+**Location:** Methods (lines 269-284), Limitations (lines 575-577)
 
 ---
 
@@ -348,7 +348,7 @@ Covariate adjustment is a high-priority future extension. The underlying PERMANO
 
 On SKIOME, MeLSI detected significant differences (F = 4.895, p = 0.005), comparable to Euclidean distance (F = 4.897) but lower than count-based methods (Bray-Curtis: F = 16.275, Jaccard: F = 11.058). All pairwise comparisons remained significant after FDR correction. While count-based methods achieved higher F-statistics, MeLSI provides unique interpretability through learned feature weights identifying which taxa drive group separation. Validation in additional body sites (oral, vaginal) would further strengthen generalizability, though the current three datasets span different body sites (gut, skin), study designs, and sample sizes (n=74 to n=1,114).
 
-**Location:** Real data validation (lines 373-427), SKIOME subsection (lines 416-427), Figure 3 (lines 420-427)
+**Location:** Real data validation (lines 451-516), SKIOME subsection (lines 501-516), Figure 3 (lines 511-516)
 
 ---
 
@@ -358,7 +358,7 @@ On SKIOME, MeLSI detected significant differences (F = 4.895, p = 0.005), compar
 
 **Response:** The revised Parameter Sensitivity section explicitly justifies defaults based on Table 4: (1) B=30 provides F-statistics (mean = 1.530, SD = 0.123) comparable to larger ensembles (B=50-100) with reasonable computation time (576.8s), (2) m_frac=0.8 balances performance with learner diversity (lower values show slightly higher F but reduced diversity; higher values show slightly lower F), and (3) robustness across wide parameter ranges (B=10-100, m_frac=0.5-1.0) indicates defaults provide good performance, though users may optimize for specific datasets.
 
-**Location:** Parameter Sensitivity (line 314), Table 4 (line 318)
+**Location:** Parameter Sensitivity (lines 387-400), Table 4 (line 391)
 
 ---
 
@@ -370,7 +370,7 @@ On SKIOME, MeLSI detected significant differences (F = 4.895, p = 0.005), compar
 
 The Conclusions now clarify that "unlike prediction-focused machine learning (e.g., Random Forest, neural networks), MeLSI is an inference-focused approach: every learned metric undergoes rigorous permutation testing to ensure that p-values remain valid despite the adaptive nature of the method." The appropriate comparisons for MeLSI are other beta diversity methods used with PERMANOVA (Bray-Curtis, Euclidean, Jaccard, UniFrac), which we comprehensively evaluate.
 
-**Location:** Conclusions, Summary subsection (prediction vs. inference distinction)
+**Location:** Conclusions, Summary subsection (lines 552-557)
 
 ---
 
@@ -378,9 +378,9 @@ The Conclusions now clarify that "unlike prediction-focused machine learning (e.
 
 **Reviewer Comment:** The method scales as O(p²) in the number of features. For shotgun metagenomics (thousands of species or genes), this could be computationally prohibitive even with pre-filtering.
 
-**Response:** The revised Scalability section (line 312) acknowledges that O(p²) scaling becomes prohibitive for p>1000, with Table 3 showing computation time increases from 244.8s at p=50 to 8633.0s at p=1000. Pre-filtering (retaining 70% of features) substantially mitigates this. For shotgun metagenomics, we recommend: (1) applying pre-filtering, (2) feature aggregation (e.g., species-level rather than gene-level), or (3) traditional methods if interpretability is not prioritized. The current implementation is most suitable for typical 16S rRNA datasets (p<1000) and metagenomic datasets with moderate dimensionality after preprocessing.
+**Response:** The revised Scalability section (lines 370-386) acknowledges that O(p²) scaling becomes prohibitive for p>1000, with Table 3 showing computation time increases from 244.8s at p=50 to 8633.0s at p=1000. Pre-filtering (retaining 70% of features) substantially mitigates this. For shotgun metagenomics, we recommend: (1) applying pre-filtering, (2) feature aggregation (e.g., species-level rather than gene-level), or (3) traditional methods if interpretability is not prioritized. The current implementation is most suitable for typical 16S rRNA datasets (p<1000) and metagenomic datasets with moderate dimensionality after preprocessing.
 
-**Location:** Scalability (line 312), Table 3 (line 295)
+**Location:** Scalability (lines 370-386), Table 3 (line 375)
 
 ---
 
@@ -390,7 +390,7 @@ The Conclusions now clarify that "unlike prediction-focused machine learning (e.
 
 **Response:** PERMANOVA (via vegan's `adonis2`) already supports paired and longitudinal designs through the `strata` argument, which restricts permutations within blocks. MeLSI can be extended using the same mechanism by implementing block permutations and passing the strata argument to `adonis2`. The current implementation uses unrestricted permutations for independent group comparisons, which represent the majority of microbiome studies. Paired design support would require separate validation and is listed as an immediate future extension.
 
-**Location:** Limitations and future work section
+**Location:** Limitations and future work section (lines 558-584, specifically lines 573-575)
 
 ---
 
