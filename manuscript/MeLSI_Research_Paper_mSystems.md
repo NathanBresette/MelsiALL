@@ -206,9 +206,9 @@ $$p = \frac{\sum \mathbb{I}(F_{perm} \geq F_{obs}) + 1}{n_{perms} + 1}$$
 
 \noindent Real microbiome datasets included:
 
-1. **Atlas1006** (22): 1,114 Western European adults with 123 genus-level taxa from HITChip microarray technology. Analysis compared males (n=560) versus females (n=554).
+1. **Atlas1006** (22): 1,114 Western European adults with 123 genus-level taxa from HITChip microarray technology. Analysis compared males (n = 560) versus females (n = 554).
 
-2. **DietSwap** (23): 74 stool samples from African American adults participating in a short-term dietary intervention. We analyzed the timepoint-within-group baseline samples (timepoint.within.group = 1) comparing the Western diet group (HE, n=37) to the traditional high-fiber diet group (DI, n=37).
+2. **DietSwap** (23): 74 stool samples from African American adults participating in a short-term dietary intervention. We analyzed the timepoint-within-group baseline samples (timepoint.within.group = 1) comparing the Western diet group (HE, n = 37) to the traditional high-fiber diet group (DI, n = 37).
 
 3. **SKIOME** (PRJNA554499): 511 skin microbiome samples across three groups (Atopic Dermatitis, Healthy, Psoriasis) with 1,856 taxa, used for multi-group validation across a different body site.
 
@@ -240,7 +240,7 @@ Time complexity is O(n²p²B·n_perms) in the worst case, but conservative pre-f
 
 ## DATA AVAILABILITY
 
-MeLSI source code is permanently archived at Zenodo (DOI: 10.5281/zenodo.17714848) and available as an R package at https://github.com/NathanBresette/MeLSI under the MIT license. All validation scripts, reproducibility materials, supplementary tables, and figures are available at https://github.com/NathanBresette/MelsiALL. The Atlas1006 and DietSwap datasets are available through the R microbiome package (https://microbiome.github.io/).
+MeLSI source code is available as an R package at https://github.com/NathanBresette/MeLSI under the MIT license. All validation scripts, reproducibility materials, supplementary tables, and figures are available at https://github.com/NathanBresette/MelsiALL. The Atlas1006 and DietSwap datasets are available through the R microbiome package (https://microbiome.github.io/).
 
 ## RESULTS
 
@@ -290,24 +290,24 @@ MeLSI demonstrated superior sensitivity for subtle signals (small effects, 1.5×
 
 ### Scalability analysis
 
-\noindent We assessed MeLSI's performance across varying sample sizes (n) and dimensionalities (p) using synthetic datasets with medium effect sizes (Table 3). For sample size scaling, we fixed p=200 taxa and varied n from 20 to 500. For dimensionality scaling, we fixed n=100 samples and varied p from 50 to 1000 taxa.
+\noindent We assessed MeLSI's performance across varying sample sizes (n) and dimensionalities (p) using synthetic datasets with medium effect sizes (Table 3). For sample size scaling, we fixed p = 200 taxa and varied n from 20 to 500. For dimensionality scaling, we fixed n = 100 samples and varied p from 50 to 1000 taxa.
 
 **Table 3. Scalability Across Sample Size and Dimensionality**
 
 | | n | p | MeLSI F | MeLSI Time | MeLSI Rank |
 |---------------|-----|------|---------|------------|------------|
-| **Varying n (p=200)** | | | | | |
-| n=20 | 20 | 200 | 1.132 | 486.9 | 2/6 |
-| n=50 | 50 | 200 | 1.277 | 457.9 | 2/6 |
-| n=100 | 100 | 200 | 1.497 | 513.3 | 3/6 |
-| n=200 | 200 | 200 | 1.836 | 739.5 | 3/6 |
-| n=500 | 500 | 200 | 2.511 | 2055.8 | 3/6 |
-| **Varying p (n=100)** | | | | | |
-| p=50 | 100 | 50 | 1.666 | 244.8 | 3/6 |
-| p=100 | 100 | 100 | 1.670 | 337.5 | 3/6 |
-| p=200 | 100 | 200 | 1.470 | 523.4 | 3/6 |
-| p=500 | 100 | 500 | 1.375 | 1829.0 | 1/6 |
-| p=1000 | 100 | 1000 | 1.331 | 8633.0 | 1/6 |
+| **Varying n (p = 200)** | | | | | |
+| n = 20 | 20 | 200 | 1.132 | 486.9 | 2/6 |
+| n = 50 | 50 | 200 | 1.277 | 457.9 | 2/6 |
+| n = 100 | 100 | 200 | 1.497 | 513.3 | 3/6 |
+| n = 200 | 200 | 200 | 1.836 | 739.5 | 3/6 |
+| n = 500 | 500 | 200 | 2.511 | 2055.8 | 3/6 |
+| **Varying p (n = 100)** | | | | | |
+| p = 50 | 100 | 50 | 1.666 | 244.8 | 3/6 |
+| p = 100 | 100 | 100 | 1.670 | 337.5 | 3/6 |
+| p = 200 | 100 | 200 | 1.470 | 523.4 | 3/6 |
+| p = 500 | 100 | 500 | 1.375 | 1829.0 | 1/6 |
+| p = 1000 | 100 | 1000 | 1.331 | 8633.0 | 1/6 |
 
 \noindent Abbreviations: n, sample size; p, number of taxa/features; F, PERMANOVA F-statistic; Time, computation time in seconds; Rank, MeLSI's rank among 6 methods (1/6 = best, 6/6 = worst) based on F-statistic. Values shown as mean across 10 simulations per condition. See Supplementary Table S3 for individual method comparisons.
 
@@ -358,7 +358,7 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 
 ### Pre-filtering analysis
 
-\noindent We evaluated the benefit of conservative pre-filtering by comparing MeLSI with and without this step using synthetic datasets (n=100 samples per condition) with varying effect sizes and dimensionalities (small: 1.5× fold change in 5 taxa, p=500; medium: 2.0× in 10 taxa, p=200; large: 3.0× in 20 taxa, p=100) and high sparsity (70% zero-inflated features) (Table 6).
+\noindent We evaluated the benefit of conservative pre-filtering by comparing MeLSI with and without this step using synthetic datasets (n = 100 samples per condition) with varying effect sizes and dimensionalities (small: 1.5× fold change in 5 taxa, p = 500; medium: 2.0× in 10 taxa, p = 200; large: 3.0× in 20 taxa, p = 100) and high sparsity (70% zero-inflated features) (Table 6).
 
 **Table 6. Benefit of Conservative Pre-filtering**
 
@@ -380,11 +380,7 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 
 \noindent On the Atlas1006 dataset (1,114 Western European adults, male vs. female), MeLSI achieved F = 5.141 (p = 0.005) versus F = 4.711 (p = 0.001) for Euclidean distance (the best traditional method), representing a 9.1% improvement. MeLSI's improvement over the best fixed metric suggests that learned metrics can capture biologically relevant patterns in subtle, high-dimensional comparisons, consistent with previously documented sex-associated microbiome differences (29, 30).
 
-#### DietSwap dataset
-
-\noindent On the DietSwap dataset (Western vs. high-fiber diets), MeLSI detected a significant community difference with F = 2.856 (p = 0.015), outperforming all traditional metrics. The strongest fixed metric was Bray-Curtis (F = 2.153, p = 0.058). These results suggest that MeLSI's adaptive weighting captures diet-induced compositional shifts that fixed metrics only weakly detect.
-
-### Feature importance and biological interpretability
+##### Feature importance
 
 \noindent MeLSI provides interpretable feature importance weights. For the Atlas1006 dataset, the learned metric assigned highest weights to genera in the families Bacteroidaceae, Lachnospiraceae, and Ruminococcaceae, taxonomic groups previously associated with sex differences in gut microbiome composition (30, 31). Figure 1 displays the top 15 taxa by learned feature weight.
 
@@ -398,6 +394,10 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 
 #### DietSwap dataset
 
+\noindent On the DietSwap dataset (Western vs. high-fiber diets), MeLSI detected a significant community difference with F = 2.856 (p = 0.015), outperforming all traditional metrics. The strongest fixed metric was Bray-Curtis (F = 2.153, p = 0.058). These results suggest that MeLSI's adaptive weighting captures diet-induced compositional shifts that fixed metrics only weakly detect.
+
+##### Feature importance
+
 \noindent For the DietSwap dataset, MeLSI's learned feature weights identified taxa including Akkermansia and Oxalobacter as key drivers of diet-induced community differences. Figure 2 displays the top 15 taxa by learned feature weight alongside the PCoA ordination.
 
 ![](figures/dietswap_combined.png)
@@ -406,9 +406,13 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 **Figure 2.** DietSwap dataset: Top 15 taxa by feature weights (left) and PCoA ordination (right). Taxa including Akkermansia and Oxalobacter show strong contributions. Dashed ellipses show 95% confidence ellipses.
 \normalsize
 
-#### SKIOME dataset: Multi-group validation
+#### SKIOME dataset
 
-\noindent To validate multi-group capability, we analyzed the SKIOME skin microbiome dataset (PRJNA554499, 511 samples, 3 groups: Atopic_Dermatitis, Healthy, Psoriasis). MeLSI's omnibus test detected significant differences (F = 4.895, p = 0.005), comparable to Euclidean distance (F = 4.897, p = 0.001) but lower than count-based methods (Bray-Curtis: F = 16.275, Jaccard: F = 11.058, both p = 0.001). All pairwise comparisons remained significant after FDR correction (p = 0.005 for all pairs). Figure 3 displays feature importance weights and PCoA ordination, demonstrating MeLSI's interpretability for multi-group analyses. This validates MeLSI's utility beyond two-group comparisons and across different body sites (skin vs. gut microbiome).
+\noindent To validate multi-group capability, we analyzed the SKIOME skin microbiome dataset (PRJNA554499, 511 samples, 3 groups: Atopic_Dermatitis, Healthy, Psoriasis). MeLSI's omnibus test detected significant differences (F = 4.895, p = 0.005), comparable to Euclidean distance (F = 4.897, p = 0.001) but lower than count-based methods (Bray-Curtis: F = 16.275, Jaccard: F = 11.058, both p = 0.001). All pairwise comparisons remained significant after FDR correction (p = 0.005 for all pairs).
+
+##### Feature importance
+
+\noindent Figure 3 displays feature importance weights and PCoA ordination, demonstrating MeLSI's interpretability for multi-group analyses. This validates MeLSI's utility beyond two-group comparisons and across different body sites (skin vs. gut microbiome).
 
 ![](figures/skiome_combined.png)
 
@@ -418,7 +422,7 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 
 ### Computational performance
 
-\noindent Across all experiments, MeLSI demonstrated practical computational performance on standard hardware. Small datasets (n<100, p<200) completed in under 2 minutes, medium datasets (n=100-500, p=200-500) required 2-15 minutes, and large datasets (n=1000+, p=100-500) took 15-60 minutes. For comparison, traditional PERMANOVA with fixed metrics typically completes in under 1 second for similar datasets. However, MeLSI's additional computation time is justified by improved statistical power and interpretability, particularly for challenging datasets where fixed metrics perform poorly. Pre-filtering increases statistical power by 36-37% while reducing computation time by 16-40% (Table 6). For typical microbiome studies (n=50-200, p=100-500), MeLSI completes in 2-30 minutes (Table 3), representing a modest time investment that yields both improved power and interpretability through feature weights. For very large studies (n>500) or when only rapid screening is needed, traditional methods may be preferable.
+\noindent Across all experiments, MeLSI demonstrated practical computational performance on standard hardware. Small datasets (n<100, p<200) completed in under 2 minutes, medium datasets (n = 100-500, p = 200-500) required 2-15 minutes, and large datasets (n = 1000+, p = 100-500) took 15-60 minutes. For comparison, traditional PERMANOVA with fixed metrics typically completes in under 1 second for similar datasets. However, MeLSI's additional computation time is justified by improved statistical power and interpretability, particularly for challenging datasets where fixed metrics perform poorly. Pre-filtering increases statistical power by 36-37% while reducing computation time by 16-40% (Table 6). For typical microbiome studies (n = 50-200, p = 100-500), MeLSI completes in 2-30 minutes (Table 3), representing a modest time investment that yields both improved power and interpretability through feature weights. For very large studies (n>500) or when only rapid screening is needed, traditional methods may be preferable.
 
 ## CONCLUSIONS
 
@@ -440,7 +444,7 @@ MeLSI's key innovation is interpretability: learned feature weights identify bio
 
 ### Software availability
 
-\noindent MeLSI is freely available as an open-source R package under the MIT license at https://github.com/NathanBresette/MeLSI (DOI: 10.5281/zenodo.17714848). The package is currently under review for inclusion in Bioconductor. The package includes comprehensive documentation, tutorial vignettes, and example datasets. All validation scripts, reproducibility materials, supplementary tables, and figures are available at https://github.com/NathanBresette/MelsiALL. Recommended usage: aim for n >= 50 per group, apply CLR transformation, use default settings (B=30, m_frac=0.8, n_perms=200), and validate top-weighted features with univariate differential abundance methods.
+\noindent MeLSI is freely available as an open-source R package under the MIT license at https://github.com/NathanBresette/MeLSI. The package includes comprehensive documentation, tutorial vignettes, and example datasets. All validation scripts, reproducibility materials, supplementary tables, and figures are available at https://github.com/NathanBresette/MelsiALL. Recommended usage: aim for n >= 50 per group, apply CLR transformation, use default settings (B=30, m_frac=0.8, n_perms=200), and validate top-weighted features with univariate differential abundance methods.
 
 ## SUPPLEMENTARY MATERIAL
 
@@ -486,7 +490,7 @@ $^{1}$ Roy Blunt NextGen Precision Health, University of Missouri, Columbia, Mis
 
 $^{2}$ Institute for Data Science and Informatics, University of Missouri, Columbia, Missouri, USA.
 
-$^{3}$ Bioinformatics and Analytics Core, University of Missouri, Columbia, Missouri, USA.
+$^{3}$ University of Missouri Metagenomics Center, Columbia, Missouri, USA.
 
 $^{4}$ Department of Pathobiology and Integrative Biomedical Sciences, University of Missouri, Columbia, Missouri, USA.
 

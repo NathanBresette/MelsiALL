@@ -225,9 +225,9 @@ Time complexity is O(n²p²B·n_perms) in the worst case, but conservative pre-f
 
 \noindent Real microbiome datasets included:
 
-1. **Atlas1006** (25): 1,114 Western European adults with 123 genus-level taxa from HITChip microarray technology. Analysis compared males (n=560) versus females (n=554).
+1. **Atlas1006** (25): 1,114 Western European adults with 123 genus-level taxa from HITChip microarray technology. Analysis compared males (n = 560) versus females (n = 554).
 
-2. **DietSwap** (26): 74 stool samples from African American adults participating in a short-term dietary intervention. We analyzed the timepoint-within-group baseline samples (timepoint.within.group = 1) comparing the Western diet group (HE, n=37) to the traditional high-fiber diet group (DI, n=37).
+2. **DietSwap** (26): 74 stool samples from African American adults participating in a short-term dietary intervention. We analyzed the timepoint-within-group baseline samples (timepoint.within.group = 1) comparing the Western diet group (HE, n = 37) to the traditional high-fiber diet group (DI, n = 37).
 
 \noindent Data were preprocessed using centered log-ratio (CLR) transformation for Euclidean distance analyses to address compositionality (27, 11). Bray-Curtis dissimilarity, Jaccard, and UniFrac distances were computed on raw count data, as these metrics are inherently designed to handle compositional data (28, 7).
 
@@ -264,7 +264,7 @@ MeLSI source code is permanently archived at Zenodo (DOI: 10.5281/zenodo.1771484
 
 \noindent We evaluated Type I error control using 100 simulations per condition across three sample sizes (n = 50, 100, 200) for both synthetic null data (randomly assigned group labels) and real data with shuffled labels (preserving data structure while breaking group associations). Across all conditions, MeLSI maintained proper Type I error control, with empirical rejection rates near the nominal 5% level (range: 3-6%). Euclidean distance showed similar control (0-7% across conditions), while Bray-Curtis also maintained appropriate error rates (2-7% across conditions).
 
-These results demonstrate proper Type I error control across both synthetic and real null data structures, with rates appropriately calibrated near the nominal 5% level. The permutation testing framework properly accounts for the flexibility of learned metrics, ensuring that MeLSI's adaptive approach does not inflate false positive rates. Notably, Type I error rates remained stable across sample sizes, indicating robust performance from small (n=50) to larger (n=200) studies. This rigorous evaluation across 100 simulations per condition provides strong evidence that MeLSI maintains proper statistical validity under the null hypothesis.
+These results demonstrate proper Type I error control across both synthetic and real null data structures, with rates appropriately calibrated near the nominal 5% level. The permutation testing framework properly accounts for the flexibility of learned metrics, ensuring that MeLSI's adaptive approach does not inflate false positive rates. Notably, Type I error rates remained stable across sample sizes, indicating robust performance from small (n = 50) to larger (n = 200) studies. This rigorous evaluation across 100 simulations per condition provides strong evidence that MeLSI maintains proper statistical validity under the null hypothesis.
 
 ### Performance across synthetic and real datasets
 
@@ -288,62 +288,86 @@ These results demonstrate proper Type I error control across both synthetic and 
 
 #### Individual method comparisons
 
-\noindent To provide a comprehensive evaluation, we compared MeLSI against each traditional method individually across all effect sizes and sample sizes. For small effects, MeLSI showed lower power (6-16%) compared to Bray-Curtis (20-54%) but comparable or superior power to Jaccard (0-6%) and Unweighted UniFrac (4-6%). For medium effects, MeLSI's power increased substantially with sample size (16% at n=50 to 96% at n=200), while Bray-Curtis achieved 100% power at n≥100. For large effects, MeLSI achieved 100% power at n≥100, matching all traditional methods. Notably, MeLSI consistently outperformed Jaccard and Unweighted UniFrac across all conditions, demonstrating superior performance to these methods. The lower power for small effects reflects MeLSI's more conservative permutation-based inference, which properly accounts for the adaptive nature of the method. As effect sizes increase and sample sizes grow, MeLSI's power converges with or exceeds that of traditional methods, while providing the additional benefit of feature importance interpretation.
+\noindent To provide a comprehensive evaluation, we compared MeLSI against each traditional method individually across all effect sizes and sample sizes. For small effects, MeLSI showed lower power (6-16%) compared to Bray-Curtis (20-54%) but comparable or superior power to Jaccard (0-6%) and Unweighted UniFrac (4-6%). For medium effects, MeLSI's power increased substantially with sample size (16% at n = 50 to 96% at n = 200), while Bray-Curtis achieved 100% power at n≥100. For large effects, MeLSI achieved 100% power at n≥100, matching all traditional methods. Notably, MeLSI consistently outperformed Jaccard and Unweighted UniFrac across all conditions, demonstrating superior performance to these methods. The lower power for small effects reflects MeLSI's more conservative permutation-based inference, which properly accounts for the adaptive nature of the method. As effect sizes increase and sample sizes grow, MeLSI's power converges with or exceeds that of traditional methods, while providing the additional benefit of feature importance interpretation.
 
 #### Synthetic power analysis
 
 For small effect sizes (1.5× fold change in signal taxa), MeLSI showed appropriately conservative behavior with low power (6-16% across sample sizes), reflecting the method's rigorous permutation-based inference that properly accounts for adaptive metric learning. Bray-Curtis achieved higher power (20-54%), while Jaccard and Unweighted UniFrac showed very low power (0-6%), demonstrating MeLSI's superior performance to these methods. The lower power for small effects is expected given MeLSI's more conservative approach, which prioritizes proper error control over marginal gains in weak signal detection.
 
-For medium effect sizes (2.0× fold change), MeLSI's power increased substantially with sample size (16% at n=50 to 96% at n=200), demonstrating appropriate power gains with larger datasets. Bray-Curtis achieved 100% power at n≥100, while MeLSI reached 96% power at n=200, indicating convergence in detection capability. Jaccard and Unweighted UniFrac continued to show poor performance (0-4% power), highlighting MeLSI's advantage over these methods.
+For medium effect sizes (2.0× fold change), MeLSI's power increased substantially with sample size (16% at n = 50 to 96% at n = 200), demonstrating appropriate power gains with larger datasets. Bray-Curtis achieved 100% power at n≥100, while MeLSI reached 96% power at n = 200, indicating convergence in detection capability. Jaccard and Unweighted UniFrac continued to show poor performance (0-4% power), highlighting MeLSI's advantage over these methods.
 
 For large effect sizes (3.0× fold change), MeLSI achieved 100% power at n≥100, matching all traditional methods. Phylogenetically-informed methods (Weighted UniFrac, Bray-Curtis) achieved substantially higher F-statistics (mean F = 2.794-8.659) compared to MeLSI (mean F = 1.585-3.129), reflecting their sensitivity to large abundance shifts. However, MeLSI's CLR-based approach provides more balanced treatment of abundance ratios and offers the additional benefit of feature importance interpretation.
 
 These results reveal important contextual strengths between methods. When effect sizes are large (3.0× fold change), any method (including simple Euclidean distance) succeeds. The challenge in microbiome science is not detecting obvious community-wide shifts; rather, it is identifying subtle, biologically complex signals where only specific taxa drive differences while hundreds of others add noise. MeLSI excels in this "grey zone" of medium effect sizes and real data with heterogeneous signals (Atlas1006, DietSwap). Count-based methods such as Bray-Curtis are highly sensitive to abundance dominance, making them powerful when abundant taxa drive large shifts but potentially less balanced when signals are distributed across multiple low-abundance taxa. MeLSI's CLR-based approach treats abundance ratios more equitably, prioritizing biological relevance over sheer abundance. This positions MeLSI as complementary to traditional methods: use fixed metrics when signals are obvious; use MeLSI when biological complexity demands adaptive feature weighting.
 
-#### Real data: Atlas1006
+#### Atlas1006 dataset
 
 \noindent On the Atlas1006 dataset (1,114 Western European adults, male vs. female comparison), MeLSI achieved F = 5.141 (p = 0.005) versus F = 4.711 (p = 0.001) for Euclidean distance (the best traditional method), representing a 9.1% improvement in effect size. Bray-Curtis showed F = 4.442 (p = 0.001), while Jaccard failed to detect significance (F = 1.791, p = 0.144).
 
 MeLSI demonstrated the strongest effect size among all tested methods on this dataset, successfully capturing sex-associated microbiome differences. The Atlas1006 dataset represents a challenging test case: sex-associated microbiome differences are known to be subtle and inconsistent across populations (29, 30). MeLSI's 9.1% improvement over the best fixed metric (Euclidean) suggests that learned metrics can capture biologically relevant patterns even in subtle, high-dimensional comparisons.
 
-#### Real data: DietSwap
+##### Feature importance
+
+\noindent A major advantage of MeLSI is its provision of interpretable feature importance weights. For the Atlas1006 dataset, the learned metric assigned highest weights to genera in the families Bacteroidaceae, Lachnospiraceae, and Ruminococcaceae, taxonomic groups previously associated with sex differences in gut microbiome composition (30, 31). Figure 1 displays the top 15 taxa by learned feature weight, illustrating the clear hierarchical importance structure that MeLSI recovers.
+
+![](figures/atlas1006_vip_combined.png)
+
+\noindent \footnotesize
+**Figure 1.** Feature Importance Weights for Atlas1006 Dataset. Side-by-side comparison of top 15 microbial taxa ranked by MeLSI feature weights. Left panel shows feature weights without directionality information. Right panel shows the same features colored by directionality, indicating which group (male or female) has higher mean abundance for each taxon. Higher weights indicate taxa that contribute more to distinguishing male versus female microbiome composition. Taxa from Bacteroidaceae, Lachnospiraceae, and Ruminococcaceae families show the strongest contributions (families previously associated with sex differences in gut microbiome composition and linked to host hormone metabolism, bile acid processing, and short-chain fatty acid production). The directionality coloring reveals that different taxa are enriched in different groups, providing biological insight into how male and female microbiomes differ and suggesting specific metabolic pathways that may mediate sex-associated microbiome variation.
+\normalsize
+
+\noindent The diagonal elements of the learned metric matrix M directly represent feature importance: higher values indicate taxa that contribute more to group separation. Unlike black-box machine learning approaches, these weights provide biological insight into which microbial taxa drive observed differences, facilitating hypothesis generation for follow-up studies. MeLSI automatically calculates directionality information, indicating which group has higher mean abundance for each taxon, along with log2 fold-change values. Directionality is calculated by comparing mean abundances between groups: for each taxon, we identify which group (Group 1 or Group 2) has higher mean abundance on CLR-transformed data. Log2 fold-change is calculated as log2(mean_group1 / mean_group2), where small epsilon values are added to both means to avoid division by zero. These values are computed on the CLR-transformed data used for metric learning, ensuring consistency with the distance metric calculation. This directionality information is included in the analysis results and can be visualized in feature importance plots, providing a complete picture of both which taxa drive group separation and how they differ between groups.
+
+To visualize how the learned metric separates groups, we applied Principal Coordinates Analysis (PCoA) using the MeLSI-learned distance matrix on Atlas1006. Figure 2 shows modest but statistically significant separation between male and female samples along the first principal coordinate (21.5% of variance). This separation is comparable to that observed with traditional metrics (Euclidean: F=4.711, Bray-Curtis: F=4.442), demonstrating that MeLSI maintains visual separation while providing additional interpretability through learned feature weights. The ellipses (95% confidence intervals) demonstrate consistent group separation, consistent with MeLSI's significant F-statistic (F = 5.141, p = 0.005). While the large sample size (n = 1,114) contributes to statistical significance, the sex-associated microbiome differences identified by MeLSI align with previously documented biological patterns (29, 30), and the learned feature weights provide actionable biological insight regardless of sample size.
+
+![](figures/atlas1006_pcoa.png)
+
+\noindent \footnotesize
+**Figure 2.** PCoA Ordination Using MeLSI Distance for Atlas1006 Dataset. Principal Coordinates Analysis using the MeLSI-learned distance metric on Atlas1006 data. Points represent individual samples colored by sex (male/female). Dashed ellipses show 95% confidence intervals. The learned metric achieves visible separation along PCoA1 (21.5% of variance), consistent with the significant PERMANOVA result (F = 5.141, p = 0.005).
+\normalsize
+
+#### DietSwap dataset
 
 \noindent To further evaluate MeLSI's utility in real-world applications, we analyzed the DietSwap dietary intervention dataset. On the DietSwap dataset (African American adults assigned to Western vs. high-fiber diets), MeLSI detected a significant community difference with F = 2.856 (p = 0.015), outperforming all traditional metrics. The strongest fixed metric was Bray-Curtis (F = 2.153, p = 0.058), followed by Jaccard (F = 1.921, p = 0.100) and Euclidean (F = 1.645, p = 0.090). Phylogenetic methods (Weighted/Unweighted UniFrac) were not evaluated because the publicly available phyloseq object lacks a phylogenetic tree; we prioritized reproducibility using standard dataset objects rather than reconstructing trees. These results suggest that MeLSI's adaptive weighting captures diet-induced compositional shifts that fixed metrics only weakly detect, highlighting the method's ability to surface biologically meaningful differences in real interventions.
 
+##### Feature importance
+
+\noindent For the DietSwap dataset, the learned feature weights identified taxa with documented roles in diet-induced microbial shifts. Akkermansia and Oxalobacter (among the highest-weighted taxa) have documented roles in diet-induced mucin degradation and bile acid metabolism, reinforcing that MeLSI pinpoints biologically plausible drivers of community shifts. Together with the Atlas1006 results, the VIP and PCoA visualizations demonstrate MeLSI's dual utility: statistically rigorous hypothesis testing combined with interpretable feature weighting and ordination for biological insight.
+
 ### Scalability analysis
 
-\noindent We assessed MeLSI's performance across varying sample sizes (n) and dimensionalities (p) using synthetic datasets with medium effect sizes (Table 3). For sample size scaling, we fixed p=200 taxa and varied n from 20 to 500. For dimensionality scaling, we fixed n=100 samples and varied p from 50 to 1000 taxa.
+\noindent We assessed MeLSI's performance across varying sample sizes (n) and dimensionalities (p) using synthetic datasets with medium effect sizes (Table 3). For sample size scaling, we fixed p = 200 taxa and varied n from 20 to 500. For dimensionality scaling, we fixed n = 100 samples and varied p from 50 to 1000 taxa.
 
 **Table 3. Scalability Across Sample Size and Dimensionality**
 
 | | n | p | MeLSI F | MeLSI Time | Best Trad | Trad F | Trad Time |
 |---------------|-----|------|---------|------------|-----------|--------|-----------|
-| **Varying n (p=200)** | | | | | | | |
-| n=20 | 20 | 200 | 1.132 (0.127) | 488.3 (3.9) | Bray-Curtis | 1.123 (0.106) | 0.0 (0.0) |
-| n=50 | 50 | 200 | 1.277 (0.085) | 502.0 (3.0) | Bray-Curtis | 1.324 (0.109) | 0.0 (0.0) |
-| n=100 | 100 | 200 | 1.497 (0.139) | 544.0 (13.4) | Bray-Curtis | 1.660 (0.163) | 0.1 (0.0) |
-| n=200 | 200 | 200 | 1.836 (0.128) | 679.5 (27.8) | Bray-Curtis | 2.283 (0.154) | 0.3 (0.0) |
-| n=500 | 500 | 200 | 2.511 (0.266) | 1800.1 (73.5) | Bray-Curtis | 4.000 (0.449) | 2.4 (0.1) |
-| **Varying p (n=100)** | | | | | | | |
-| p=50 | 100 | 50 | 1.666 (0.347) | 227.9 (18.6) | Bray-Curtis | 2.153 (0.447) | 0.1 (0.0) |
-| p=100 | 100 | 100 | 1.670 (0.158) | 357.0 (6.2) | Bray-Curtis | 2.144 (0.269) | 0.1 (0.0) |
-| p=200 | 100 | 200 | 1.470 (0.150) | 565.2 (3.7) | Bray-Curtis | 1.614 (0.136) | 0.1 (0.0) |
-| p=500 | 100 | 500 | 1.375 (0.082) | 1783.9 (108.9) | Bray-Curtis | 1.264 (0.054) | 0.1 (0.0) |
-| p=1000 | 100 | 1000 | 1.331 (0.071) | 8405.6 (58.6) | Bray-Curtis | 1.123 (0.066) | 0.1 (0.0) |
+| **Varying n (p = 200)** | | | | | | | |
+| n = 20 | 20 | 200 | 1.132 (0.127) | 488.3 (3.9) | Bray-Curtis | 1.123 (0.106) | 0.0 (0.0) |
+| n = 50 | 50 | 200 | 1.277 (0.085) | 502.0 (3.0) | Bray-Curtis | 1.324 (0.109) | 0.0 (0.0) |
+| n = 100 | 100 | 200 | 1.497 (0.139) | 544.0 (13.4) | Bray-Curtis | 1.660 (0.163) | 0.1 (0.0) |
+| n = 200 | 200 | 200 | 1.836 (0.128) | 679.5 (27.8) | Bray-Curtis | 2.283 (0.154) | 0.3 (0.0) |
+| n = 500 | 500 | 200 | 2.511 (0.266) | 1800.1 (73.5) | Bray-Curtis | 4.000 (0.449) | 2.4 (0.1) |
+| **Varying p (n = 100)** | | | | | | | |
+| p = 50 | 100 | 50 | 1.666 (0.347) | 227.9 (18.6) | Bray-Curtis | 2.153 (0.447) | 0.1 (0.0) |
+| p = 100 | 100 | 100 | 1.670 (0.158) | 357.0 (6.2) | Bray-Curtis | 2.144 (0.269) | 0.1 (0.0) |
+| p = 200 | 100 | 200 | 1.470 (0.150) | 565.2 (3.7) | Bray-Curtis | 1.614 (0.136) | 0.1 (0.0) |
+| p = 500 | 100 | 500 | 1.375 (0.082) | 1783.9 (108.9) | Bray-Curtis | 1.264 (0.054) | 0.1 (0.0) |
+| p = 1000 | 100 | 1000 | 1.331 (0.071) | 8405.6 (58.6) | Bray-Curtis | 1.123 (0.066) | 0.1 (0.0) |
 
 \noindent Abbreviations: n, sample size; p, number of taxa/features; F, PERMANOVA F-statistic; Time, computation time in seconds; Trad, traditional method. Values shown as mean (SD) across 10 simulations per condition.
 
 #### Sample size scaling
 
-\noindent MeLSI's F-statistics increased monotonically with sample size, from mean F = 1.132 (SD = 0.127) at n=20 to mean F = 2.511 (SD = 0.266) at n=500, demonstrating appropriate statistical power gains with larger datasets. Computation time increased substantially with sample size (mean = 488.3s, SD = 3.9s at n=20 to mean = 1800.1s, SD = 73.5s at n=500), consistent with O(n²) distance calculations. Bray-Curtis consistently achieved higher F-statistics than MeLSI across all sample sizes, with the gap widening at larger n (mean F = 4.000, SD = 0.449 vs. 2.511, SD = 0.266 at n=500), though Bray-Curtis remained orders of magnitude faster (mean = 2.4s, SD = 0.1s vs. 1800.1s, SD = 73.5s).
+\noindent MeLSI's F-statistics increased monotonically with sample size, from mean F = 1.132 (SD = 0.127) at n = 20 to mean F = 2.511 (SD = 0.266) at n = 500, demonstrating appropriate statistical power gains with larger datasets. Computation time increased substantially with sample size (mean = 488.3s, SD = 3.9s at n = 20 to mean = 1800.1s, SD = 73.5s at n = 500), consistent with O(n²) distance calculations. Bray-Curtis consistently achieved higher F-statistics than MeLSI across all sample sizes, with the gap widening at larger n (mean F = 4.000, SD = 0.449 vs. 2.511, SD = 0.266 at n = 500), though Bray-Curtis remained orders of magnitude faster (mean = 2.4s, SD = 0.1s vs. 1800.1s, SD = 73.5s).
 
 The method achieved significance at n >= 200 for this effect size, while smaller samples yielded appropriately conservative non-significant results. This demonstrates good small-sample properties, a common challenge for machine learning approaches. Standard deviations remained low across all sample sizes (SD < 0.27), indicating robust performance across the 10 simulations per condition.
 
 #### Dimensionality scaling
 
-\noindent Across dimensionalities from p=50 to p=1000, Bray-Curtis generally outperformed MeLSI in F-statistics, particularly at lower dimensionalities (mean F = 2.153, SD = 0.447 vs. 1.666, SD = 0.347 at p=50). Interestingly, MeLSI's performance peaked at moderate dimensionality (p=100, mean F = 1.670, SD = 0.158) and declined at very high dimensionality (p=1000, mean F = 1.331, SD = 0.071), likely due to increased noise and decreased signal-to-noise ratio.
+\noindent Across dimensionalities from p = 50 to p = 1000, Bray-Curtis generally outperformed MeLSI in F-statistics, particularly at lower dimensionalities (mean F = 2.153, SD = 0.447 vs. 1.666, SD = 0.347 at p = 50). Interestingly, MeLSI's performance peaked at moderate dimensionality (p = 100, mean F = 1.670, SD = 0.158) and declined at very high dimensionality (p = 1000, mean F = 1.331, SD = 0.071), likely due to increased noise and decreased signal-to-noise ratio.
 
-Computation time increased dramatically with dimensionality, from mean = 227.9s (SD = 18.6s) at p=50 to mean = 8405.6s (SD = 58.6s) at p=1000, reflecting the p² complexity of metric optimization. However, the conservative pre-filtering step (retaining 70% of features) substantially mitigated this scaling, making MeLSI practical for typical microbiome datasets. Traditional methods remained consistently fast across all dimensionalities (mean = 0.1s, SD < 0.1s). Standard deviations for F-statistics remained moderate across dimensionalities (SD < 0.45), indicating consistent performance across the 10 simulations per condition.
+Computation time increased dramatically with dimensionality, from mean = 227.9s (SD = 18.6s) at p = 50 to mean = 8405.6s (SD = 58.6s) at p = 1000, reflecting the p² complexity of metric optimization. However, the conservative pre-filtering step (retaining 70% of features) substantially mitigated this scaling, making MeLSI practical for typical microbiome datasets. Traditional methods remained consistently fast across all dimensionalities (mean = 0.1s, SD < 0.1s). Standard deviations for F-statistics remained moderate across dimensionalities (SD < 0.45), indicating consistent performance across the 10 simulations per condition.
 
 ### Parameter sensitivity analysis
 
@@ -397,35 +421,13 @@ This stability indicates that MeLSI's ensemble approach is robust and that 10-30
 
 1. Statistical power: Pre-filtering dramatically improved F-statistics by 36-37% across all effect sizes. For small effects, pre-filtering increased power from 4% to 100% (F = 1.756 vs. 1.281), representing a 25-fold improvement in detection rate. For medium effects, power increased from 14% to 94% (F = 1.831 vs. 1.337), while for large effects, power increased from 14% to 84% (F = 1.928 vs. 1.416). These results demonstrate that variance-based pre-filtering effectively identifies and retains signal-carrying features, substantially improving statistical power.
 
-2. Computational efficiency: Pre-filtering provided substantial time savings, ranging from 16.5% (large effect, p=100) to 39.8% (small effect, p=500). The time savings increase with dimensionality, as expected, since pre-filtering reduces the number of features that must be processed during metric learning. The variance-based importance score (I_j = |μ_1j - μ_2j| / √(σ_1j² + σ_2j²)) efficiently identifies features with large between-group differences relative to within-group variation, making it an effective pre-filtering strategy.
+2. Computational efficiency: Pre-filtering provided substantial time savings, ranging from 16.5% (large effect, p = 100) to 39.8% (small effect, p = 500). The time savings increase with dimensionality, as expected, since pre-filtering reduces the number of features that must be processed during metric learning. The variance-based importance score (I_j = |μ_1j - μ_2j| / √(σ_1j² + σ_2j²)) efficiently identifies features with large between-group differences relative to within-group variation, making it an effective pre-filtering strategy.
 
 These results demonstrate that conservative variance-based pre-filtering provides substantial benefits for both statistical power and computational efficiency, particularly for high-dimensional datasets. The pre-filtering step is particularly valuable when signal is concentrated in a subset of features, as it focuses the metric learning on the most informative taxa while reducing computational burden.
 
-### Feature importance and biological interpretability
-
-\noindent A major advantage of MeLSI is its provision of interpretable feature importance weights. For the Atlas1006 dataset, the learned metric assigned highest weights to genera in the families Bacteroidaceae, Lachnospiraceae, and Ruminococcaceae, taxonomic groups previously associated with sex differences in gut microbiome composition (30, 31). Figure 1 displays the top 15 taxa by learned feature weight, illustrating the clear hierarchical importance structure that MeLSI recovers.
-
-![](figures/atlas1006_vip_combined.png)
-
-\noindent \footnotesize
-**Figure 1.** Feature Importance Weights for Atlas1006 Dataset. Side-by-side comparison of top 15 microbial taxa ranked by MeLSI feature weights. Left panel shows feature weights without directionality information. Right panel shows the same features colored by directionality, indicating which group (male or female) has higher mean abundance for each taxon. Higher weights indicate taxa that contribute more to distinguishing male versus female microbiome composition. Taxa from Bacteroidaceae, Lachnospiraceae, and Ruminococcaceae families show the strongest contributions (families previously associated with sex differences in gut microbiome composition and linked to host hormone metabolism, bile acid processing, and short-chain fatty acid production). The directionality coloring reveals that different taxa are enriched in different groups, providing biological insight into how male and female microbiomes differ and suggesting specific metabolic pathways that may mediate sex-associated microbiome variation.
-\normalsize
-
-\noindent The diagonal elements of the learned metric matrix M directly represent feature importance: higher values indicate taxa that contribute more to group separation. Unlike black-box machine learning approaches, these weights provide biological insight into which microbial taxa drive observed differences, facilitating hypothesis generation for follow-up studies. MeLSI automatically calculates directionality information, indicating which group has higher mean abundance for each taxon, along with log2 fold-change values. Directionality is calculated by comparing mean abundances between groups: for each taxon, we identify which group (Group 1 or Group 2) has higher mean abundance on CLR-transformed data. Log2 fold-change is calculated as log2(mean_group1 / mean_group2), where small epsilon values are added to both means to avoid division by zero. These values are computed on the CLR-transformed data used for metric learning, ensuring consistency with the distance metric calculation. This directionality information is included in the analysis results and can be visualized in feature importance plots, providing a complete picture of both which taxa drive group separation and how they differ between groups.
-
-To visualize how the learned metric separates groups, we applied Principal Coordinates Analysis (PCoA) using the MeLSI-learned distance matrix on Atlas1006. Figure 2 shows modest but statistically significant separation between male and female samples along the first principal coordinate (21.5% of variance). This separation is comparable to that observed with traditional metrics (Euclidean: F=4.711, Bray-Curtis: F=4.442), demonstrating that MeLSI maintains visual separation while providing additional interpretability through learned feature weights. The ellipses (95% confidence intervals) demonstrate consistent group separation, consistent with MeLSI's significant F-statistic (F = 5.141, p = 0.005). While the large sample size (n=1,114) contributes to statistical significance, the sex-associated microbiome differences identified by MeLSI align with previously documented biological patterns (29, 30), and the learned feature weights provide actionable biological insight regardless of sample size.
-
-![](figures/atlas1006_pcoa.png)
-
-\noindent \footnotesize
-**Figure 2.** PCoA Ordination Using MeLSI Distance for Atlas1006 Dataset. Principal Coordinates Analysis using the MeLSI-learned distance metric on Atlas1006 data. Points represent individual samples colored by sex (male/female). Dashed ellipses show 95% confidence intervals. The learned metric achieves visible separation along PCoA1 (21.5% of variance), consistent with the significant PERMANOVA result (F=5.141, p=0.005).
-\normalsize
-
-Akkermansia and Oxalobacter (among the highest-weighted taxa on DietSwap) have documented roles in diet-induced mucin degradation and bile acid metabolism, reinforcing that MeLSI pinpoints biologically plausible drivers of community shifts. Together, the VIP and PCoA visualizations demonstrate MeLSI's dual utility: statistically rigorous hypothesis testing combined with interpretable feature weighting and ordination for biological insight.
-
 ### Computational performance
 
-\noindent Across all experiments, MeLSI demonstrated practical computational performance on standard hardware. Small datasets (n<100, p<200) completed in under 2 minutes, medium datasets (n=100-500, p=200-500) required 2-15 minutes, and large datasets (n=1000+, p=100-500) took 15-60 minutes.
+\noindent Across all experiments, MeLSI demonstrated practical computational performance on standard hardware. Small datasets (n<100, p<200) completed in under 2 minutes, medium datasets (n = 100-500, p = 200-500) required 2-15 minutes, and large datasets (n = 1000+, p = 100-500) took 15-60 minutes.
 
 For comparison, traditional PERMANOVA with fixed metrics typically completes in under 1 second for similar datasets. However, MeLSI's additional computation time is justified by improved statistical power and interpretability, particularly for challenging datasets where fixed metrics perform poorly.
 
@@ -435,7 +437,7 @@ For comparison, traditional PERMANOVA with fixed metrics typically completes in 
 
 \noindent MeLSI bridges adaptive machine learning and rigorous statistical inference for microbiome beta diversity analysis by integrating metric learning with permutation testing. Comprehensive validation demonstrates proper Type I error control (p = 0.607 and 0.224 on null datasets) while delivering improvements on real data: 9.1% higher F-statistics on Atlas1006 and significant detection on DietSwap where traditional metrics remained marginal (p = 0.015 vs. p >= 0.058). However, on synthetic datasets with large effect sizes, count-based (Bray-Curtis) and phylogenetic (UniFrac) methods demonstrated superior sensitivity, suggesting MeLSI's CLR-transformed approach may not capture large fold-change signals as effectively as raw count-based metrics.
 
-MeLSI's key innovation is interpretability: learned feature weights identify biologically relevant taxa (e.g., Bacteroidaceae, Lachnospiraceae, Ruminococcaceae in sex-associated differences), turning omnibus PERMANOVA results into actionable biological insights. Parameter sensitivity analysis confirms robust performance across ensemble sizes and feature fractions, and scalability experiments demonstrate appropriate power gains from n=20 to n=500 with practical runtimes (2-30 minutes for typical datasets). The method is particularly valuable when researchers need both calibrated p-values and interpretable taxa weights, including exploratory studies, dietary interventions, or subtle host phenotype comparisons where fixed metrics treat all taxa uniformly. Critically, unlike prediction-focused machine learning (e.g., Random Forest, neural networks), MeLSI is an inference-focused approach: every learned metric undergoes rigorous permutation testing to ensure that p-values remain valid despite the adaptive nature of the method. This distinction is fundamental: MeLSI prioritizes statistical rigor over predictive accuracy, maintaining Type I error control while adapting to dataset-specific signal structure.
+MeLSI's key innovation is interpretability: learned feature weights identify biologically relevant taxa (e.g., Bacteroidaceae, Lachnospiraceae, Ruminococcaceae in sex-associated differences), turning omnibus PERMANOVA results into actionable biological insights. Parameter sensitivity analysis confirms robust performance across ensemble sizes and feature fractions, and scalability experiments demonstrate appropriate power gains from n = 20 to n = 500 with practical runtimes (2-30 minutes for typical datasets). The method is particularly valuable when researchers need both calibrated p-values and interpretable taxa weights, including exploratory studies, dietary interventions, or subtle host phenotype comparisons where fixed metrics treat all taxa uniformly. Critically, unlike prediction-focused machine learning (e.g., Random Forest, neural networks), MeLSI is an inference-focused approach: every learned metric undergoes rigorous permutation testing to ensure that p-values remain valid despite the adaptive nature of the method. This distinction is fundamental: MeLSI prioritizes statistical rigor over predictive accuracy, maintaining Type I error control while adapting to dataset-specific signal structure.
 
 ### Limitations and future work
 
@@ -475,7 +477,7 @@ $^{1}$ Roy Blunt NextGen Precision Health, University of Missouri, Columbia, Mis
 
 $^{2}$ Institute for Data Science and Informatics, University of Missouri, Columbia, Missouri, USA.
 
-$^{3}$ Bioinformatics and Analytics Core, University of Missouri, Columbia, Missouri, USA.
+$^{3}$ University of Missouri Metagenomics Center, Columbia, Missouri, USA.
 
 $^{4}$ Department of Pathobiology and Integrative Biomedical Sciences, University of Missouri, Columbia, Missouri, USA.
 
