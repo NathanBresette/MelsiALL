@@ -86,7 +86,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Reviewer Comment:** Type I error control appears to be evaluated using a single synthetic dataset, with conclusions drawn from a single p-value. Repeated simulations are necessary to support claims of proper error control. Type I error control is a distributional property that must be assessed over repeated realizations of the null hypothesis. Demonstrating that a single test yields p-values greater than 0.05 in one or two null examples does not quantify the probability of false positive findings. Proper evaluation would require repeated simulations under the null, with estimation of the empirical rejection rate at the chosen significance level and, ideally, examination of the null p-value distribution.
 
-**Response:** We have expanded the Type I error analysis to include 100 simulations per condition across three sample sizes (n=50, 100, 200) for both synthetic null data and real shuffled data (600 total simulations: 2 dataset types × 3 sample sizes × 100 simulations). Table 1 now reports empirical rejection rates at α = 0.05 for each sample size and dataset type, confirming Type I error rates near the nominal 5% level (range: 3-6% across all conditions). The Conclusions section has been updated accordingly.
+**Response:** The Reviewer raises an excellent point about the fundamental importance of demonstrating Type I error control through repeated simulations. We have expanded the Type I error analysis to include 100 simulations per condition across three sample sizes (n=50, 100, 200) for both synthetic null data and real shuffled data (600 total simulations: 2 dataset types × 3 sample sizes × 100 simulations). Table 1 now reports empirical rejection rates at α = 0.05 for each sample size and dataset type, confirming Type I error rates near the nominal 5% level (range: 3-6% across all conditions). The Conclusions section has been updated accordingly.
 
 **Location:** Table 1 (line 343), Results (lines 346-350), Conclusions (lines 534-536)
 
@@ -126,7 +126,7 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Reviewer Comment:** Emphasizing the interpretability advantage of the proposed method, particularly in identifying taxa that drive group differences, would improve positioning of the manuscript. It would strengthen the manuscript to examine how learned weights recover true signal taxa, possibly across varying effect sizes, sample sizes, and feature dimensions.
 
-**Response:** We have added validation of signal taxa recovery across varying effect sizes and sample sizes. Supplementary Table S1 provides detailed recovery metrics: Precision at k, Recall at k, Mean Rank, and AUC-ROC. MeLSI effectively recovers true signal taxa, with performance improving with effect size and sample size. For large effects, Precision at 5 reached 0.876-1.000 and Mean Rank decreased to 14.4, confirming that true signal taxa are consistently ranked among the top features.
+**Response:** We appreciate the Reviewer's insightful suggestion to emphasize MeLSI's interpretability advantage. We have added validation of signal taxa recovery across varying effect sizes and sample sizes. Supplementary Table S1 provides detailed recovery metrics: Precision at k, Recall at k, Mean Rank, and AUC-ROC. MeLSI effectively recovers true signal taxa, with performance improving with effect size and sample size. For large effects, Precision at 5 reached 0.876-1.000 and Mean Rank decreased to 14.4, confirming that true signal taxa are consistently ranked among the top features.
 
 **Location:** Results section (lines 355-359, Table 2 footnote referencing Supplementary Table S1); Supplementary Table S1
 
@@ -176,9 +176,9 @@ We thank the editor and reviewers for their constructive feedback. We have addre
 
 **Reviewer Comment:** Transition to the DietSwap data analysis is abrupt, and corresponding results including VIP feature and PCoA plots are not shown.
 
-**Response:** We have improved the transition by adding introductory text (lines 451-454): "To evaluate MeLSI's utility in real-world applications, we analyzed three published microbiome datasets: Atlas1006 (sex-associated differences), DietSwap (dietary intervention), and SKIOME (multi-group skin microbiome validation)." VIP and PCoA plots for DietSwap have been added (Figure 2).
+**Response:** We have reorganized the Real Data Validation section so that all results for each dataset (F-statistics, feature importance plots, and PCoA visualizations) are now presented together under dataset-specific subheadings. This eliminates the abrupt transitions between datasets and ensures all VIP and PCoA plots are shown alongside their corresponding results. Specifically: (1) Atlas1006 results are followed immediately by its feature importance and VIP plot (Figure 1), (2) DietSwap results are followed by its VIP and PCoA plots (Figure 2), and (3) SKIOME results are followed by its VIP and PCoA plots (Figure 3). We have also improved the transition by adding introductory text (lines 451-454): "To evaluate MeLSI's utility in real-world applications, we analyzed three published microbiome datasets: Atlas1006 (sex-associated differences), DietSwap (dietary intervention), and SKIOME (multi-group skin microbiome validation)."
 
-**Location:** Lines 451-454, Figure 2 (lines 497-500)
+**Location:** Real Data Validation section reorganization (lines 455-516), Figure 2 (lines 497-500), Figure 3 (lines 511-516)
 
 ---
 
