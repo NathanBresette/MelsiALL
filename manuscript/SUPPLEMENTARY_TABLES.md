@@ -22,7 +22,7 @@ This table shows MeLSI's ability to recover true signal taxa using learned featu
 
 ## Supplementary Table S2: Individual Method Comparisons for Power Analysis
 
-This table shows detailed comparisons between MeLSI and each of the five traditional methods individually across all effect sizes and sample sizes. These comparisons support the rank calculations shown in Table 2.
+This table shows detailed comparisons between MeLSI and each of the five traditional methods individually across all effect sizes and sample sizes. Values are derived directly from simulation output (50 simulations per condition). Note that PERMANOVA F-statistics computed from different distance metrics are not directly comparable because each metric defines a distinct geometric space; F-statistics are reported for within-method assessment.
 
 | Effect Size | Sample Size | Traditional Method | MeLSI Power (%) | MeLSI Mean F | Traditional Power (%) | Traditional Mean F | Power Difference (%) | F Difference |
 |-------------|-------------|-------------------|-----------------|--------------|----------------------|-------------------|---------------------|--------------|
@@ -45,42 +45,42 @@ This table shows detailed comparisons between MeLSI and each of the five traditi
 | Medium | 50 | Bray-Curtis | 16 | 1.307 | 74 | 1.325 | -58 | -0.018 |
 | Medium | 50 | Jaccard | 16 | 1.307 | 0 | 0.961 | 16 | 0.346 |
 | Medium | 50 | Weighted UniFrac | 16 | 1.307 | 32 | 1.320 | -16 | -0.013 |
-| Medium | 50 | Unweighted UniFrac | 16 | 1.307 | 0 | 0.978 | 16 | 0.329 |
-| Medium | 100 | Euclidean | 50 | 1.504 | 50 | 1.156 | 0 | 0.348 |
-| Medium | 100 | Bray-Curtis | 50 | 1.504 | 90 | 1.400 | -40 | 0.104 |
-| Medium | 100 | Jaccard | 50 | 1.504 | 0 | 0.978 | 50 | 0.526 |
-| Medium | 100 | Weighted UniFrac | 50 | 1.504 | 60 | 1.404 | -10 | 0.100 |
-| Medium | 100 | Unweighted UniFrac | 50 | 1.504 | 0 | 0.978 | 50 | 0.526 |
-| Medium | 200 | Euclidean | 96 | 1.780 | 96 | 1.250 | 0 | 0.530 |
-| Medium | 200 | Bray-Curtis | 96 | 1.780 | 100 | 1.540 | -4 | 0.240 |
-| Medium | 200 | Jaccard | 96 | 1.780 | 0 | 0.978 | 96 | 0.802 |
-| Medium | 200 | Weighted UniFrac | 96 | 1.780 | 98 | 1.540 | -2 | 0.240 |
-| Medium | 200 | Unweighted UniFrac | 96 | 1.780 | 0 | 0.978 | 96 | 0.802 |
-| Large | 50 | Euclidean | 84 | 1.585 | 90 | 1.280 | -6 | 0.305 |
-| Large | 50 | Bray-Curtis | 84 | 1.585 | 100 | 1.560 | -16 | 0.025 |
-| Large | 50 | Jaccard | 84 | 1.585 | 0 | 0.978 | 84 | 0.607 |
-| Large | 50 | Weighted UniFrac | 84 | 1.585 | 94 | 1.560 | -10 | 0.025 |
-| Large | 50 | Unweighted UniFrac | 84 | 1.585 | 0 | 0.978 | 84 | 0.607 |
-| Large | 100 | Euclidean | 100 | 2.129 | 100 | 1.480 | 0 | 0.649 |
-| Large | 100 | Bray-Curtis | 100 | 2.129 | 100 | 1.800 | 0 | 0.329 |
-| Large | 100 | Jaccard | 100 | 2.129 | 0 | 0.978 | 100 | 1.151 |
-| Large | 100 | Weighted UniFrac | 100 | 2.129 | 100 | 1.800 | 0 | 0.329 |
-| Large | 100 | Unweighted UniFrac | 100 | 2.129 | 0 | 0.978 | 100 | 1.151 |
-| Large | 200 | Euclidean | 100 | 3.129 | 100 | 1.780 | 0 | 1.349 |
-| Large | 200 | Bray-Curtis | 100 | 3.129 | 100 | 2.200 | 0 | 0.929 |
-| Large | 200 | Jaccard | 100 | 3.129 | 0 | 0.978 | 100 | 2.151 |
-| Large | 200 | Weighted UniFrac | 100 | 3.129 | 100 | 2.200 | 0 | 0.929 |
-| Large | 200 | Unweighted UniFrac | 100 | 3.129 | 0 | 0.978 | 100 | 2.151 |
+| Medium | 50 | Unweighted UniFrac | 16 | 1.307 | 2 | 0.954 | 14 | 0.353 |
+| Medium | 100 | Euclidean | 50 | 1.504 | 52 | 1.207 | -2 | 0.297 |
+| Medium | 100 | Bray-Curtis | 50 | 1.504 | 100 | 1.634 | -50 | -0.130 |
+| Medium | 100 | Jaccard | 50 | 1.504 | 4 | 1.004 | 46 | 0.500 |
+| Medium | 100 | Weighted UniFrac | 50 | 1.504 | 82 | 1.705 | -32 | -0.201 |
+| Medium | 100 | Unweighted UniFrac | 50 | 1.504 | 4 | 1.000 | 46 | 0.504 |
+| Medium | 200 | Euclidean | 96 | 1.780 | 100 | 1.417 | -4 | 0.362 |
+| Medium | 200 | Bray-Curtis | 96 | 1.780 | 100 | 2.244 | -4 | -0.464 |
+| Medium | 200 | Jaccard | 96 | 1.780 | 0 | 1.005 | 96 | 0.775 |
+| Medium | 200 | Weighted UniFrac | 96 | 1.780 | 100 | 2.394 | -4 | -0.614 |
+| Medium | 200 | Unweighted UniFrac | 96 | 1.780 | 2 | 0.999 | 94 | 0.781 |
+| Large | 50 | Euclidean | 84 | 1.585 | 98 | 1.457 | -14 | 0.128 |
+| Large | 50 | Bray-Curtis | 84 | 1.585 | 100 | 2.794 | -16 | -1.209 |
+| Large | 50 | Jaccard | 84 | 1.585 | 10 | 0.976 | 74 | 0.609 |
+| Large | 50 | Weighted UniFrac | 84 | 1.585 | 98 | 2.735 | -14 | -1.150 |
+| Large | 50 | Unweighted UniFrac | 84 | 1.585 | 8 | 0.987 | 76 | 0.598 |
+| Large | 100 | Euclidean | 100 | 2.129 | 100 | 1.966 | 0 | 0.163 |
+| Large | 100 | Bray-Curtis | 100 | 2.129 | 100 | 4.599 | 0 | -2.470 |
+| Large | 100 | Jaccard | 100 | 2.129 | 4 | 0.987 | 96 | 1.142 |
+| Large | 100 | Weighted UniFrac | 100 | 2.129 | 100 | 4.678 | 0 | -2.549 |
+| Large | 100 | Unweighted UniFrac | 100 | 2.129 | 4 | 1.012 | 96 | 1.117 |
+| Large | 200 | Euclidean | 100 | 3.129 | 100 | 2.977 | 0 | 0.153 |
+| Large | 200 | Bray-Curtis | 100 | 3.129 | 100 | 8.236 | 0 | -5.107 |
+| Large | 200 | Jaccard | 100 | 3.129 | 6 | 1.002 | 94 | 2.127 |
+| Large | 200 | Weighted UniFrac | 100 | 3.129 | 100 | 8.659 | 0 | -5.530 |
+| Large | 200 | Unweighted UniFrac | 100 | 3.129 | 6 | 1.014 | 94 | 2.116 |
 
-**Abbreviations:** Power, empirical statistical power (percentage of simulations with p < 0.05); F, PERMANOVA F-statistic (mean across 50 simulations per condition); Power Difference, MeLSI Power - Traditional Power (%); F Difference, MeLSI Mean F - Traditional Mean F. Results based on 50 simulations per condition.
+**Abbreviations:** Power, empirical statistical power (percentage of simulations with p < 0.05); F, PERMANOVA F-statistic (mean across 50 simulations per condition); Power Difference, MeLSI Power - Traditional Power (%); F Difference, MeLSI Mean F - Traditional Mean F. Results based on 50 simulations per condition. MeLSI used 200 internal permutations; traditional methods used 999 permutations.
 
-**Note:** The five traditional methods are: (1) **Euclidean distance** - standard Euclidean distance on CLR-transformed data; (2) **Bray-Curtis dissimilarity** - count-based dissimilarity metric; (3) **Jaccard dissimilarity** - binary (presence/absence) dissimilarity; (4) **Weighted UniFrac** - phylogenetically-informed distance using abundance-weighted branch lengths; (5) **Unweighted UniFrac** - phylogenetically-informed distance using presence/absence of taxa.
+**Note:** The five traditional methods are: (1) **Euclidean distance** - standard Euclidean distance on CLR-transformed data; (2) **Bray-Curtis dissimilarity** - count-based dissimilarity metric; (3) **Jaccard dissimilarity** - binary (presence/absence) dissimilarity; (4) **Weighted UniFrac** - phylogenetically-informed distance using abundance-weighted branch lengths; (5) **Unweighted UniFrac** - phylogenetically-informed distance using presence/absence of taxa. Jaccard and Unweighted UniFrac show consistently low power because these presence/absence metrics cannot detect the fold-change effects simulated here (multiplying abundances of already-present taxa does not change their binary presence/absence profiles). F-statistics from different distance metrics should not be directly compared across metrics because each defines a distinct geometric space; they are provided for transparency and within-method assessment across conditions.
 
 ---
 
 ## Supplementary Table S3: Individual Method Comparisons for Scalability Analysis
 
-This table shows detailed comparisons between MeLSI and each of the five traditional methods individually across all scalability conditions. These comparisons support the rank calculations shown in Table 3.
+This table shows detailed comparisons between MeLSI and each of the five traditional methods individually across all scalability conditions.
 
 | Condition Type | Condition Value | n | p | Traditional Method | MeLSI Mean F | Traditional Mean F | F Difference |
 |----------------|-----------------|---|---|---|-------------------|--------------|-------------------|--------------|
@@ -171,7 +171,7 @@ This table shows mean and standard deviation (SD) values for F-statistics, p-val
 
 ## Supplementary Table S5: Individual Method Comparisons for Feature Correlation Analysis
 
-This table shows detailed comparisons between MeLSI and each of the five traditional methods individually across all correlation levels. These comparisons support the rank calculations shown in Table 5.
+This table shows detailed comparisons between MeLSI and each of the five traditional methods individually across all correlation levels.
 
 | Correlation Level | Correlation Value | Traditional Method | MeLSI Power (%) | MeLSI Mean F | Traditional Power (%) | Traditional Mean F | Power Difference (%) | F Difference |
 |-------------------|-------------------|-------------------|-----------------|--------------|----------------------|-------------------|---------------------|--------------|
