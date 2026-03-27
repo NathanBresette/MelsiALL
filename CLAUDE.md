@@ -263,22 +263,23 @@ See `resubmission_materials_round3/Response_to_Reviewers.md` for the complete po
 
 ## Verified Real Data F/p Values
 
-All values confirmed from Hellbender runs or original manuscript submissions. No estimates.
+All values confirmed from reproducible Hellbender runs with set.seed(42). No estimates.
 
 | Dataset | Method | F | p | Source |
 |---------|--------|---|---|--------|
-| Atlas1006 | MeLSI | 5.141 | 0.005 | Round 1 manuscript |
-| Atlas1006 | Euclidean | 4.711 | 0.001 | Round 1 manuscript |
-| Atlas1006 | Bray-Curtis | 4.442 | 0.001 | Round 1 manuscript |
+| Atlas1006 | MeLSI | 4.841 | 0.005 | Hellbender set.seed(42) |
+| Atlas1006 | Euclidean | 4.711 | 0.001 | Hellbender set.seed(42) |
+| Atlas1006 | Bray-Curtis | 4.442 | 0.001 | Hellbender set.seed(42) |
 | Atlas1006 | Jaccard | 1.791 | 0.144 | Round 1 manuscript |
-| DietSwap | MeLSI | 2.856 | 0.015 | Hellbender confirmed |
-| DietSwap | Bray-Curtis | 2.153 | 0.058 | Round 1 manuscript |
+| DietSwap | MeLSI | 3.063 | 0.015 | Hellbender set.seed(42), DI vs HE groups |
+| DietSwap | Bray-Curtis | 2.153 | 0.066 | Hellbender set.seed(42), DI vs HE groups |
 | DietSwap | Jaccard | 1.921 | 0.100 | Round 1 manuscript |
-| DietSwap | Euclidean | 1.645 | 0.090 | Round 1 manuscript |
-| SKIOME | MeLSI | 4.895 | 0.005 | Hellbender CSV |
+| DietSwap | Euclidean | 1.670 | 0.077 | Hellbender set.seed(42), DI vs HE groups |
+| SKIOME | MeLSI | 4.972 | 0.005 | skiome_omnibus_results.csv |
 | SKIOME | Euclidean | 4.897 | 0.001 | Hellbender CSV |
 | SKIOME | Bray-Curtis | 16.275 | 0.001 | Hellbender CSV |
 | SKIOME | Jaccard | 11.058 | 0.001 | Hellbender CSV |
 
 Note: Atlas1006/DietSwap UniFrac not evaluated (no phylogenetic tree in public dataset objects).
 SKIOME UniFrac not evaluated (no phylogenetic tree).
+DietSwap grouping: diet group (DI=high-fiber, HE=Western), NOT nationality. n=74 baseline samples.

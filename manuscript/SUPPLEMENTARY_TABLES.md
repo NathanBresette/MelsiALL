@@ -24,55 +24,55 @@ This table shows MeLSI's ability to recover true signal taxa using learned featu
 
 This table shows detailed comparisons between MeLSI and each of the five traditional methods individually across all effect sizes and sample sizes. Values are derived directly from simulation output (50 simulations per condition). Note that PERMANOVA F-statistics computed from different distance metrics are not directly comparable because each metric defines a distinct geometric space; F-statistics are reported for within-method assessment.
 
-| Effect Size | Sample Size | Traditional Method | MeLSI Power (%) | MeLSI Mean F | Traditional Power (%) | Traditional Mean F | Power Difference (%) | F Difference |
-|-------------|-------------|-------------------|-----------------|--------------|----------------------|-------------------|---------------------|--------------|
-| Small | 50 | Euclidean | 6 | 1.230 | 8 | 1.014 | -2 | 0.216 |
-| Small | 50 | Bray-Curtis | 6 | 1.230 | 20 | 1.059 | -14 | 0.171 |
-| Small | 50 | Jaccard | 6 | 1.230 | 0 | 0.987 | 6 | 0.243 |
-| Small | 50 | Weighted UniFrac | 6 | 1.230 | 10 | 1.069 | -4 | 0.161 |
-| Small | 50 | Unweighted UniFrac | 6 | 1.230 | 6 | 1.005 | 0 | 0.226 |
-| Small | 100 | Euclidean | 10 | 1.342 | 8 | 1.041 | 2 | 0.301 |
-| Small | 100 | Bray-Curtis | 10 | 1.342 | 20 | 1.095 | -10 | 0.247 |
-| Small | 100 | Jaccard | 10 | 1.342 | 6 | 1.012 | 4 | 0.330 |
-| Small | 100 | Weighted UniFrac | 10 | 1.342 | 8 | 1.048 | 2 | 0.294 |
-| Small | 100 | Unweighted UniFrac | 10 | 1.342 | 4 | 1.012 | 6 | 0.331 |
-| Small | 200 | Euclidean | 16 | 1.432 | 16 | 1.074 | 0 | 0.358 |
-| Small | 200 | Bray-Curtis | 16 | 1.432 | 54 | 1.182 | -38 | 0.250 |
-| Small | 200 | Jaccard | 16 | 1.432 | 6 | 0.988 | 10 | 0.444 |
-| Small | 200 | Weighted UniFrac | 16 | 1.432 | 20 | 1.200 | -4 | 0.232 |
-| Small | 200 | Unweighted UniFrac | 16 | 1.432 | 4 | 0.982 | 12 | 0.450 |
-| Medium | 50 | Euclidean | 16 | 1.307 | 32 | 1.106 | -16 | 0.201 |
-| Medium | 50 | Bray-Curtis | 16 | 1.307 | 74 | 1.325 | -58 | -0.018 |
-| Medium | 50 | Jaccard | 16 | 1.307 | 0 | 0.961 | 16 | 0.346 |
-| Medium | 50 | Weighted UniFrac | 16 | 1.307 | 32 | 1.320 | -16 | -0.013 |
-| Medium | 50 | Unweighted UniFrac | 16 | 1.307 | 2 | 0.954 | 14 | 0.353 |
-| Medium | 100 | Euclidean | 50 | 1.504 | 52 | 1.207 | -2 | 0.297 |
-| Medium | 100 | Bray-Curtis | 50 | 1.504 | 100 | 1.634 | -50 | -0.130 |
-| Medium | 100 | Jaccard | 50 | 1.504 | 4 | 1.004 | 46 | 0.500 |
-| Medium | 100 | Weighted UniFrac | 50 | 1.504 | 82 | 1.705 | -32 | -0.201 |
-| Medium | 100 | Unweighted UniFrac | 50 | 1.504 | 4 | 1.000 | 46 | 0.504 |
-| Medium | 200 | Euclidean | 96 | 1.780 | 100 | 1.417 | -4 | 0.362 |
-| Medium | 200 | Bray-Curtis | 96 | 1.780 | 100 | 2.244 | -4 | -0.464 |
-| Medium | 200 | Jaccard | 96 | 1.780 | 0 | 1.005 | 96 | 0.775 |
-| Medium | 200 | Weighted UniFrac | 96 | 1.780 | 100 | 2.394 | -4 | -0.614 |
-| Medium | 200 | Unweighted UniFrac | 96 | 1.780 | 2 | 0.999 | 94 | 0.781 |
-| Large | 50 | Euclidean | 84 | 1.585 | 98 | 1.457 | -14 | 0.128 |
-| Large | 50 | Bray-Curtis | 84 | 1.585 | 100 | 2.794 | -16 | -1.209 |
-| Large | 50 | Jaccard | 84 | 1.585 | 10 | 0.976 | 74 | 0.609 |
-| Large | 50 | Weighted UniFrac | 84 | 1.585 | 98 | 2.735 | -14 | -1.150 |
-| Large | 50 | Unweighted UniFrac | 84 | 1.585 | 8 | 0.987 | 76 | 0.598 |
-| Large | 100 | Euclidean | 100 | 2.129 | 100 | 1.966 | 0 | 0.163 |
-| Large | 100 | Bray-Curtis | 100 | 2.129 | 100 | 4.599 | 0 | -2.470 |
-| Large | 100 | Jaccard | 100 | 2.129 | 4 | 0.987 | 96 | 1.142 |
-| Large | 100 | Weighted UniFrac | 100 | 2.129 | 100 | 4.678 | 0 | -2.549 |
-| Large | 100 | Unweighted UniFrac | 100 | 2.129 | 4 | 1.012 | 96 | 1.117 |
-| Large | 200 | Euclidean | 100 | 3.129 | 100 | 2.977 | 0 | 0.153 |
-| Large | 200 | Bray-Curtis | 100 | 3.129 | 100 | 8.236 | 0 | -5.107 |
-| Large | 200 | Jaccard | 100 | 3.129 | 6 | 1.002 | 94 | 2.127 |
-| Large | 200 | Weighted UniFrac | 100 | 3.129 | 100 | 8.659 | 0 | -5.530 |
-| Large | 200 | Unweighted UniFrac | 100 | 3.129 | 6 | 1.014 | 94 | 2.116 |
+| Effect Size | Sample Size | Traditional Method | MeLSI Power (%) | MeLSI Mean F | Traditional Power (%) | Traditional Mean F | Power Difference (%) |
+|-------------|-------------|-------------------|-----------------|--------------|----------------------|-------------------|---------------------|
+| Small | 50 | Euclidean | 6 | 1.230 | 8 | 1.014 | -2 |
+| Small | 50 | Bray-Curtis | 6 | 1.230 | 20 | 1.059 | -14 |
+| Small | 50 | Jaccard | 6 | 1.230 | 0 | 0.987 | 6 |
+| Small | 50 | Weighted UniFrac | 6 | 1.230 | 10 | 1.069 | -4 |
+| Small | 50 | Unweighted UniFrac | 6 | 1.230 | 6 | 1.005 | 0 |
+| Small | 100 | Euclidean | 10 | 1.342 | 8 | 1.041 | 2 |
+| Small | 100 | Bray-Curtis | 10 | 1.342 | 20 | 1.095 | -10 |
+| Small | 100 | Jaccard | 10 | 1.342 | 6 | 1.012 | 4 |
+| Small | 100 | Weighted UniFrac | 10 | 1.342 | 8 | 1.048 | 2 |
+| Small | 100 | Unweighted UniFrac | 10 | 1.342 | 4 | 1.012 | 6 |
+| Small | 200 | Euclidean | 16 | 1.432 | 16 | 1.074 | 0 |
+| Small | 200 | Bray-Curtis | 16 | 1.432 | 54 | 1.182 | -38 |
+| Small | 200 | Jaccard | 16 | 1.432 | 6 | 0.988 | 10 |
+| Small | 200 | Weighted UniFrac | 16 | 1.432 | 20 | 1.200 | -4 |
+| Small | 200 | Unweighted UniFrac | 16 | 1.432 | 4 | 0.982 | 12 |
+| Medium | 50 | Euclidean | 16 | 1.307 | 32 | 1.106 | -16 |
+| Medium | 50 | Bray-Curtis | 16 | 1.307 | 74 | 1.325 | -58 |
+| Medium | 50 | Jaccard | 16 | 1.307 | 0 | 0.961 | 16 |
+| Medium | 50 | Weighted UniFrac | 16 | 1.307 | 32 | 1.320 | -16 |
+| Medium | 50 | Unweighted UniFrac | 16 | 1.307 | 2 | 0.954 | 14 |
+| Medium | 100 | Euclidean | 50 | 1.504 | 52 | 1.207 | -2 |
+| Medium | 100 | Bray-Curtis | 50 | 1.504 | 100 | 1.634 | -50 |
+| Medium | 100 | Jaccard | 50 | 1.504 | 4 | 1.004 | 46 |
+| Medium | 100 | Weighted UniFrac | 50 | 1.504 | 82 | 1.705 | -32 |
+| Medium | 100 | Unweighted UniFrac | 50 | 1.504 | 4 | 1.000 | 46 |
+| Medium | 200 | Euclidean | 96 | 1.780 | 100 | 1.417 | -4 |
+| Medium | 200 | Bray-Curtis | 96 | 1.780 | 100 | 2.244 | -4 |
+| Medium | 200 | Jaccard | 96 | 1.780 | 0 | 1.005 | 96 |
+| Medium | 200 | Weighted UniFrac | 96 | 1.780 | 100 | 2.394 | -4 |
+| Medium | 200 | Unweighted UniFrac | 96 | 1.780 | 2 | 0.999 | 94 |
+| Large | 50 | Euclidean | 84 | 1.585 | 98 | 1.457 | -14 |
+| Large | 50 | Bray-Curtis | 84 | 1.585 | 100 | 2.794 | -16 |
+| Large | 50 | Jaccard | 84 | 1.585 | 10 | 0.976 | 74 |
+| Large | 50 | Weighted UniFrac | 84 | 1.585 | 98 | 2.735 | -14 |
+| Large | 50 | Unweighted UniFrac | 84 | 1.585 | 8 | 0.987 | 76 |
+| Large | 100 | Euclidean | 100 | 2.129 | 100 | 1.966 | 0 |
+| Large | 100 | Bray-Curtis | 100 | 2.129 | 100 | 4.599 | 0 |
+| Large | 100 | Jaccard | 100 | 2.129 | 4 | 0.987 | 96 |
+| Large | 100 | Weighted UniFrac | 100 | 2.129 | 100 | 4.678 | 0 |
+| Large | 100 | Unweighted UniFrac | 100 | 2.129 | 4 | 1.012 | 96 |
+| Large | 200 | Euclidean | 100 | 3.129 | 100 | 2.977 | 0 |
+| Large | 200 | Bray-Curtis | 100 | 3.129 | 100 | 8.236 | 0 |
+| Large | 200 | Jaccard | 100 | 3.129 | 6 | 1.002 | 94 |
+| Large | 200 | Weighted UniFrac | 100 | 3.129 | 100 | 8.659 | 0 |
+| Large | 200 | Unweighted UniFrac | 100 | 3.129 | 6 | 1.014 | 94 |
 
-**Abbreviations:** Power, empirical statistical power (percentage of simulations with p < 0.05); F, PERMANOVA F-statistic (mean across 50 simulations per condition); Power Difference, MeLSI Power - Traditional Power (%); F Difference, MeLSI Mean F - Traditional Mean F. Results based on 50 simulations per condition. MeLSI used 200 internal permutations; traditional methods used 999 permutations.
+**Abbreviations:** Power, empirical statistical power (percentage of simulations with p < 0.05); F, PERMANOVA F-statistic (mean across 50 simulations per condition); Power Difference, MeLSI Power - Traditional Power (%). Results based on 50 simulations per condition. MeLSI used 200 internal permutations; traditional methods used 999 permutations.
 
 **Note:** The five traditional methods are: (1) **Euclidean distance** - standard Euclidean distance on CLR-transformed data; (2) **Bray-Curtis dissimilarity** - count-based dissimilarity metric; (3) **Jaccard dissimilarity** - binary (presence/absence) dissimilarity; (4) **Weighted UniFrac** - phylogenetically-informed distance using abundance-weighted branch lengths; (5) **Unweighted UniFrac** - phylogenetically-informed distance using presence/absence of taxa. Jaccard and Unweighted UniFrac show consistently low power because these presence/absence metrics cannot detect the fold-change effects simulated here (multiplying abundances of already-present taxa does not change their binary presence/absence profiles). F-statistics from different distance metrics should not be directly compared across metrics because each defines a distinct geometric space; they are provided for transparency and within-method assessment across conditions.
 
@@ -82,62 +82,62 @@ This table shows detailed comparisons between MeLSI and each of the five traditi
 
 This table shows detailed comparisons between MeLSI and each of the five traditional methods individually across all scalability conditions.
 
-| Condition Type | Condition Value | n | p | Traditional Method | MeLSI Mean F | Traditional Mean F | F Difference |
-|----------------|-----------------|---|---|---|-------------------|--------------|-------------------|--------------|
-| **Varying n (p=200)** | | | | | | | |
-| vary_n | 20 | 20 | 200 | Euclidean | 1.132 | 1.042 | 0.090 |
-| vary_n | 20 | 20 | 200 | Bray-Curtis | 1.132 | 1.123 | 0.009 |
-| vary_n | 20 | 20 | 200 | Jaccard | 1.132 | 1.031 | 0.101 |
-| vary_n | 20 | 20 | 200 | Weighted UniFrac | 1.132 | 1.151 | -0.019 |
-| vary_n | 20 | 20 | 200 | Unweighted UniFrac | 1.132 | 1.015 | 0.117 |
-| vary_n | 50 | 50 | 200 | Euclidean | 1.277 | 1.085 | 0.192 |
-| vary_n | 50 | 50 | 200 | Bray-Curtis | 1.277 | 1.324 | -0.047 |
-| vary_n | 50 | 50 | 200 | Jaccard | 1.277 | 0.993 | 0.284 |
-| vary_n | 50 | 50 | 200 | Weighted UniFrac | 1.277 | 1.268 | 0.009 |
-| vary_n | 50 | 50 | 200 | Unweighted UniFrac | 1.277 | 1.008 | 0.269 |
-| vary_n | 100 | 100 | 200 | Euclidean | 1.497 | 1.209 | 0.288 |
-| vary_n | 100 | 100 | 200 | Bray-Curtis | 1.497 | 1.660 | -0.163 |
-| vary_n | 100 | 100 | 200 | Jaccard | 1.497 | 1.078 | 0.419 |
-| vary_n | 100 | 100 | 200 | Weighted UniFrac | 1.497 | 1.684 | -0.187 |
-| vary_n | 100 | 100 | 200 | Unweighted UniFrac | 1.497 | 1.064 | 0.433 |
-| vary_n | 200 | 200 | 200 | Euclidean | 1.836 | 1.466 | 0.370 |
-| vary_n | 200 | 200 | 200 | Bray-Curtis | 1.836 | 2.283 | -0.447 |
-| vary_n | 200 | 200 | 200 | Jaccard | 1.836 | 1.026 | 0.810 |
-| vary_n | 200 | 200 | 200 | Weighted UniFrac | 1.836 | 2.240 | -0.404 |
-| vary_n | 200 | 200 | 200 | Unweighted UniFrac | 1.836 | 1.027 | 0.809 |
-| vary_n | 500 | 500 | 200 | Euclidean | 2.511 | 2.008 | 0.503 |
-| vary_n | 500 | 500 | 200 | Bray-Curtis | 2.511 | 4.000 | -1.489 |
-| vary_n | 500 | 500 | 200 | Jaccard | 2.511 | 1.050 | 1.461 |
-| vary_n | 500 | 500 | 200 | Weighted UniFrac | 2.511 | 5.135 | -2.624 |
-| vary_n | 500 | 500 | 200 | Unweighted UniFrac | 2.511 | 0.994 | 1.517 |
-| **Varying p (n=100)** | | | | | | | |
-| vary_p | 50 | 100 | 50 | Euclidean | 1.666 | 1.356 | 0.310 |
-| vary_p | 50 | 100 | 50 | Bray-Curtis | 1.666 | 2.153 | -0.487 |
-| vary_p | 50 | 100 | 50 | Jaccard | 1.666 | 0.964 | 0.702 |
-| vary_p | 50 | 100 | 50 | Weighted UniFrac | 1.666 | 1.980 | -0.314 |
-| vary_p | 50 | 100 | 50 | Unweighted UniFrac | 1.666 | 1.026 | 0.640 |
-| vary_p | 100 | 100 | 100 | Euclidean | 1.670 | 1.333 | 0.337 |
-| vary_p | 100 | 100 | 100 | Bray-Curtis | 1.670 | 2.144 | -0.474 |
-| vary_p | 100 | 100 | 100 | Jaccard | 1.670 | 0.958 | 0.712 |
-| vary_p | 100 | 100 | 100 | Weighted UniFrac | 1.670 | 2.401 | -0.731 |
-| vary_p | 100 | 100 | 100 | Unweighted UniFrac | 1.670 | 0.989 | 0.681 |
-| vary_p | 200 | 100 | 200 | Euclidean | 1.470 | 1.178 | 0.292 |
-| vary_p | 200 | 100 | 200 | Bray-Curtis | 1.470 | 1.614 | -0.144 |
-| vary_p | 200 | 100 | 200 | Jaccard | 1.470 | 1.011 | 0.459 |
-| vary_p | 200 | 100 | 200 | Weighted UniFrac | 1.470 | 1.676 | -0.206 |
-| vary_p | 200 | 100 | 200 | Unweighted UniFrac | 1.470 | 1.063 | 0.407 |
-| vary_p | 500 | 100 | 500 | Euclidean | 1.375 | 1.098 | 0.277 |
-| vary_p | 500 | 100 | 500 | Bray-Curtis | 1.375 | 1.264 | 0.111 |
-| vary_p | 500 | 100 | 500 | Jaccard | 1.375 | 1.028 | 0.347 |
-| vary_p | 500 | 100 | 500 | Weighted UniFrac | 1.375 | 1.216 | 0.159 |
-| vary_p | 500 | 100 | 500 | Unweighted UniFrac | 1.375 | 1.034 | 0.341 |
-| vary_p | 1000 | 100 | 1000 | Euclidean | 1.331 | 1.036 | 0.295 |
-| vary_p | 1000 | 100 | 1000 | Bray-Curtis | 1.331 | 1.123 | 0.208 |
-| vary_p | 1000 | 100 | 1000 | Jaccard | 1.331 | 1.020 | 0.311 |
-| vary_p | 1000 | 100 | 1000 | Weighted UniFrac | 1.331 | 1.147 | 0.184 |
-| vary_p | 1000 | 100 | 1000 | Unweighted UniFrac | 1.331 | 1.023 | 0.308 |
+| Condition Type | Condition Value | n | p | Traditional Method | MeLSI Mean F | Traditional Mean F |
+|----------------|-----------------|---|---|---|-------------------|--------------|-------------------|
+| **Varying n (p=200)** | | | | | | |
+| vary_n | 20 | 20 | 200 | Euclidean | 1.132 | 1.042 |
+| vary_n | 20 | 20 | 200 | Bray-Curtis | 1.132 | 1.123 |
+| vary_n | 20 | 20 | 200 | Jaccard | 1.132 | 1.031 |
+| vary_n | 20 | 20 | 200 | Weighted UniFrac | 1.132 | 1.151 |
+| vary_n | 20 | 20 | 200 | Unweighted UniFrac | 1.132 | 1.015 |
+| vary_n | 50 | 50 | 200 | Euclidean | 1.277 | 1.085 |
+| vary_n | 50 | 50 | 200 | Bray-Curtis | 1.277 | 1.324 |
+| vary_n | 50 | 50 | 200 | Jaccard | 1.277 | 0.993 |
+| vary_n | 50 | 50 | 200 | Weighted UniFrac | 1.277 | 1.268 |
+| vary_n | 50 | 50 | 200 | Unweighted UniFrac | 1.277 | 1.008 |
+| vary_n | 100 | 100 | 200 | Euclidean | 1.497 | 1.209 |
+| vary_n | 100 | 100 | 200 | Bray-Curtis | 1.497 | 1.660 |
+| vary_n | 100 | 100 | 200 | Jaccard | 1.497 | 1.078 |
+| vary_n | 100 | 100 | 200 | Weighted UniFrac | 1.497 | 1.684 |
+| vary_n | 100 | 100 | 200 | Unweighted UniFrac | 1.497 | 1.064 |
+| vary_n | 200 | 200 | 200 | Euclidean | 1.836 | 1.466 |
+| vary_n | 200 | 200 | 200 | Bray-Curtis | 1.836 | 2.283 |
+| vary_n | 200 | 200 | 200 | Jaccard | 1.836 | 1.026 |
+| vary_n | 200 | 200 | 200 | Weighted UniFrac | 1.836 | 2.240 |
+| vary_n | 200 | 200 | 200 | Unweighted UniFrac | 1.836 | 1.027 |
+| vary_n | 500 | 500 | 200 | Euclidean | 2.511 | 2.008 |
+| vary_n | 500 | 500 | 200 | Bray-Curtis | 2.511 | 4.000 |
+| vary_n | 500 | 500 | 200 | Jaccard | 2.511 | 1.050 |
+| vary_n | 500 | 500 | 200 | Weighted UniFrac | 2.511 | 5.135 |
+| vary_n | 500 | 500 | 200 | Unweighted UniFrac | 2.511 | 0.994 |
+| **Varying p (n=100)** | | | | | | |
+| vary_p | 50 | 100 | 50 | Euclidean | 1.666 | 1.356 |
+| vary_p | 50 | 100 | 50 | Bray-Curtis | 1.666 | 2.153 |
+| vary_p | 50 | 100 | 50 | Jaccard | 1.666 | 0.964 |
+| vary_p | 50 | 100 | 50 | Weighted UniFrac | 1.666 | 1.980 |
+| vary_p | 50 | 100 | 50 | Unweighted UniFrac | 1.666 | 1.026 |
+| vary_p | 100 | 100 | 100 | Euclidean | 1.670 | 1.333 |
+| vary_p | 100 | 100 | 100 | Bray-Curtis | 1.670 | 2.144 |
+| vary_p | 100 | 100 | 100 | Jaccard | 1.670 | 0.958 |
+| vary_p | 100 | 100 | 100 | Weighted UniFrac | 1.670 | 2.401 |
+| vary_p | 100 | 100 | 100 | Unweighted UniFrac | 1.670 | 0.989 |
+| vary_p | 200 | 100 | 200 | Euclidean | 1.470 | 1.178 |
+| vary_p | 200 | 100 | 200 | Bray-Curtis | 1.470 | 1.614 |
+| vary_p | 200 | 100 | 200 | Jaccard | 1.470 | 1.011 |
+| vary_p | 200 | 100 | 200 | Weighted UniFrac | 1.470 | 1.676 |
+| vary_p | 200 | 100 | 200 | Unweighted UniFrac | 1.470 | 1.063 |
+| vary_p | 500 | 100 | 500 | Euclidean | 1.375 | 1.098 |
+| vary_p | 500 | 100 | 500 | Bray-Curtis | 1.375 | 1.264 |
+| vary_p | 500 | 100 | 500 | Jaccard | 1.375 | 1.028 |
+| vary_p | 500 | 100 | 500 | Weighted UniFrac | 1.375 | 1.216 |
+| vary_p | 500 | 100 | 500 | Unweighted UniFrac | 1.375 | 1.034 |
+| vary_p | 1000 | 100 | 1000 | Euclidean | 1.331 | 1.036 |
+| vary_p | 1000 | 100 | 1000 | Bray-Curtis | 1.331 | 1.123 |
+| vary_p | 1000 | 100 | 1000 | Jaccard | 1.331 | 1.020 |
+| vary_p | 1000 | 100 | 1000 | Weighted UniFrac | 1.331 | 1.147 |
+| vary_p | 1000 | 100 | 1000 | Unweighted UniFrac | 1.331 | 1.023 |
 
-**Abbreviations:** n, sample size; p, number of taxa/features; F, PERMANOVA F-statistic (mean across 10 simulations per condition); F Difference, MeLSI Mean F - Traditional Mean F. Results based on 10 simulations per condition.
+**Abbreviations:** n, sample size; p, number of taxa/features; F, PERMANOVA F-statistic (mean across 10 simulations per condition). Results based on 10 simulations per condition.
 
 **Note:** The five traditional methods are: (1) **Euclidean distance** - standard Euclidean distance on CLR-transformed data; (2) **Bray-Curtis dissimilarity** - count-based dissimilarity metric; (3) **Jaccard dissimilarity** - binary (presence/absence) dissimilarity; (4) **Weighted UniFrac** - phylogenetically-informed distance using abundance-weighted branch lengths; (5) **Unweighted UniFrac** - phylogenetically-informed distance using presence/absence of taxa.
 
@@ -173,29 +173,29 @@ This table shows mean and standard deviation (SD) values for F-statistics, p-val
 
 This table shows detailed comparisons between MeLSI and each of the five traditional methods individually across all correlation levels.
 
-| Correlation Level | Correlation Value | Traditional Method | MeLSI Power (%) | MeLSI Mean F | Traditional Power (%) | Traditional Mean F | Power Difference (%) | F Difference |
-|-------------------|-------------------|-------------------|-----------------|--------------|----------------------|-------------------|---------------------|--------------|
-| None | 0.0 | Euclidean | 50.0 | 1.512 | 68.0 | 1.218 | -18.0 | 0.294 |
-| None | 0.0 | Bray-Curtis | 50.0 | 1.512 | 100.0 | 1.619 | -50.0 | -0.107 |
-| None | 0.0 | Jaccard | 50.0 | 1.512 | 8.0 | 1.024 | 42.0 | 0.488 |
-| None | 0.0 | Weighted UniFrac | 50.0 | 1.512 | 64.0 | 1.671 | -14.0 | -0.158 |
-| None | 0.0 | Unweighted UniFrac | 50.0 | 1.512 | 6.0 | 1.052 | 44.0 | 0.461 |
-| Low | 0.3 | Euclidean | 42.0 | 1.481 | 58.0 | 1.190 | -16.0 | 0.291 |
-| Low | 0.3 | Bray-Curtis | 42.0 | 1.481 | 96.0 | 1.500 | -54.0 | -0.019 |
-| Low | 0.3 | Jaccard | 42.0 | 1.481 | 6.0 | 0.998 | 36.0 | 0.483 |
-| Low | 0.3 | Weighted UniFrac | 42.0 | 1.481 | 40.0 | 1.498 | 2.0 | -0.018 |
-| Low | 0.3 | Unweighted UniFrac | 42.0 | 1.481 | 6.0 | 0.992 | 36.0 | 0.489 |
-| Moderate | 0.6 | Euclidean | 46.0 | 1.498 | 54.0 | 1.205 | -8.0 | 0.293 |
-| Moderate | 0.6 | Bray-Curtis | 46.0 | 1.498 | 100.0 | 1.513 | -54.0 | -0.015 |
-| Moderate | 0.6 | Jaccard | 46.0 | 1.498 | 6.0 | 1.000 | 40.0 | 0.498 |
-| Moderate | 0.6 | Weighted UniFrac | 46.0 | 1.498 | 32.0 | 1.385 | 14.0 | 0.113 |
-| Moderate | 0.6 | Unweighted UniFrac | 46.0 | 1.498 | 10.0 | 0.983 | 36.0 | 0.515 |
-| High | 0.8 | Euclidean | 44.0 | 1.507 | 52.0 | 1.208 | -8.0 | 0.299 |
-| High | 0.8 | Bray-Curtis | 44.0 | 1.507 | 96.0 | 1.492 | -52.0 | 0.015 |
-| High | 0.8 | Jaccard | 44.0 | 1.507 | 6.0 | 1.051 | 38.0 | 0.456 |
-| High | 0.8 | Weighted UniFrac | 44.0 | 1.507 | 20.0 | 1.376 | 24.0 | 0.131 |
-| High | 0.8 | Unweighted UniFrac | 44.0 | 1.507 | 8.0 | 1.021 | 36.0 | 0.486 |
+| Correlation Level | Correlation Value | Traditional Method | MeLSI Power (%) | MeLSI Mean F | Traditional Power (%) | Traditional Mean F | Power Difference (%) |
+|-------------------|-------------------|-------------------|-----------------|--------------|----------------------|-------------------|---------------------|
+| None | 0.0 | Euclidean | 50.0 | 1.512 | 68.0 | 1.218 | -18.0 |
+| None | 0.0 | Bray-Curtis | 50.0 | 1.512 | 100.0 | 1.619 | -50.0 |
+| None | 0.0 | Jaccard | 50.0 | 1.512 | 8.0 | 1.024 | 42.0 |
+| None | 0.0 | Weighted UniFrac | 50.0 | 1.512 | 64.0 | 1.671 | -14.0 |
+| None | 0.0 | Unweighted UniFrac | 50.0 | 1.512 | 6.0 | 1.052 | 44.0 |
+| Low | 0.3 | Euclidean | 42.0 | 1.481 | 58.0 | 1.190 | -16.0 |
+| Low | 0.3 | Bray-Curtis | 42.0 | 1.481 | 96.0 | 1.500 | -54.0 |
+| Low | 0.3 | Jaccard | 42.0 | 1.481 | 6.0 | 0.998 | 36.0 |
+| Low | 0.3 | Weighted UniFrac | 42.0 | 1.481 | 40.0 | 1.498 | 2.0 |
+| Low | 0.3 | Unweighted UniFrac | 42.0 | 1.481 | 6.0 | 0.992 | 36.0 |
+| Moderate | 0.6 | Euclidean | 46.0 | 1.498 | 54.0 | 1.205 | -8.0 |
+| Moderate | 0.6 | Bray-Curtis | 46.0 | 1.498 | 100.0 | 1.513 | -54.0 |
+| Moderate | 0.6 | Jaccard | 46.0 | 1.498 | 6.0 | 1.000 | 40.0 |
+| Moderate | 0.6 | Weighted UniFrac | 46.0 | 1.498 | 32.0 | 1.385 | 14.0 |
+| Moderate | 0.6 | Unweighted UniFrac | 46.0 | 1.498 | 10.0 | 0.983 | 36.0 |
+| High | 0.8 | Euclidean | 44.0 | 1.507 | 52.0 | 1.208 | -8.0 |
+| High | 0.8 | Bray-Curtis | 44.0 | 1.507 | 96.0 | 1.492 | -52.0 |
+| High | 0.8 | Jaccard | 44.0 | 1.507 | 6.0 | 1.051 | 38.0 |
+| High | 0.8 | Weighted UniFrac | 44.0 | 1.507 | 20.0 | 1.376 | 24.0 |
+| High | 0.8 | Unweighted UniFrac | 44.0 | 1.507 | 8.0 | 1.021 | 36.0 |
 
-**Abbreviations:** Power, empirical statistical power (percentage of simulations with p < 0.05); F, PERMANOVA F-statistic (mean across 50 simulations per correlation level); Power Difference, MeLSI Power - Traditional Power (%); F Difference, MeLSI Mean F - Traditional Mean F. Results based on 50 simulations per correlation level.
+**Abbreviations:** Power, empirical statistical power (percentage of simulations with p < 0.05); F, PERMANOVA F-statistic (mean across 50 simulations per correlation level); Power Difference, MeLSI Power - Traditional Power (%). Results based on 50 simulations per correlation level.
 
 **Note:** The five traditional methods are: (1) **Euclidean distance** - standard Euclidean distance on CLR-transformed data; (2) **Bray-Curtis dissimilarity** - count-based dissimilarity metric; (3) **Jaccard dissimilarity** - binary (presence/absence) dissimilarity; (4) **Weighted UniFrac** - phylogenetically-informed distance using abundance-weighted branch lengths; (5) **Unweighted UniFrac** - phylogenetically-informed distance using presence/absence of taxa.
