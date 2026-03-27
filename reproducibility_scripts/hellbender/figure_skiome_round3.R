@@ -222,6 +222,16 @@ pdf_path <- file.path(output_dir, "skiome_figure3.pdf")
 ggsave(pdf_path, combined, width = 14, height = 10, device = "pdf")
 cat("Saved:", pdf_path, "\n")
 
+# Save TIF (300dpi, LZW compression)
+tif_path <- file.path(output_dir, "skiome_figure3.tif")
+tryCatch({
+  ggsave(tif_path, combined, width = 14, height = 10, dpi = 300,
+         device = function(...) tiff(..., compression = "lzw"))
+  cat("Saved:", tif_path, "\n")
+}, error = function(e) {
+  cat("TIF save failed:", conditionMessage(e), "\n")
+})
+
 # Try PNG
 png_path <- file.path(output_dir, "skiome_figure3.png")
 tryCatch({
