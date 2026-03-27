@@ -4,7 +4,9 @@
 
 MeLSI (Metric Learning for Statistical Inference) is an R package for microbiome beta-diversity analysis. It learns a weighted distance metric from data and uses it with PERMANOVA for hypothesis testing. The manuscript is under review at **mSystems** (ASM Journals).
 
-**Current status:** Round 3 resubmission in progress (Manuscript ID: mSystems00130-26)
+**Current status:** Round 3 resubmission READY TO SUBMIT (Manuscript ID: mSystems00130-26)
+
+**MeLSI R package accepted into Bioconductor** — install via `BiocManager::install("MeLSI")`
 
 ---
 
@@ -16,7 +18,11 @@ MeLSI (Metric Learning for Statistical Inference) is an R package for microbiome
 > - `resubmission_materials/new_manuscript/MeLSI_Research_Paper_mSystems_REVISED.md` — round 2 snapshot, for reference only
 > - `resubmission_materials/old_manuscript/MeLSI_Research_Paper_mSystems_ORIGINAL.md` — round 1 snapshot, for reference only
 
-The `.docx` and `.pdf` files in `manuscript/` are exports of the markdown. When revisions are done in the `.md`, they need to be re-exported to `.docx` for journal submission.
+The `.docx` files in `manuscript/` are exports of the markdown. When revisions are done in the `.md`, re-export with:
+```bash
+cd manuscript && pandoc MeLSI_Research_Paper_mSystems.md -o MeLSI_Research_Paper_mSystems.docx
+```
+Then copy to `resubmissionv3/`.
 
 ---
 
@@ -49,23 +55,13 @@ MeLSI/
 │   ├── count_words_clean.R
 │   ├── remove_tables_for_wordcount.R
 │   └── figures/                               ← manuscript figures (TIF/PNG)
-│       ├── atlas1006_vip_combined.tif         ← Figure 1 (submission-ready)
-│       ├── atlas1006_vip_combined.png
-│       ├── atlas1006_vip_combined_compressed.tif
-│       ├── atlas1006_pcoa.tif
-│       ├── atlas1006_pcoa_compressed.tif
-│       ├── atlas1006_pcoa.png
-│       ├── atlas1006_vip.png
-│       ├── dietswap_combined.png              ← Figure 2 combined
-│       ├── dietswap_vip_combined.png
-│       ├── dietswap_vip.png
-│       ├── dietswap_pcoa.png
-│       ├── skiome_combined.png                ← Figure 3 combined
-│       ├── skiome_combined.ps
-│       ├── skiome_omnibus_pcoa_plot.pdf/.ps
-│       ├── skiome_omnibus_vip_plot.pdf/.ps
-│       ├── skiome_pcoa_plot.png
-│       └── skiome_vip_plot.png
+│       ├── atlas1006_figure1.tif              ← Figure 1 — 4-panel, 4200×3000px ✓
+│       ├── atlas1006_figure1.pdf
+│       ├── dietswap_figure2.tif               ← Figure 2 — 4-panel, 4200×3000px ✓
+│       ├── dietswap_figure2.pdf
+│       ├── skiome_figure3.tif                 ← Figure 3 — 4-panel, 4200×3000px, y-axis fixed ✓
+│       ├── skiome_figure3.pdf
+│       └── (legacy individual panel files — for reference only)
 │
 ├── github/                            ← R package source code
 │   ├── R/
@@ -135,8 +131,18 @@ MeLSI/
 │       ├── Figure2_dietswap_combined.tif
 │       └── Figure3_skiome_combined.tif
 │
-├── resubmission_materials_round3/     ← Round 3 resubmission (mSystems00130-26) — ACTIVE
-│   └── Response_to_Reviewers.md      ← point-by-point responses (in progress)
+├── resubmission_materials_round3/     ← Round 3 working files (mSystems00130-26)
+│   ├── Response_to_Reviewers.md      ← point-by-point responses (COMPLETE)
+│   └── Response_to_Reviewers.docx    ← Word export
+│
+├── resubmissionv3/                    ← UPLOAD THIS FOLDER TO JOURNAL ✓
+│   ├── Cover_Letter.md / .docx
+│   ├── MeLSI_Research_Paper_mSystems.docx
+│   ├── Response_to_Reviewers.docx
+│   ├── SUPPLEMENTARY_TABLES.docx
+│   ├── Figure1_atlas1006.tif          ← 4200×3000px, 300dpi
+│   ├── Figure2_dietswap.tif           ← 4200×3000px, 300dpi
+│   └── Figure3_skiome.tif             ← 4200×3000px, 300dpi (fixed y-axis)
 │
 ├── MeLSI_Manuscript_Resubmission.docx ← root-level copy of submission docx
 ├── MeLSI_0.99.2.tar.gz               ← built R package tarball
@@ -192,25 +198,26 @@ All comparisons use PERMANOVA (vegan `adonis2`, 999 permutations).
 
 ## How We Write Responses to Reviewers
 
-- Mirror the format in `resubmission_materials/Response_to_Reviewers_FORMAL.md` (round 2)
 - Each reviewer comment gets its own `---`-delimited section
 - Reviewer comment is quoted **word for word** under `**Reviewer Comment:**`
 - Response goes under `**Response:**`
 - Location (manuscript line numbers) goes under `**Location:**`
 - Open items use `[TODO]`
-- Start the document with a Cover Note and Summary of Major Revisions (fill in last)
+- **No cover note, no summary of revisions, no author names** — journal says to put those in the cover letter only; response should jump straight into reviewer comments
 - End with Closing Remarks summarizing total simulations run
+- After editing `.md`, rebuild `.docx` with pandoc and copy to `resubmissionv3/`
 
 ---
 
 ## How We Handle Figures
 
-- Working PNGs: `figures/` (top-level) and `manuscript/figures/`
-- Submission-ready TIFs: `manuscript/figures/` and `resubmission_materials/figures_for_submission/`
-- Figures generated on the cluster live in `reproducibility_scripts/hellbender/figures/`
-- Final submission files must be high-resolution TIFF or EPS for ASM
-- Multi-panel figures must be assembled into a single file
-- All PCoA plots use **95% confidence ellipses** (changed from 68% in round 2)
+- Submission-ready TIFs: `manuscript/figures/` (atlas1006_figure1, dietswap_figure2, skiome_figure3)
+- All figures are 4-panel layout: (A) VIP plot, (B) MeLSI PCoA, (C) Euclidean PCoA, (D) Bray-Curtis PCoA
+- All PCoA plots use **95% confidence ellipses**
+- Figure scripts run on Hellbender (no X11 display — only PDF output works directly from R)
+- TIF conversion from PDF: use ghostscript only: `gs -dNOPAUSE -dBATCH -sDEVICE=tiff24nc -r300 -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -sOutputFile=out.tif in.pdf`
+- **Do NOT use `sips` for PDF→TIF** — it produces blurry output
+- Target: 4200×3000px (14"×10" at 300dpi) matching Figure 1 and 2
 
 ---
 
@@ -241,25 +248,24 @@ All comparisons use PERMANOVA (vegan `adonis2`, 999 permutations).
 |-------|--------------|---------|
 | 1 | (original submission) | Reject with invitation to resubmit |
 | 2 | mSystems01710-25 | Reject with invitation to resubmit |
-| 3 | mSystems00130-26 | In progress |
+| 3 | mSystems00130-26 | Ready to submit |
 
 ---
 
-## Active Round 3 Issues — STATUS
+## Round 3 Issues — ALL RESOLVED ✓
 
-See `resubmission_materials_round3/Response_to_Reviewers.md` for the complete point-by-point responses.
-
-1. **Table 2 / Table S2 inconsistency** — FIXED. Root cause: S2 had wrong traditional method F-stats. Table 2 restructured to show all methods' power. S2 corrected from CSV data.
-2. **All methods same power** — ADDRESSED. Explained: power converges at large effects (expected), Jaccard/UWF have ~0% power (binary metrics can't detect fold changes).
-3. **F-statistic ranking** — FIXED. Rank columns removed from Tables 2, 3, and 5. F-stats from different distance metrics are not comparable — let raw metrics speak for themselves.
-4. **"9.1% improvement"** — FIXED. Removed throughout manuscript and conclusions.
-5. **Terminology** — FIXED. "Pre-filtering score" ($I_j$) vs "learned metric weight" ($M_{jj}$) distinguished in Methods.
-6. **Figures 1-3 redesigned** — IN PROGRESS. Script `figure_all_datasets_round3.R` needs rewrite: must load existing MeLSI results instead of re-running (stochastic = different F-stats each run). SKIOME has saved results (`skiome_omnibus_results_backup.RData`, `skiome_omnibus_distance_matrix.csv`). Atlas1006/DietSwap have no saved RData on Hellbender — script must re-run MeLSI for those but save results afterward. All traditional method distances (Euclidean, Bray-Curtis) are deterministic and fast. SKIOME uses all 3 groups (omnibus). Script must use `set.seed(42)` and save RData so results are reproducible.
-7. **Correlation simulation details** — FIXED. Block structure (10 blocks × 20 taxa) described.
-8. **Signal taxa recovery discussion** — FIXED. New subsection with benchmarks (random baseline) added.
-9. **Weighted distance mechanism** — FIXED. New paragraph in Conclusions explaining signal-to-noise improvement.
-10. **Real data F/p values** — VERIFIED. All values confirmed from Hellbender CSVs or original manuscript runs. No estimates remain.
-11. **SKIOME interpretation** — FIXED. Manuscript now frames MeLSI vs Euclidean as the apples-to-apples comparison (both CLR-space), acknowledges BC yields larger pseudo-F but on a different scale, emphasizes interpretability as MeLSI's key advantage.
+1. **Table 2 / Table S2 inconsistency** — FIXED.
+2. **All methods same power** — ADDRESSED.
+3. **F-statistic ranking** — FIXED. Rank columns removed from Tables 2, 3, and 5.
+4. **"9.1% improvement"** — FIXED. Removed throughout.
+5. **Terminology** — FIXED. $I_j$ vs $M_{jj}$ distinguished in Methods.
+6. **Figures 1-3 redesigned** — COMPLETE. 4-panel TIFs in `manuscript/figures/` and `resubmissionv3/`. SKIOME y-axis taxon names fixed (regenerated via `figure_skiome_round3.R` on Hellbender).
+7. **Correlation simulation details** — FIXED.
+8. **Signal taxa recovery discussion** — FIXED.
+9. **Weighted distance mechanism** — FIXED.
+10. **Real data F/p values** — VERIFIED.
+11. **SKIOME interpretation** — FIXED.
+12. **Bioconductor acceptance** — Added to Data Availability, Software Availability, cover letter, and Response to Reviewers closing remarks.
 
 ## Verified Real Data F/p Values
 
