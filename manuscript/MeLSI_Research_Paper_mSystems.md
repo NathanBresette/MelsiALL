@@ -388,11 +388,6 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 
 \noindent MeLSI provides interpretable feature importance weights. For the Atlas1006 dataset, the learned metric assigned highest weights to genera in the families Bacteroidaceae, Lachnospiraceae, and Ruminococcaceae, taxonomic groups previously associated with sex differences in gut microbiome composition (30, 31). Figure 1 displays the top 15 taxa by learned feature weight.
 
-![](figures/atlas1006_figure1.tif)
-
-\noindent \footnotesize
-**Figure 1.** Atlas1006 dataset (Male vs. Female, n=1,114). (A) Top 15 taxa ranked by MeLSI learned metric weights, colored by directionality (group with higher mean CLR abundance). Taxa from Bacteroidaceae, Lachnospiraceae, and Ruminococcaceae families show strongest contributions. (B) PCoA ordination using MeLSI learned distance (F=4.841, p=0.005). (C) PCoA ordination using Euclidean distance on CLR-transformed data (F=4.711, p=0.001). (D) PCoA ordination using Bray-Curtis dissimilarity (F=4.442, p=0.001). Dashed ellipses show 95% confidence ellipses. Note: PCoA1/PCoA2 axes are on different scales across panels because each distance metric defines a distinct geometric space.
-\normalsize
 
 \noindent The diagonal elements of the learned metric matrix $\mathbf{M}$ represent the learned metric weights: higher values indicate taxa that contribute more to group separation. These metric weights are distinct from the pre-filtering scores $I_j$ used for feature selection (see Methods). MeLSI automatically calculates directionality and effect sizes on CLR-transformed data. Directionality is determined by identifying which group has the higher mean abundance on CLR-transformed data. Effect size is reported as the log2 fold change computed from CLR-transformed group means: $\log_2(\mu_{\text{CLR,1}} / \mu_{\text{CLR,2}})$. The learned distance matrices can also be used for PCoA ordination to visualize group separation (Figures 1-3), enabling direct visual comparison with traditional metrics on the same datasets.
 
@@ -404,11 +399,6 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 
 \noindent For the DietSwap dataset, MeLSI's learned feature weights identified taxa including Akkermansia and Oxalobacter as key drivers of diet-induced community differences. Figure 2 displays the top 15 taxa by learned feature weight alongside the PCoA ordination.
 
-![](figures/dietswap_figure2.tif)
-
-\noindent \footnotesize
-**Figure 2.** DietSwap dataset (Western vs. High-fiber diet, n=74). (A) Top 15 taxa by MeLSI learned metric weights, colored by directionality. (B) PCoA ordination using MeLSI learned distance (F=3.063, p=0.015). (C) PCoA ordination using Euclidean distance on CLR-transformed data (F=1.670, p=0.077). (D) PCoA ordination using Bray-Curtis dissimilarity (F=2.153, p=0.066). Dashed ellipses show 95% confidence ellipses. MeLSI was the only method achieving significance at $\alpha$=0.05.
-\normalsize
 
 #### SKIOME dataset
 
@@ -418,11 +408,6 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 
 \noindent Figure 3 displays feature importance weights and PCoA ordination, demonstrating MeLSI's interpretability for multi-group analyses. The learned metric weights identified Staphylococcus (family Staphylococcaceae) as the most influential taxon, consistent with its known role in atopic dermatitis pathogenesis. This validates MeLSI's utility beyond two-group comparisons and across different body sites (skin vs. gut microbiome).
 
-![](figures/skiome_figure3.tif)
-
-\noindent \footnotesize
-**Figure 3.** SKIOME multi-group validation (Atopic Dermatitis, Healthy, Psoriasis; n=511). (A) Top 15 taxa by MeLSI learned metric weights, colored by group with highest mean abundance. (B) PCoA ordination using MeLSI learned distance (F=4.972, p=0.005). (C) PCoA ordination using Euclidean distance on CLR-transformed data (F=4.897, p=0.001). (D) PCoA ordination using Bray-Curtis dissimilarity (F=16.275, p=0.001). Dashed ellipses show 95% confidence ellipses. All methods detected significant differences; Bray-Curtis showed the strongest visual separation.
-\normalsize
 
 ### Computational performance
 
@@ -569,3 +554,11 @@ $^{6}$ Division of Biological Sciences, University of Missouri, Columbia, Missou
 32. Kruskal JB. 1964. Nonmetric multidimensional scaling: a numerical method. Psychometrika 29:115-129.
 
 33. Clarke KR. 1993. Non-parametric multivariate analyses of changes in community structure. Aust J Ecol 18:117-143.
+
+## FIGURE LEGENDS
+
+**Figure 1.** Atlas1006 dataset (Male vs. Female, n=1,114). (A) Top 15 taxa ranked by MeLSI learned metric weights, colored by directionality (group with higher mean CLR abundance). Taxa from Bacteroidaceae, Lachnospiraceae, and Ruminococcaceae families show strongest contributions. (B) PCoA ordination using MeLSI learned distance (F=4.841, p=0.005). (C) PCoA ordination using Euclidean distance on CLR-transformed data (F=4.711, p=0.001). (D) PCoA ordination using Bray-Curtis dissimilarity (F=4.442, p=0.001). Dashed ellipses show 95% confidence ellipses. Note: PCoA1/PCoA2 axes are on different scales across panels because each distance metric defines a distinct geometric space.
+
+**Figure 2.** DietSwap dataset (Western vs. High-fiber diet, n=74). (A) Top 15 taxa by MeLSI learned metric weights, colored by directionality. (B) PCoA ordination using MeLSI learned distance (F=3.063, p=0.015). (C) PCoA ordination using Euclidean distance on CLR-transformed data (F=1.670, p=0.077). (D) PCoA ordination using Bray-Curtis dissimilarity (F=2.153, p=0.066). Dashed ellipses show 95% confidence ellipses. MeLSI was the only method achieving significance at $\alpha$=0.05.
+
+**Figure 3.** SKIOME multi-group validation (Atopic Dermatitis, Healthy, Psoriasis; n=511). (A) Top 15 taxa by MeLSI learned metric weights, colored by group with highest mean abundance. (B) PCoA ordination using MeLSI learned distance (F=4.972, p=0.005). (C) PCoA ordination using Euclidean distance on CLR-transformed data (F=4.897, p=0.001). (D) PCoA ordination using Bray-Curtis dissimilarity (F=16.275, p=0.001). Dashed ellipses show 95% confidence ellipses. All methods detected significant differences; Bray-Curtis showed the strongest visual separation.
