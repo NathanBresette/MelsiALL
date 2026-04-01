@@ -45,15 +45,15 @@ Furthermore, microbiome data presents unique analytical challenges including hig
 
 \noindent Metric learning, a branch of machine learning, offers a principled approach to address these limitations (14, 15). Rather than using fixed distance formulas, metric learning algorithms learn optimal distance metrics from data by identifying which features contribute most to separating groups of interest. In the context of supervised learning, metric learning algorithms optimize distance functions to maximize between-group distances while minimizing within-group distances (16, 17).
 
-We formalize metric learning as follows: Let $\mathbf{X} \in \mathbb{R}^{n \times p}$ denote a feature abundance matrix with $n$ samples and $p$ taxa, and let $\mathbf{y} = (y_1, \ldots, y_n)$ denote group labels. A distance metric is parameterized by a positive semi-definite matrix $\mathbf{M} \in \mathbb{R}^{p \times p}$, where the Mahalanobis distance between samples $i$ and $j$ is $d_M(\mathbf{x}_i, \mathbf{x}_j) = \sqrt{(\mathbf{x}_i - \mathbf{x}_j)^T \mathbf{M} (\mathbf{x}_i - \mathbf{x}_j)}$. For diagonal $\mathbf{M}$, this reduces to weighted Euclidean distance with feature-specific weights $M_{jj}$ representing the importance of feature $j$.
+We formalize metric learning as follows: Let $\mathbf{X} \in \mathbb{R}^{n \times p}$ denote a feature abundance matrix with $n$ samples and $p$ taxa, and let $\mathbf{y} = (y_1, \ldots, y_n)$ denote group labels. A distance metric is parameterized by a positive semi-definite matrix $\mathbf{M} \in \mathbb{R}^{p \times p}$, where the Mahalanobis distance between samples $i$ and $j$ is $d_M(\mathbf{x}_i, \mathbf{x}_j) = \sqrt{(\mathbf{x}_i - \mathbf{x}_j)^T \mathbf{M} (\mathbf{x}_i - \mathbf{x}_j)}$. For diagonal $\mathbf{M}$, this reduces to weighted Euclidean distance with feature-specific weights $M_{jj}$ representing the learned contribution of feature $j$ to the distance.
 
-Mahalanobis distance learning (18) learns a positive semi-definite matrix $\mathbf{M}$ that defines distances as $d(\mathbf{x}_i, \mathbf{x}_j) = \sqrt{(\mathbf{x}_i - \mathbf{x}_j)^T \mathbf{M} (\mathbf{x}_i - \mathbf{x}_j)}$. When $\mathbf{M}$ is diagonal, this reduces to learning feature-specific weights, providing interpretable importance scores (17).
+Mahalanobis distance learning (18) learns a positive semi-definite matrix $\mathbf{M}$ that defines distances as $d(\mathbf{x}_i, \mathbf{x}_j) = \sqrt{(\mathbf{x}_i - \mathbf{x}_j)^T \mathbf{M} (\mathbf{x}_i - \mathbf{x}_j)}$. When $\mathbf{M}$ is diagonal, this reduces to learning feature-specific weights, providing interpretable feature weights (17).
 
 Despite its promise, metric learning has seen limited application in microbiome beta diversity analysis. Previous work has explored metric learning for clinical prediction tasks (19), but not specifically for statistical inference in community composition analysis where rigorous Type I error control is essential.
 
 ### Study objectives
 
-\noindent We developed MeLSI (Metric Learning for Statistical Inference) to bridge the gap between adaptive machine learning approaches and rigorous statistical inference for microbiome beta diversity and community composition analysis. Our specific objectives were to (1) design an ensemble metric learning framework that learns data-adaptive distance metrics for PERMANOVA and ordination while preventing overfitting, (2) integrate metric learning with permutation testing to ensure valid statistical inference, (3) comprehensively validate Type I error control, statistical power, scalability, parameter sensitivity, and computational efficiency, (4) demonstrate practical utility on real microbiome datasets, and (5) provide interpretable feature importance scores to identify biologically relevant taxa driving community separation.
+\noindent We developed MeLSI (Metric Learning for Statistical Inference) to bridge the gap between adaptive machine learning approaches and rigorous statistical inference for microbiome beta diversity and community composition analysis. Our specific objectives were to (1) design an ensemble metric learning framework that learns data-adaptive distance metrics for PERMANOVA and ordination while preventing overfitting, (2) integrate metric learning with permutation testing to ensure valid statistical inference, (3) comprehensively validate Type I error control, statistical power, scalability, parameter sensitivity, and computational efficiency, (4) demonstrate practical utility on real microbiome datasets, and (5) provide interpretable learned metric weights to identify biologically relevant taxa driving community separation.
 
 This paper presents the MeLSI framework, comprehensive validation results, and discussion of its implications for microbiome beta diversity research.
 
@@ -195,7 +195,7 @@ $$p = \frac{\sum \mathbb{I}(F_{perm} \geq F_{obs}) + 1}{n_{perms} + 1}$$
 4. Feature correlation robustness: Performance under varying levels of feature correlation (Section 3.5)
 5. Pre-filtering value: Benefit of conservative feature pre-filtering (Section 3.6)
 6. Real data validation: Comparative performance against standard distance metrics on Atlas1006, DietSwap, and SKIOME datasets (Section 3.7)
-7. Biological interpretability: Feature importance weights and visualization (Section 3.8)
+7. Biological interpretability: Learned metric weights and visualization (Section 3.8)
 8. Computational performance: Runtime characteristics on standard hardware (Section 3.9)
 
 #### Synthetic data generation
@@ -384,9 +384,9 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 
 \noindent On the Atlas1006 dataset (1,114 Western European adults, male vs. female), all methods except Jaccard detected significant sex-associated community differences: MeLSI (F = 4.841, p = 0.005), Euclidean (F = 4.711, p = 0.001), Bray-Curtis (F = 4.442, p = 0.001), Jaccard (F = 1.791, p = 0.144). These results are consistent with previously documented microbiome variation between males and females (29, 30). F-statistics from different distance metrics are not directly comparable because each defines a distinct geometric space; significance (p-values) provides the appropriate basis for comparison.
 
-##### Feature importance
+##### Learned metric weights
 
-\noindent MeLSI provides interpretable feature importance weights. For the Atlas1006 dataset, the learned metric assigned highest weights to genera in the families Bacteroidaceae, Lachnospiraceae, and Ruminococcaceae, taxonomic groups previously associated with sex differences in gut microbiome composition (30, 31). Figure 1 displays the top 15 taxa by learned feature weight.
+\noindent MeLSI provides interpretable learned metric weights. For the Atlas1006 dataset, the learned metric assigned highest weights to genera in the families Bacteroidaceae, Lachnospiraceae, and Ruminococcaceae, taxonomic groups previously associated with sex differences in gut microbiome composition (30, 31). Figure 1 displays the top 15 taxa by learned feature weight.
 
 
 \noindent The diagonal elements of the learned metric matrix $\mathbf{M}$ represent the learned metric weights: higher values indicate taxa that contribute more to group separation. These metric weights are distinct from the pre-filtering scores $I_j$ used for feature selection (see Methods). MeLSI automatically calculates directionality and effect sizes on CLR-transformed data. Directionality is determined by identifying which group has the higher mean abundance on CLR-transformed data. Effect size is reported as the log2 fold change computed from CLR-transformed group means: $\log_2(\mu_{\text{CLR,1}} / \mu_{\text{CLR,2}})$. The learned distance matrices can also be used for PCoA ordination to visualize group separation (Figures 1-3), enabling direct visual comparison with traditional metrics on the same datasets.
@@ -395,7 +395,7 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 
 \noindent On the DietSwap dataset (Western vs. high-fiber diets), MeLSI was the only method to detect a significant community difference at $\alpha$=0.05: MeLSI (F = 3.063, p = 0.015), Bray-Curtis (F = 2.153, p = 0.066), Jaccard (F = 1.921, p = 0.100), Euclidean (F = 1.670, p = 0.077). Phylogenetic methods (Weighted/Unweighted UniFrac) were not evaluated because the publicly available dataset object lacks a phylogenetic tree. This demonstrates a case where MeLSI's adaptive weighting captures diet-induced compositional shifts that fixed metrics detect only marginally.
 
-##### Feature importance
+##### Learned metric weights
 
 \noindent For the DietSwap dataset, MeLSI's learned feature weights identified taxa including Akkermansia and Oxalobacter as key drivers of diet-induced community differences. Figure 2 displays the top 15 taxa by learned feature weight alongside the PCoA ordination.
 
@@ -404,9 +404,9 @@ F-statistics remained stable across ensemble sizes (B=10-100), with the single-l
 
 \noindent To validate multi-group capability, we analyzed the SKIOME skin microbiome dataset (PRJNA554499, 511 samples, 3 groups: Atopic_Dermatitis, Healthy, Psoriasis). MeLSI's omnibus test detected significant differences (F = 4.972, p = 0.005), as did Euclidean distance (F = 4.897, p = 0.001), Bray-Curtis (F = 16.275, p = 0.001), and Jaccard (F = 11.058, p = 0.001). All pairwise comparisons remained significant after FDR correction (p = 0.005 for all pairs). The most informative comparison is MeLSI versus Euclidean, as both operate in CLR-transformed space: MeLSI (F = 4.972) performed essentially identically to unweighted Euclidean (F = 4.897). This equivalence is itself a biologically meaningful finding: it indicates that the signal in the SKIOME dataset is broadly distributed across many taxa rather than concentrated in a small subset. In such cases, a weighted metric offers no detection advantage, and MeLSI correctly learns this, assigning relatively uniform weights rather than artificially inflating a few taxa. This reflects statistical integrity, not a limitation. Bray-Curtis and Jaccard yield substantially larger pseudo-F statistics because count-based and presence/absence metrics define fundamentally different geometric spaces; these values are not directly comparable to CLR-based F-statistics. Regardless, while Bray-Curtis provides only an omnibus p-value, MeLSI additionally provides learned feature weights identifying which taxa drive group separation (Figure 3A), enabling biological interpretation within a single unified framework.
 
-##### Feature importance
+##### Learned metric weights
 
-\noindent Figure 3 displays feature importance weights and PCoA ordination, demonstrating MeLSI's interpretability for multi-group analyses. The learned metric weights identified Staphylococcus (family Staphylococcaceae) as the most influential taxon, consistent with its known role in atopic dermatitis pathogenesis. This validates MeLSI's utility beyond two-group comparisons and across different body sites (skin vs. gut microbiome).
+\noindent Figure 3 displays learned metric weights and PCoA ordination, demonstrating MeLSI's interpretability for multi-group analyses. The learned metric weights identified Staphylococcus (family Staphylococcaceae) as the most influential taxon, consistent with its known role in atopic dermatitis pathogenesis. This validates MeLSI's utility beyond two-group comparisons and across different body sites (skin vs. gut microbiome).
 
 
 ### Computational performance

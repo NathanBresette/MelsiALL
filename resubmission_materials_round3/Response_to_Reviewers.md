@@ -10,7 +10,7 @@
 
 **Response:** We identified and corrected two issues. First, Table S2 contained transcription errors in the traditional method F-statistics at medium and large effect sizes (e.g., Bray-Curtis F was listed as 2.200 at Large/n=200; the correct simulation value is 8.236). All values have been verified against simulation output CSVs and corrected. Second, Table 2 has been restructured to show empirical power for all six methods side-by-side. With correct data, the power convergence pattern is explained by two factors: (1) at large effect sizes with sufficient sample sizes, all abundance-sensitive methods converge to 100% power, which is expected statistical behavior; (2) Jaccard and Unweighted UniFrac show near-zero power because binary metrics cannot detect fold-change effects when taxa are already present in both groups. The F-statistic ranking column has been removed, as F-statistics from different distance metrics are not directly comparable.
 
-**Location:** Table 2 (restructured), Table S2 (corrected), Results section
+**Location:** Table 2 (line 358), Table S2 (Supplementary Tables), Results: Table 2 discussion (lines 364-382)
 
 ---
 
@@ -22,7 +22,7 @@
 
 **Response:** The root cause was transcription errors in Table S2. At Large/n=200, the correct values are Bray-Curtis F=8.236 and Weighted UniFrac F=8.659, both substantially higher than MeLSI's F=3.129. The previous Table S2 incorrectly listed these as F=2.200, making MeLSI appear to have the highest F-statistic. With corrected values, MeLSI's rank of 3/6 is consistent. We have also taken the reviewer's broader point (Comment 3) and removed F-statistic rankings entirely, restructuring Table 2 to report empirical power for all six methods directly.
 
-**Location:** Table 2 (restructured to show all methods' power), Table S2 (corrected with verified simulation data)
+**Location:** Table 2 (line 358), Table S2 (Supplementary Tables)
 
 ---
 
@@ -32,7 +32,7 @@
 
 **Response:** This discrepancy arose from the Table S2 transcription errors described in Comment 1. With corrected data, count-based methods do achieve substantially higher F-statistics than MeLSI at medium and large effects (e.g., BC F=8.236 vs MeLSI F=3.129 at Large/n=200). We have revised the text to focus on empirical power rather than F-statistics, since cross-metric F-statistic comparisons are not statistically rigorous (see Comment 3). The revised text states that count-based methods show higher empirical power at medium effects and that power converges across abundance-sensitive methods at large effects.
 
-**Location:** Methods (CLR discussion), Results (Table 2 discussion), Conclusions (Summary)
+**Location:** Results: Table 2 discussion (lines 364-382), Conclusions: Summary (lines 562-563)
 
 ---
 
@@ -40,9 +40,9 @@
 
 **Reviewer Comment:** The manuscript reports empirical power as the primary evaluation metric across several validation studies. However, the methods are compared and ranked based on the mean PERMANOVA F-statistic rather than empirical power. Because the PERMANOVA F-statistic is not a direct measure of power and may be influenced by differences in dispersion or preprocessing steps, ranking methods using the F-statistic may not accurately reflect their detection ability. Furthermore, because different distance quantify dissimilarities in fundamentally different ways, the resulting distance structures, and therefore the corresponding pseudo-F statistics, may not be directly comparable across metrics. It would therefore be preferable to rank methods based on empirical power, which more directly reflects the probability of detecting true differences. Alternatively, if the authors choose to retain the F-statistic as a ranking criterion, the manuscript should clearly justify this choice and discuss its limitations.
 
-**Response:** We agree. F-statistics from different distance metrics are not directly comparable because each metric defines a distinct geometric space. We made three changes: (1) Table 2 now reports empirical power for all six methods directly. (2) F-statistic ranking columns have been removed from Tables 2, 3, and 5. (3) The manuscript now states that cross-metric F-statistic comparisons should be interpreted cautiously. F-statistics are retained in Supplementary Tables for within-method assessment across conditions.
+**Response:** The reviewer raises a valid point. F-statistics from different distance metrics are not directly comparable because each metric defines a distinct geometric space. We made three changes: (1) Table 2 now reports empirical power for all six methods directly. (2) F-statistic ranking columns have been removed from Tables 2, 3, and 5. (3) The manuscript now states that cross-metric F-statistic comparisons should be interpreted cautiously. F-statistics are retained in Supplementary Tables for within-method assessment across conditions.
 
-**Location:** Tables 2, 3, and 5 (rank columns removed), Results section (new caveat statement), Table S2 (added limitation note)
+**Location:** Table 2 (line 358), Results: Table 2 discussion (lines 364-382), Table S2 (Supplementary Tables)
 
 ---
 
@@ -52,7 +52,7 @@
 
 **Response:** We have added a new "Signal taxa recovery" subsection. At small effects (1.5x fold change), recovery is modest (Precision@5 = 0.104-0.148, AUC-ROC = 0.641-0.673). At medium effects, performance improves with sample size (Precision@5 from 0.356 at n=50 to 0.660 at n=200, AUC-ROC from 0.733 to 0.842). At large effects, recovery is strong (Precision@5 = 0.876-1.000, AUC-ROC = 0.858-0.960). For context, random assignment yields Precision@5 of 0.025-0.100 and AUC-ROC of 0.500, so even modest small-effect recovery represents meaningful detection above chance. MeLSI's learned weights are most reliable at moderate to large effects, which are the conditions where identifying specific signal taxa is most biologically actionable.
 
-**Location:** New "Signal taxa recovery" subsection in Results, between Table 2 discussion and Scalability analysis
+**Location:** Signal taxa recovery subsection (lines 383-397)
 
 ---
 
@@ -62,7 +62,7 @@
 
 **Response:** We have added detailed description of the correlation structure. The 200 taxa were divided into 10 blocks of 20 taxa each, with uniform pairwise correlation $r$ imposed among taxa within each block and independence maintained between blocks. This block structure mimics realistic microbiome correlation patterns where functionally related or co-occurring taxa exhibit positive correlation while taxonomically distant groups remain independent. Within each block, correlated multivariate normal noise was generated using Cholesky decomposition and added to log-transformed abundances, scaled to preserve the original signal structure. Signal taxa were randomly distributed across blocks, reflecting the realistic scenario where correlated taxa may or may not include differentially abundant species.
 
-**Location:** Feature correlation robustness section, Table 5 description
+**Location:** Feature correlation robustness section (line 426), Table 5 (line 444)
 
 ---
 
@@ -70,9 +70,9 @@
 
 **Reviewer Comment:** In lines 455-459, the manuscript reports that MeLSI achieves a PERMANOVA F-statistic of 5.141 compared with 4.711 for Euclidean distance and interprets this as a "9.1% statistical improvement." Because the PERMANOVA F-statistic is not an effect size/a direct measure of power and depends on the underlying distance structure, expressing this difference as a percentage improvement may be misleading. It would be more appropriate to simply report the observed F-statistics and corresponding permutation p-values. More generally, statements throughout the manuscript that interpret mean F-statistics as evidence of improved power (e.g., lines 509-510) should be reconsidered or revised.
 
-**Response:** We agree. All percentage-based F-statistic comparisons have been removed. Results are now reported as F-statistics and p-values directly: MeLSI (F = 4.841, p = 0.005), Euclidean (F = 4.711, p = 0.001), Bray-Curtis (F = 4.442, p = 0.001), Jaccard (F = 1.791, p = 0.144). We note that the MeLSI F-statistic differs slightly from the reviewer's cited value of 5.141 because Figures 1-3 were regenerated with a fixed random seed (set.seed(42)) for reproducibility; both values yield p = 0.005 and the same biological conclusion. The manuscript now includes an explicit caveat that cross-metric F-statistic comparisons are not directly comparable. The Conclusions have been revised to focus on empirical power and interpretability rather than F-statistic differences.
+**Response:** This framing was imprecise and we have corrected it. All percentage-based F-statistic comparisons have been removed. Results are now reported as F-statistics and p-values directly: MeLSI (F = 4.841, p = 0.005), Euclidean (F = 4.711, p = 0.001), Bray-Curtis (F = 4.442, p = 0.001), Jaccard (F = 1.791, p = 0.144). We note that the MeLSI F-statistic differs slightly from the reviewer's cited value of 5.141 because Figures 1-3 were regenerated with a fixed random seed (set.seed(42)) for reproducibility; both values yield p = 0.005 and the same biological conclusion. The manuscript now includes an explicit caveat that cross-metric F-statistic comparisons are not directly comparable. The Conclusions have been revised to focus on empirical power and interpretability rather than F-statistic differences.
 
-**Location:** Atlas1006 results section, DietSwap results section, Computational performance section, Conclusions
+**Location:** Atlas1006 dataset (lines 487-510), DietSwap dataset (lines 510-521), Conclusions: Summary (lines 562-563)
 
 ---
 
@@ -84,7 +84,7 @@
 
 **Response:** Table 2 has been restructured to show empirical power for all six methods, which reveals that methods do not all reach the same power. Three patterns emerge: (1) Bray-Curtis and Weighted UniFrac achieve higher power than MeLSI at medium effects (e.g., BC 100% vs MeLSI 50% at Medium/n=100), reflecting their direct sensitivity to abundance fold changes in raw count data. (2) Jaccard and Unweighted UniFrac show near-zero power because binary metrics cannot detect fold-change effects: multiplying the abundance of an already-present taxon does not change its presence/absence profile. (3) Power converges to 100% for all abundance-sensitive methods at large effects with sufficient sample size, which is expected statistical behavior. F-statistic ranking has been removed, as the reviewer correctly notes it is not statistically rigorous across different distance metrics.
 
-**Location:** Table 2 (restructured with all methods' power), Table 2 discussion text, Table S2 (corrected)
+**Location:** Table 2 (line 358), Table 2 discussion (lines 364-382), Table S2 (Supplementary Tables)
 
 ---
 
@@ -94,7 +94,7 @@
 
 **Response:** Two distinct quantities are now explicitly defined in the Methods. (1) The **pre-filtering score** ($I_j = |\mu_{1j} - \mu_{2j}| / \sqrt{\sigma_{1j}^2 + \sigma_{2j}^2}$) is used solely for feature selection and ranks features by between-group signal relative to within-group variation. (2) The **learned metric weight** ($M_{jj}$) is the diagonal element of the metric matrix optimized during gradient-based metric learning and represents each feature's contribution to the final distance. The Methods now explicitly states that $I_j$ and $M_{jj}$ are distinct quantities. The term "importance" has been replaced with "learned metric weight" throughout, figure axes now read "Learned Metric Weight," and the explanation of metric weight computation has been moved to the Problem Formulation section of the Methods.
 
-**Location:** Methods: Conservative pre-filtering section (terminology clarification added), Problem Formulation (wording updated), Figure 1-3 captions (updated axis labels), Feature importance subsections (terminology updated)
+**Location:** Methods: Conservative pre-filtering (lines 149-150), Problem formulation (lines 141-143), Figure legends (lines 757, 765, 771), Results: Learned metric weights subsections (lines 495, 518, 541)
 
 ---
 
@@ -108,7 +108,7 @@ For DietSwap, the MeLSI PCoA shows better visual separation between diet groups 
 
 For SKIOME, the most informative comparison is MeLSI (F=4.972) versus Euclidean (F=4.897), since both operate in CLR-transformed space. Their near-identical performance is a meaningful biological finding: it indicates the signal is broadly distributed across many taxa rather than concentrated in a subset, and MeLSI correctly learns this, assigning relatively uniform weights rather than artificially inflating a few taxa. This reflects statistical integrity, not a limitation. Bray-Curtis (F=16.275) yields a larger pseudo-F but operates in a fundamentally different geometric space and is not directly comparable. Regardless of detection equivalence, MeLSI provides learned feature weights identifying which taxa drive group separation (e.g., Staphylococcus, consistent with its known role in atopic dermatitis), which no fixed-distance method can supply.
 
-**Location:** Figure 2 (4-panel layout), Figure 3 (4-panel layout), DietSwap and SKIOME results text
+**Location:** DietSwap dataset (lines 510-521), SKIOME dataset (lines 522-541), Figure 2 legend (line 765), Figure 3 legend (line 771)
 
 ---
 
@@ -118,7 +118,7 @@ For SKIOME, the most informative comparison is MeLSI (F=4.972) versus Euclidean 
 
 **Response:** The redundant left panel (feature weights without directionality coloring) has been removed. Figure 1 now has four panels: (A) VIP bar plot with directionality coloring (the previous right panel), (B) PCoA using MeLSI learned distance, (C) PCoA using Euclidean distance (CLR), (D) PCoA using Bray-Curtis dissimilarity. This enables direct visual comparison of ordination patterns across methods for the Atlas1006 dataset, consistent with the format of Figures 2 and 3.
 
-**Location:** Figure 1 (redesigned 4-panel layout), Figure 1 caption
+**Location:** Figure 1 legend (line 757)
 
 ---
 
@@ -128,7 +128,7 @@ For SKIOME, the most informative comparison is MeLSI (F=4.972) versus Euclidean 
 
 **Response:** We have added a new paragraph in the Conclusions. Standard PERMANOVA with fixed metrics treats all taxa equally, which is problematic in high-dimensional data: uninformative taxa add noise to the distance calculation and dilute signal from the few taxa that actually differ. MeLSI learns diagonal metric weights $M_{jj}$ that upweight informative taxa and downweight noise, concentrating statistical power on the most relevant features. This is why MeLSI detected significance on DietSwap (p=0.015) while Euclidean, Bray-Curtis, and Jaccard remained marginal (p>=0.066). The learned weights also provide a ranked list of taxa driving group separation, whereas fixed distance methods yield only an omnibus p-value. This unification of hypothesis testing and feature attribution within a single permutation framework is MeLSI's core contribution.
 
-**Location:** Conclusions (new paragraph on weighted distance mechanism)
+**Location:** Conclusions (lines 576-586)
 
 ---
 
@@ -142,4 +142,4 @@ For SKIOME, the most informative comparison is MeLSI (F=4.972) versus Euclidean 
 
 ## Closing Remarks
 
-We believe these revisions substantially strengthen the manuscript through: corrected and transparent simulation reporting (Table 2 showing all methods, Table S2 with verified data), removal of cross-metric F-statistic comparisons that are not statistically rigorous, expanded discussion of signal taxa recovery and the weighted distance mechanism, detailed correlation simulation methodology, and redesigned multi-panel figures enabling direct visual comparison across methods. The total validation includes over 1,775 simulations across Type I error, power, scalability, parameter sensitivity, feature correlation, and pre-filtering analyses, plus three real-world datasets spanning two body sites (gut and skin). We also note that since the previous submission, the MeLSI R package has been accepted into Bioconductor, providing an independent validation of the software's quality, documentation, and reproducibility standards. We remain available for any further discussion the editor or reviewers may find helpful.
+We thank the editor and reviewers for their continued engagement with this work. We note that since the previous submission, MeLSI has been accepted into Bioconductor, providing independent validation of the software's quality and reproducibility standards.
